@@ -1,0 +1,1920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Waves &amp; Sound — Unit IV classroom animations</title>
+<style>
+:root{
+  --paper:#eef2f6;
+  --card:#ffffff;
+  --ink:#13233b;
+  --sub:#5a6a7d;
+  --rule:#d3dce5;
+  --blue:#1f4fd8;
+  --red:#c9402c;
+  --teal:#0f766e;
+  --amber:#a8730a;
+  --violet:#6b3fa0;
+  --serif:Georgia,"Iowan Old Style","Times New Roman",serif;
+  --sans:ui-sans-serif,system-ui,"Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  overflow-x:hidden;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--blue)}
+
+/* ---------------- layout ---------------- */
+.wrap{display:flex;min-height:100vh;align-items:stretch}
+.toc{
+  width:266px;flex:0 0 266px;background:#0f1d31;color:#c9d6e6;
+  padding:22px 0 40px;position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.toc h1{font-size:20px;line-height:1.25;margin:0 20px 4px;color:#fff;letter-spacing:.2px}
+.toc .sub{font-family:var(--sans);font-size:12.5px;color:#7f93ab;margin:0 20px 18px}
+.toc .grp{font-family:var(--sans);font-size:12px;letter-spacing:.08em;color:#6d85a3;margin:18px 20px 6px;text-transform:none;font-weight:700}
+.toc button{
+  display:flex;gap:10px;align-items:baseline;width:100%;text-align:left;background:none;border:0;
+  color:#c9d6e6;font-family:var(--sans);font-size:14px;padding:8px 20px;cursor:pointer;line-height:1.35;
+  border-left:3px solid transparent;
+}
+.toc button:hover{background:#16253c;color:#fff}
+.toc button.on{background:#1b2c48;color:#fff;border-left-color:#5b8dff}
+.toc button .n{font-variant-numeric:tabular-nums;color:#5b8dff;font-weight:700;min-width:16px}
+.toc button.on .n{color:#8fb4ff}
+.toc .foot{font-family:var(--sans);font-size:11.5px;color:#61758d;margin:24px 20px 0;line-height:1.6}
+
+main{flex:1;min-width:0;padding:30px 40px 80px;max-width:1180px}
+header.lesson{border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:20px}
+header.lesson .kicker{font-family:var(--sans);font-size:13px;color:var(--sub);margin-bottom:6px}
+header.lesson h2{font-size:34px;line-height:1.15;margin:0 0 8px}
+header.lesson p{margin:0;max-width:74ch;color:#2c3c52}
+
+/* ---------------- top bar, concept, exam point ---------------- */
+.topbar{position:sticky;top:0;z-index:6;display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+  background:var(--paper);font-family:var(--sans);padding:10px 0 11px;margin-bottom:14px;
+  border-bottom:1px solid var(--rule)}
+.topbar .counter{font-size:15px;font-weight:700;min-width:64px;text-align:center;
+  font-variant-numeric:tabular-nums}
+.topbar .spacer{flex:1 1 12px}
+.menuonly{display:none}
+.soundhint{font-family:var(--sans);font-size:13px;color:#8a5f08;background:#fff7e2;
+  border:1px solid #e8d5a3;border-radius:5px;padding:9px 13px;margin:0 0 16px}
+.concept{background:var(--card);border:1px solid var(--rule);border-left:5px solid var(--teal);
+  border-radius:6px;padding:14px 18px;margin:0 0 20px;max-width:82ch}
+.exampoint{display:flex;gap:14px;align-items:flex-start;background:#fff6e0;
+  border:1px solid #e0c584;border-left:6px solid var(--amber);border-radius:6px;
+  padding:16px 18px;margin-bottom:22px}
+.exampoint .star{font-size:21px;color:var(--amber);line-height:1.2}
+.exampoint h3{font-family:var(--sans);font-size:13px;color:#8a5f08;margin:0 0 5px;font-weight:700}
+.exampoint p{margin:0;font-size:18px}
+
+/* ---------------- stage ---------------- */
+.stage{
+  background:var(--card);border:1px solid var(--rule);border-radius:6px;
+  box-shadow:0 1px 0 #dae3ec;overflow:hidden;margin-bottom:22px;
+}
+.stage .bar{display:flex;justify-content:space-between;align-items:center;
+  padding:9px 14px;border-bottom:1px solid var(--rule);background:#f7f9fb;font-family:var(--sans)}
+.stage .bar .what{font-size:13px;color:var(--sub)}
+.stage .bar .tools{display:flex;gap:8px}
+.stage canvas{display:block;width:100%;height:440px;touch-action:manipulation;
+  background-image:linear-gradient(#eaeff5 1px,transparent 1px),linear-gradient(90deg,#eaeff5 1px,transparent 1px);
+  background-size:28px 28px;background-color:#fff;}
+button.btn{
+  font-family:var(--sans);font-size:13.5px;padding:6px 13px;border-radius:4px;cursor:pointer;
+  border:1px solid #b9c6d4;background:#fff;color:var(--ink);
+}
+button.btn:hover{border-color:var(--blue);color:var(--blue)}
+button.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+button.btn.primary:hover{background:#173fb0}
+button.btn.on{background:var(--ink);border-color:var(--ink);color:#fff}
+:focus-visible{outline:3px solid #7aa2ff;outline-offset:2px}
+
+.controls{display:flex;flex-wrap:wrap;gap:14px 26px;padding:14px 16px;border-top:1px solid var(--rule);
+  font-family:var(--sans);font-size:13px;background:#fcfdfe}
+.ctl{display:flex;flex-direction:column;gap:3px;min-width:190px;flex:1 1 210px;max-width:320px}
+.ctl label{color:var(--sub);display:flex;justify-content:space-between;gap:14px}
+.ctl label b{color:var(--ink);font-variant-numeric:tabular-nums;font-weight:700}
+input[type=range]{width:100%;height:26px;accent-color:var(--blue);cursor:pointer;margin:0;
+  touch-action:manipulation}
+.ctl.buttons{flex-direction:row;align-items:flex-end;gap:8px;min-width:0;flex-wrap:wrap}
+.readouts{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 14px;background:#fcfdfe;font-family:var(--sans)}
+.ro{border:1px solid var(--rule);border-radius:4px;padding:5px 11px;font-size:13px;background:#fff}
+.ro span{color:var(--sub)}
+.ro b{font-variant-numeric:tabular-nums}
+
+.deckhead{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;
+  border-bottom:3px double var(--ink);padding-bottom:12px;margin-bottom:24px}
+.deckhead h1{font-size:26px;line-height:1.2;margin:0;letter-spacing:.09em}
+.deckhead p{margin:3px 0 0;font-family:var(--sans);font-size:13px;color:var(--sub)}
+.deckhead .lect{text-align:right}
+.deckhead .lect b{color:var(--ink)}
+.credit{font-family:var(--sans);font-size:12.5px;color:var(--sub);
+  border-top:1px solid var(--rule);margin:26px 0 0;padding-top:10px}
+.credit b{color:var(--ink)}
+
+/* ---------------- formula band + cards ---------------- */
+.formula{background:#13233b;color:#fff;border-radius:6px;padding:18px 22px;margin-bottom:22px}
+.formula .eq{font-family:var(--serif);font-size:clamp(19px,3.4vw,27px);overflow-wrap:break-word;line-height:1.5;font-style:italic;margin:0 0 2px}
+.formula .eq small{font-style:normal;font-size:15px;color:#9fb6d4;font-family:var(--sans);margin-left:10px}
+.formula .where{font-family:var(--sans);font-size:13.5px;color:#a9bdd6;margin-top:8px;line-height:1.7}
+sub{font-size:.7em}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:16px 18px}
+.card h3{font-family:var(--sans);font-size:13px;color:var(--sub);margin:0 0 8px;font-weight:700}
+.card p{margin:0 0 8px}
+.card p:last-child{margin-bottom:0}
+.card ul{margin:0;padding-left:20px}
+.card li{margin-bottom:5px}
+.card.script{grid-column:1/-1;border-left:4px solid var(--blue);background:#f8fafd}
+.card.script p{font-size:18.5px;line-height:1.7}
+.card.exam{border-left:4px solid var(--red)}
+.card.num{border-left:4px solid var(--teal);grid-column:1/-1}
+.card.deriv{grid-column:1/-1;border-left:4px solid var(--amber)}
+.card.deriv ol{margin:0;padding-left:24px}
+.card.deriv li{margin-bottom:9px;padding-left:4px}
+.card.terms{grid-column:1/-1;border-left:4px solid var(--violet)}
+.card.terms p{margin-bottom:7px}
+.card.terms b{color:var(--ink)}
+.card.num .work{font-family:var(--sans);font-size:14.5px;background:#f3f8f7;border-radius:4px;padding:10px 12px;margin-top:8px;line-height:1.8}
+.card .ans{color:var(--teal);font-weight:700}
+.navrow{display:flex;justify-content:space-between;margin-top:26px;gap:12px}
+
+@media (max-width:900px){
+  .deckhead .lect{text-align:left}
+  .deckhead h1{font-size:21px}
+  .wrap{flex-direction:column}
+  .toc{width:100%;flex:none;height:auto;position:static;display:none;padding:14px 0 20px}
+  body.menu .toc{display:block}
+  .menuonly{display:inline-block}
+  main{padding:18px 14px 50px}
+  .cards{grid-template-columns:1fr}
+  .stage canvas{height:min(56vh,420px)}
+  header.lesson h2{font-size:25px}
+  .ctl{flex:1 1 100%;max-width:none}
+  button.btn{font-size:15px;padding:9px 15px}
+  .topbar .counter{font-size:16px}
+  .card.script p{font-size:17px}
+}
+@media (max-width:520px){
+  body{font-size:16.5px}
+  main{padding:14px 12px 44px}
+  .stage canvas{height:min(54vh,370px)}
+  .controls,.readouts{padding-left:12px;padding-right:12px}
+  .formula{padding:15px 16px}
+  .exampoint p{font-size:17px}
+  .topbar{gap:6px}
+  .topbar .spacer{flex-basis:100%}
+}
+
+/* ---------------- classroom / projector mode ---------------- */
+body.classroom{font-size:21px;color:#0b1726}
+body.classroom .toc{display:none}
+body.classroom main{max-width:none;padding:16px 34px 60px}
+body.classroom .deckhead h1{font-size:32px}
+body.classroom .deckhead p{font-size:16px}
+body.classroom header.lesson h2{font-size:clamp(30px,3.4vw,46px)}
+body.classroom header.lesson .kicker{font-size:17px}
+body.classroom .concept{font-size:23px;max-width:none;border-left-width:7px}
+body.classroom .stage{border-width:2px}
+body.classroom .stage canvas{height:min(62vh,780px)}
+body.classroom .stage .bar .what{font-size:16px}
+body.classroom button.btn{font-size:19px;padding:11px 22px;border-width:2px}
+body.classroom .topbar .counter{font-size:22px;min-width:84px}
+body.classroom .controls{font-size:17px}
+body.classroom .ctl{flex:1 1 300px;max-width:420px}
+body.classroom .ctl label{font-size:17px}
+body.classroom input[type=range]{height:34px}
+body.classroom .ro{font-size:18px;padding:8px 15px;border-width:2px}
+body.classroom .formula{padding:24px 28px}
+body.classroom .formula .eq{font-size:clamp(26px,3.1vw,42px)}
+body.classroom .formula .where{font-size:17px;color:#c3d4e8}
+body.classroom .exampoint{border-width:2px;border-left-width:10px;padding:22px 24px}
+body.classroom .exampoint p{font-size:27px}
+body.classroom .exampoint h3{font-size:16px}
+body.classroom .cards{grid-template-columns:1fr}
+body.classroom .card{border-width:2px;padding:20px 24px}
+body.classroom .card h3{font-size:16px}
+body.classroom .card.script p{font-size:27px}
+body.classroom .card .work{font-size:20px}
+body.classroom .card.deriv li{margin-bottom:12px}
+body.classroom .credit{font-size:16px}
+body.classroom .soundhint{font-size:17px}
+@media print{.toc,.topbar,.soundhint{display:none}.stage .bar,.controls{display:none}.deckhead{margin-bottom:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="toc" id="toc">
+    <h1>Waves and Sound</h1>
+    <p class="sub">Unit IV · B.Sc. Physics · Semester III<br>Swati Patil · Department of Physics</p>
+    <div id="tocList"></div>
+    <p class="foot">Keys: ← → change topic · Space plays or pauses.<br>Works offline. Open in any browser and project full screen.</p>
+  </nav>
+  <main>
+    <div class="deckhead">
+      <div>
+        <h1>WAVES AND SOUND</h1>
+        <p>Unit IV · B.Sc. Physics · Semester III</p>
+      </div>
+      <div class="lect">
+        <p>Lecturer: <b>Swati Patil</b></p>
+        <p>Department of Physics</p>
+      </div>
+    </div>
+
+    <div class="topbar">
+      <button class="btn menuonly" id="menuBtn">Topics</button>
+      <button class="btn" id="prevTop">Previous</button>
+      <span class="counter" id="counter">1 / 16</span>
+      <button class="btn" id="nextTop">Next</button>
+      <span class="spacer"></span>
+      <button class="btn" id="stopBtn">Stop sound</button>
+      <button class="btn" id="classBtn">Classroom mode</button>
+      <button class="btn" id="fsBtn">Full screen</button>
+    </div>
+    <p class="soundhint" id="soundhint">Click once anywhere on the page to enable sound.</p>
+
+    <header class="lesson">
+      <p class="kicker" id="kicker"></p>
+      <h2 id="title"></h2>
+      <p id="objective"></p>
+    </header>
+
+    <p class="concept" id="concept"></p>
+
+    <section class="stage">
+      <div class="bar">
+        <span class="what" id="stageNote"></span>
+        <span class="tools">
+          <button class="btn primary" id="playBtn">Pause</button>
+          <button class="btn" id="resetBtn">Restart</button>
+        </span>
+      </div>
+      <canvas id="cv"></canvas>
+      <div class="controls" id="controls"></div>
+      <div class="readouts" id="readouts"></div>
+    </section>
+
+    <section class="formula" id="formula"></section>
+    <section class="exampoint">
+      <span class="star">&#9733;</span>
+      <div><h3>Exam point</h3><p id="pointText"></p></div>
+    </section>
+    <section class="cards" id="cards"></section>
+
+    <div class="navrow">
+      <button class="btn" id="prevBtn">Previous topic</button>
+      <button class="btn" id="nextBtn">Next topic</button>
+    </div>
+    <p class="credit">Waves and Sound · Unit IV · B.Sc. Physics, Semester III &nbsp;·&nbsp; <b>Swati Patil</b> · Department of Physics</p>
+  </main>
+</div>
+<script>
+/* ============================================================
+   Unit IV — Waves & Sound : classroom animation deck
+   Self-contained. No network needed.
+   ============================================================ */
+const C = {
+  ink:'#13233b', sub:'#5a6a7d', rule:'#cfdae4',
+  blue:'#1f4fd8', red:'#c9402c', teal:'#0f766e',
+  amber:'#a8730a', violet:'#6b3fa0', green:'#2f7a35', soft:'#8fa3b8'
+};
+const TAU = Math.PI * 2;
+
+/* ---------- drawing helpers ---------- */
+function arrow(ctx,x1,y1,x2,y2,col,w,head){
+  w=w||2.5; head=head||9;
+  const len=Math.hypot(x2-x1,y2-y1); if(len<1.5) return;
+  const a=Math.atan2(y2-y1,x2-x1), h=Math.min(head,len*0.85);
+  const bx=x2-Math.cos(a)*h, by=y2-Math.sin(a)*h;
+  ctx.save(); ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=w; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(bx,by); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(x2,y2);
+  ctx.lineTo(bx-Math.sin(a)*h*0.42, by+Math.cos(a)*h*0.42);
+  ctx.lineTo(bx+Math.sin(a)*h*0.42, by-Math.cos(a)*h*0.42);
+  ctx.closePath(); ctx.fill(); ctx.restore();
+}
+function txt(ctx,s,x,y,o){
+  o=o||{};
+  const size=o.size||13.5, color=o.color||C.ink, align=o.align||'left',
+        base=o.base||'middle', weight=o.weight||600,
+        fam=o.serif?'Georgia,serif':'ui-sans-serif,system-ui,"Segoe UI",Arial';
+  ctx.font=(o.italic?'italic ':'')+weight+' '+size+'px '+fam;
+  ctx.fillStyle=color; ctx.textAlign=align; ctx.textBaseline=base; ctx.fillText(s,x,y);
+}
+function seg(ctx,x1,y1,x2,y2,col,w,dash){
+  ctx.save(); if(dash) ctx.setLineDash(dash);
+  ctx.strokeStyle=col; ctx.lineWidth=w||2; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); ctx.restore();
+}
+function dot(ctx,x,y,r,col,ring){
+  ctx.beginPath(); ctx.arc(x,y,r,0,TAU); ctx.fillStyle=col; ctx.fill();
+  if(ring){ ctx.lineWidth=2.5; ctx.strokeStyle=ring; ctx.stroke(); }
+}
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath(); ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+}
+function panel(ctx,x,y,w,h,label,fill){
+  ctx.save(); ctx.fillStyle=fill||'#fbfcfe'; ctx.strokeStyle=C.rule; ctx.lineWidth=1;
+  roundRect(ctx,x,y,w,h,8); ctx.fill(); ctx.stroke(); ctx.restore();
+  if(label) txt(ctx,label,x+12,y+15,{size:12.5,color:C.sub,weight:700});
+}
+function springV(ctx,x,y1,y2,n,amp,col){
+  n=n||9; amp=amp||13; ctx.save(); ctx.strokeStyle=col||C.soft; ctx.lineWidth=2.4;
+  ctx.lineJoin='round'; ctx.beginPath(); ctx.moveTo(x,y1);
+  const L=y2-y1, lead=L*0.12;
+  ctx.lineTo(x,y1+lead);
+  for(let i=0;i<n;i++){
+    const yA=y1+lead+(L-2*lead)*(i+0.5)/n;
+    ctx.lineTo(x+(i%2?-amp:amp),yA);
+  }
+  ctx.lineTo(x,y2-lead); ctx.lineTo(x,y2); ctx.stroke(); ctx.restore();
+}
+function springH(ctx,x1,x2,y,n,amp,col){
+  n=n||9; amp=amp||14; ctx.save(); ctx.strokeStyle=col||C.soft; ctx.lineWidth=2.4;
+  ctx.lineJoin='round'; ctx.beginPath(); ctx.moveTo(x1,y);
+  const L=x2-x1, lead=Math.abs(L)*0.12*Math.sign(L||1);
+  ctx.lineTo(x1+lead,y);
+  for(let i=0;i<n;i++){
+    const xA=x1+lead+(L-2*lead)*(i+0.5)/n;
+    ctx.lineTo(xA,y+(i%2?-amp:amp));
+  }
+  ctx.lineTo(x2-lead,y); ctx.lineTo(x2,y); ctx.stroke(); ctx.restore();
+}
+/* trace a function of time inside a box; right edge = "now" */
+function trace(ctx,box,fn,t0,t1,yMax,col,lw){
+  const n=Math.max(120,Math.floor(box.w));
+  ctx.save(); ctx.beginPath(); ctx.strokeStyle=col; ctx.lineWidth=lw||2.6;
+  ctx.lineJoin='round'; ctx.lineCap='round';
+  for(let i=0;i<=n;i++){
+    const tt=t0+(t1-t0)*i/n, x=box.x+box.w*i/n, y=box.cy-fn(tt)/yMax*(box.h/2);
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.stroke(); ctx.restore();
+}
+function axisBox(ctx,box,label){
+  seg(ctx,box.x,box.cy,box.x+box.w,box.cy,C.rule,1.5);
+  if(label) txt(ctx,label,box.x,box.cy-box.h/2-10,{size:13,color:C.sub,weight:700});
+}
+
+/* ---------- sound (optional, offline WebAudio) ---------- */
+let _ac=null;
+function AC(){ if(!_ac){ const K=window.AudioContext||window.webkitAudioContext; if(K) _ac=new K(); } return _ac; }
+let _playing=[];
+function playTones(freqs,dur,vol){
+  const a=AC(); if(!a) return; if(a.state==='suspended') a.resume();
+  stopTones(); dur=dur||2.2; vol=vol||0.14;
+  const g=a.createGain(); g.connect(a.destination);
+  const now=a.currentTime;
+  g.gain.setValueAtTime(0.0001,now);
+  g.gain.exponentialRampToValueAtTime(vol,now+0.04);
+  g.gain.setValueAtTime(vol,now+dur-0.15);
+  g.gain.exponentialRampToValueAtTime(0.0001,now+dur);
+  freqs.forEach(function(f){
+    const o=a.createOscillator(); o.type='sine'; o.frequency.value=f;
+    o.connect(g); o.start(now); o.stop(now+dur+0.05); _playing.push(o);
+  });
+}
+function stopTones(){ _playing.forEach(function(o){ try{o.stop();}catch(e){} }); _playing=[]; }
+
+/* ---------- module registry ---------- */
+const MODULES=[];
+function M(d){ MODULES.push(d); }
+
+/* ============================================================
+   1. Simple harmonic motion
+   ============================================================ */
+M({
+group:'Waves', title:'Simple harmonic motion',
+objective:'See where y = A sin(ωt + φ) comes from. SHM is simply the shadow (projection) of a point moving uniformly on a circle.',
+note:'Reference circle, spring–mass and displacement–time graph, all moving together.',
+formula:{eq:['y = A sin(ωt + φ)','ω = 2πf = 2π/T'],
+ where:'A = amplitude (maximum displacement) · ω = angular frequency in rad/s · φ = initial phase · T = time period · f = frequency'},
+real:'A child on a swing, a plucked guitar string, the balance wheel of a wrist watch, a cork bobbing on water.',
+teacher:'Watch the blue dot going round the circle at a steady speed. Now look only at its shadow on the vertical line — the shadow is not moving steadily. It is fast at the centre and it stops for an instant at the top and bottom. That is simple harmonic motion. The spring and mass on the right copy the shadow exactly, and the green curve is just that same motion drawn against time, which is why it comes out as a sine curve. The radius of the circle gives the amplitude A. One complete round of the circle is one time period T. The angle turned in that time is ωt, and φ simply tells us where the dot started. So y equals A sin of ωt plus φ.',
+exam:'Define simple harmonic motion. Show that the projection of a uniform circular motion on a diameter is SHM, and hence obtain y = A sin(ωt + φ). State the meaning of A, ω and φ.',
+num:{q:'A particle executes SHM of amplitude 5 cm and frequency 2 Hz. Find ω, T, and the displacement 1/24 s after it crosses the mean position.',
+ work:['T = 1/f = 1/2 = 0.5 s','ω = 2πf = 2π × 2 = 12.57 rad s⁻¹','y = A sin ωt = 5 sin(12.57 × 1/24) = 5 sin(0.524 rad) = 5 × 0.5'],
+ ans:'y = 2.5 cm'},
+init:function(ctx,g){
+  const A=g.ui.slider('Amplitude A',1,5,0.5,4,v=>v.toFixed(1)+' cm');
+  const F=g.ui.slider('Frequency f',0.2,1.2,0.05,0.4,v=>v.toFixed(2)+' Hz');
+  const P=g.ui.slider('Initial phase φ',0,360,15,0,v=>v+'°');
+  const rT=g.ui.readout('Time period T ='), rW=g.ui.readout('ω ='), rY=g.ui.readout('Displacement y =');
+  return function(t){
+    const W=g.W(), H=g.H(), cy=H*0.50, S=19.2;
+    const a=A.value, f=F.value, w=TAU*f, ph=P.value*Math.PI/180, R=a*S;
+    const cx=132, th=w*t+ph, y=a*Math.sin(th), py=cy-y*S;
+    rT.set((1/f).toFixed(2)+' s'); rW.set(w.toFixed(2)+' rad/s'); rY.set(y.toFixed(2)+' cm');
+
+    /* --- reference circle --- */
+    ctx.save(); ctx.setLineDash([5,5]); ctx.strokeStyle=C.rule; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(cx,cy,R,0,TAU); ctx.stroke(); ctx.restore();
+    seg(ctx,cx-R-22,cy,cx+R+22,cy,C.soft,1.2,[4,4]);
+    seg(ctx,cx,cy-R-16,cx,cy+R+16,C.soft,1.2,[4,4]);
+    const px=cx+R*Math.cos(th), pyc=cy-R*Math.sin(th);
+    arrow(ctx,cx,cy,px,pyc,C.blue,2.6,10);
+    /* angle marker */
+    ctx.save(); ctx.strokeStyle=C.amber; ctx.lineWidth=2.2; ctx.beginPath();
+    ctx.arc(cx,cy,30,0,-((th%TAU)+TAU)%TAU,true); ctx.stroke(); ctx.restore();
+    txt(ctx,'ωt + φ',cx+38,cy-14,{size:15,color:C.amber,italic:true,serif:true});
+    dot(ctx,px,pyc,7,C.blue,'#fff');
+    seg(ctx,px,pyc,cx,py,C.blue,1.4,[4,4]);
+    dot(ctx,cx,py,6,C.violet,'#fff');
+    txt(ctx,'the dot moves at constant speed',cx,cy+R+34,{size:12.5,color:C.sub,align:'center'});
+    txt(ctx,'its shadow does SHM',cx,cy+R+52,{size:12.5,color:C.violet,align:'center',weight:700});
+    /* amplitude marker */
+    arrow(ctx,cx-R-14,cy,cx-R-14,cy-a*S,C.teal,2,8);
+    txt(ctx,'A',cx-R-30,cy-a*S/2,{size:16,color:C.teal,serif:true,italic:true});
+
+    /* --- spring and mass --- */
+    const mx=cx+R+96, top=cy-a*S-88;
+    seg(ctx,mx-42,top,mx+42,top,C.ink,4);
+    for(let i=-40;i<40;i+=11) seg(ctx,mx+i,top,mx+i-8,top-9,C.soft,1.6);
+    springV(ctx,mx,top,py-20,9,13);
+    ctx.fillStyle=C.violet; roundRect(ctx,mx-26,py-20,52,40,6); ctx.fill();
+    seg(ctx,mx-R-6,cy,mx+56,cy,C.soft,1.4,[6,5]);
+    txt(ctx,'mean position, y = 0',mx+60,cy,{size:12.5,color:C.sub});
+    if(Math.abs(y)>0.15) arrow(ctx,mx+40,cy,mx+40,py,C.violet,2.4,9);
+    txt(ctx,'y',mx+52,(cy+py)/2,{size:16,color:C.violet,serif:true,italic:true});
+
+    /* --- displacement-time graph --- */
+    const gx=mx+92, box={x:gx,y:cy-100,w:Math.max(120,W-gx-26),h:200,cy:cy};
+    const span=3/f;
+    axisBox(ctx,box,'displacement  y  →  time');
+    seg(ctx,box.x,cy-a*S,box.x+box.w,cy-a*S,C.rule,1,[4,4]);
+    seg(ctx,box.x,cy+a*S,box.x+box.w,cy+a*S,C.rule,1,[4,4]);
+    trace(ctx,box,tt=>a*Math.sin(w*tt+ph),t-span,t,5,C.green,3);
+    dot(ctx,box.x+box.w,py,6,C.green,'#fff');
+    seg(ctx,mx+26,py,box.x+box.w,py,C.green,1.2,[3,4]);
+    /* one period marker */
+    const per=box.w/span/f;
+    const x2=box.x+box.w, x1=x2-per, yb=box.y+box.h+26;
+    arrow(ctx,x1,yb,x2,yb,C.sub,1.6,7); arrow(ctx,x2,yb,x1,yb,C.sub,1.6,7);
+    txt(ctx,'one time period T = '+(1/f).toFixed(2)+' s',(x1+x2)/2,yb+16,{size:12.5,color:C.sub,align:'center'});
+  };
+}});
+
+/* ============================================================
+   2. Differential equation of SHM
+   ============================================================ */
+M({
+group:'Waves', title:'The differential equation of SHM',
+objective:'Understand why SHM happens: the restoring force always pulls the body back to the mean position, and it grows in proportion to the displacement.',
+note:'Blue = displacement, red = restoring force and acceleration, green = velocity.',
+formula:{eq:['F = −k y   ⇒   m d²y/dt² = −k y','d²y/dt² + ω² y = 0,   ω = √(k/m),   T = 2π√(m/k)'],
+ where:'k = force constant (N/m) · m = mass (kg) · the minus sign means force and displacement always point in opposite directions'},
+real:'A door-closer spring, a car suspension after a speed-breaker, a ruler twanged over the edge of a desk.',
+teacher:'Look at the red arrow. Wherever the block goes, the red arrow points back towards the centre, and the further out the block is, the longer that arrow becomes. That is the whole secret of SHM: restoring force proportional to displacement, and opposite in direction. Written down, F equals minus k y. Since F is m times acceleration, m times d two y by d t squared equals minus k y, and dividing by m gives d two y by d t squared plus omega squared y equals zero, with omega equal to root k over m. Notice the green velocity arrow is longest at the centre, exactly where the red arrow vanishes. Increase the mass and the motion becomes slower; stiffen the spring and it becomes faster.',
+exam:'Set up and solve the differential equation of a simple harmonic oscillator. Hence obtain expressions for its time period, velocity and acceleration.',
+num:{q:'A body of mass 0.5 kg is attached to a spring of force constant 50 N/m. Find ω and the time period of oscillation.',
+ work:['ω = √(k/m) = √(50 / 0.5) = √100 = 10 rad s⁻¹','T = 2π/ω = 6.283/10'],
+ ans:'ω = 10 rad s⁻¹, T = 0.63 s'},
+init:function(ctx,g){
+  const K=g.ui.slider('Spring constant k',5,80,1,20,v=>v+' N/m');
+  const Mm=g.ui.slider('Mass m',0.2,2,0.1,0.5,v=>v.toFixed(1)+' kg');
+  const A=g.ui.slider('Amplitude A',2,5,0.5,4,v=>v.toFixed(1)+' cm');
+  const rW=g.ui.readout('ω ='), rT=g.ui.readout('T ='), rA=g.ui.readout('acceleration a = −ω²y =');
+  return function(t){
+    const W=g.W(), H=g.H(), S=19.2;
+    const w=Math.sqrt(K.value/Mm.value), a=A.value;
+    const y=a*Math.sin(w*t), v=a*w*Math.cos(w*t), acc=-w*w*y;
+    rW.set(w.toFixed(2)+' rad/s'); rT.set((TAU/w).toFixed(2)+' s');
+    rA.set((acc/100).toFixed(2)+' m/s²');
+
+    const cyr=118, x0=W*0.30, mx=x0+y*S;
+    seg(ctx,30,cyr-52,30,cyr+52,C.ink,5);
+    for(let i=-50;i<52;i+=12) seg(ctx,30,cyr+i,20,cyr+i+10,C.soft,1.6);
+    springH(ctx,30,mx-30,cyr,10,14);
+    ctx.fillStyle=C.violet; roundRect(ctx,mx-30,cyr-26,60,52,6); ctx.fill();
+    txt(ctx,'m',mx,cyr,{size:17,color:'#fff',align:'center',serif:true,italic:true});
+    seg(ctx,60,cyr+46,W*0.30+5*S+50,cyr+46,C.rule,1.5);
+    seg(ctx,x0,cyr-70,x0,cyr+60,C.soft,1.4,[5,5]);
+    txt(ctx,'mean position',x0,cyr+74,{size:12.5,color:C.sub,align:'center'});
+
+    if(Math.abs(y)>0.1){
+      arrow(ctx,x0,cyr-46,mx,cyr-46,C.blue,2.4,9);
+      txt(ctx,'displacement y',(x0+mx)/2,cyr-62,{size:13,color:C.blue,align:'center'});
+      arrow(ctx,mx,cyr,mx-Math.sign(y)*Math.min(150,Math.abs(acc)*S/(w*w)*1.6+18),cyr,C.red,4,13);
+      txt(ctx,'restoring force F = −ky',mx-Math.sign(y)*90,cyr+22,{size:13,color:C.red,align:'center'});
+    }
+    if(Math.abs(v)>0.4){
+      arrow(ctx,mx,cyr-40,mx+Math.sign(v)*Math.min(120,Math.abs(v)*3.2),cyr-40,C.teal,3,11);
+      txt(ctx,'velocity v',mx+Math.sign(v)*60,cyr-56,{size:13,color:C.teal,align:'center'});
+    }
+
+    /* step-by-step derivation */
+    const sx=40, sy=H-108;
+    panel(ctx,sx-12,sy-24,330,96,'Step by step');
+    txt(ctx,'1.  F = − k y',sx,sy+2,{size:16,serif:true,italic:true});
+    txt(ctx,'2.  m a = − k y',sx,sy+28,{size:16,serif:true,italic:true});
+    txt(ctx,'3.  d²y/dt² + ω² y = 0',sx,sy+54,{size:16,serif:true,italic:true,color:C.red});
+
+    /* graphs */
+    const gx=W*0.44, box={x:gx,y:0,w:Math.max(140,W-gx-26),h:150,cy:H-96};
+    const span=2*TAU/w;
+    axisBox(ctx,box,'y (blue), v (green), a (red) against time');
+    trace(ctx,box,tt=>a*Math.sin(w*tt),t-span,t,a,C.blue,2.6);
+    trace(ctx,box,tt=>Math.cos(w*tt),t-span,t,1,C.teal,2.2);
+    trace(ctx,box,tt=>-Math.sin(w*tt),t-span,t,1,C.red,2.2);
+    txt(ctx,'a is largest where y is largest — and always opposite in sign',gx,box.cy+box.h/2+16,{size:12.5,color:C.sub});
+  };
+}});
+
+/* ============================================================
+   3. Two collinear SHMs of equal frequency
+   ============================================================ */
+M({
+group:'Waves', title:'Adding two SHMs of the same frequency',
+objective:'Add two oscillations along the same line and see how the phase difference decides whether they help each other or cancel each other.',
+note:'Left: the two amplitudes as arrows (phasors). Right: the two waves and their sum.',
+formula:{eq:['y = y₁ + y₂ = R sin(ωt + θ)','R = √(a₁² + a₂² + 2a₁a₂ cos δ),   tan θ = a₂ sin δ / (a₁ + a₂ cos δ)'],
+ where:'δ = phase difference · δ = 0 gives R = a₁ + a₂ (constructive) · δ = 180° gives R = |a₁ − a₂| (destructive)'},
+real:'Two speakers playing the same note — you hear loud and quiet patches as you walk across the room. Noise-cancelling headphones use δ = 180°.',
+teacher:'Both oscillations have the same frequency, so their arrows on the left rotate together and the angle between them stays fixed — that angle is the phase difference delta. Adding two SHMs is then just adding two arrows, like adding forces by the parallelogram law. Drag delta to zero: the arrows line up, the crests of both waves arrive together and the resultant amplitude is the full a one plus a two. Now take delta to one eighty degrees: the arrows oppose, crest meets trough, and with equal amplitudes the resultant disappears completely. For every other value you get something in between, given by R equals root a one squared plus a two squared plus two a one a two cos delta.',
+exam:'Two collinear simple harmonic motions of the same frequency but different amplitudes and phases act on a particle. Show analytically that the resultant is also SHM of the same frequency, and obtain its amplitude and phase.',
+num:{q:'Two collinear SHMs of amplitudes 3 cm and 4 cm and equal frequency have a phase difference of 90°. Find the resultant amplitude.',
+ work:['R = √(a₁² + a₂² + 2a₁a₂ cos δ)','cos 90° = 0, so R = √(3² + 4²) = √25'],
+ ans:'R = 5 cm'},
+init:function(ctx,g){
+  const A1=g.ui.slider('Amplitude a₁',1,4,0.5,3,v=>v.toFixed(1)+' cm');
+  const A2=g.ui.slider('Amplitude a₂',1,4,0.5,3,v=>v.toFixed(1)+' cm');
+  const D=g.ui.slider('Phase difference δ',0,360,5,90,v=>v+'°');
+  g.ui.toggleFree(['δ = 0° in phase','δ = 90°','δ = 180° opposite'],[0,90,180],v=>D.set(v));
+  const rR=g.ui.readout('Resultant amplitude R ='), rTh=g.ui.readout('Phase of resultant θ ='), rNote=g.ui.readout('Result:');
+  return function(t){
+    const W=g.W(), H=g.H(), S=26, w=TAU*0.28;
+    const a1=A1.value, a2=A2.value, d=D.value*Math.PI/180;
+    const R=Math.sqrt(a1*a1+a2*a2+2*a1*a2*Math.cos(d));
+    const th=Math.atan2(a2*Math.sin(d), a1+a2*Math.cos(d));
+    rR.set(R.toFixed(2)+' cm'); rTh.set((th*180/Math.PI).toFixed(1)+'°');
+    rNote.set(R>a1+a2-0.05 ? 'maximum (constructive)' : (R<0.25 ? 'complete cancellation' : (R<Math.max(a1,a2) ? 'weakened' : 'in between')));
+
+    /* phasors */
+    const ox=150, oy=H*0.44;
+    panel(ctx,20,20,270,H-40,'Amplitudes as rotating arrows');
+    seg(ctx,ox-120,oy,ox+120,oy,C.rule,1.2,[4,4]);
+    seg(ctx,ox,oy-100,ox,oy+100,C.rule,1.2,[4,4]);
+    const p=w*t;
+    const x1=ox+a1*S*Math.cos(p), y1=oy-a1*S*Math.sin(p);
+    const x2=x1+a2*S*Math.cos(p+d), y2=y1-a2*S*Math.sin(p+d);
+    arrow(ctx,ox,oy,x1,y1,C.blue,3,10);
+    arrow(ctx,x1,y1,x2,y2,C.red,3,10);
+    arrow(ctx,ox,oy,x2,y2,C.violet,4,13);
+    txt(ctx,'a₁',(ox+x1)/2-12,(oy+y1)/2-10,{size:15,color:C.blue,serif:true,italic:true});
+    txt(ctx,'a₂',(x1+x2)/2+8,(y1+y2)/2-10,{size:15,color:C.red,serif:true,italic:true});
+    txt(ctx,'R',(ox+x2)/2+10,(oy+y2)/2+14,{size:17,color:C.violet,serif:true,italic:true});
+    txt(ctx,'angle between them = δ = '+D.value+'°',ox,H-36,{size:12.5,color:C.sub,align:'center'});
+
+    /* waves */
+    const gx=320, gw=Math.max(160,W-gx-26), span=2/0.28;
+    const b1={x:gx,y:0,w:gw,h:70,cy:70}, b2={x:gx,y:0,w:gw,h:70,cy:170}, b3={x:gx,y:0,w:gw,h:110,cy:H-110};
+    axisBox(ctx,b1,'y₁ = a₁ sin ωt');
+    trace(ctx,b1,tt=>a1*Math.sin(w*tt),t-span,t,4,C.blue,2.6);
+    axisBox(ctx,b2,'y₂ = a₂ sin(ωt + δ)');
+    trace(ctx,b2,tt=>a2*Math.sin(w*tt+d),t-span,t,4,C.red,2.6);
+    axisBox(ctx,b3,'resultant y = y₁ + y₂');
+    trace(ctx,b3,tt=>a1*Math.sin(w*tt)+a2*Math.sin(w*tt+d),t-span,t,8,C.violet,3.2);
+    seg(ctx,b3.x,b3.cy-R/8*b3.h/2,b3.x+b3.w,b3.cy-R/8*b3.h/2,C.teal,1.4,[5,4]);
+    txt(ctx,'R = '+R.toFixed(2)+' cm',b3.x+b3.w-6,b3.cy-R/8*b3.h/2-14,{size:13,color:C.teal,align:'right'});
+  };
+}});
+
+/* ============================================================
+   4. Adding two collinear SHMs of DIFFERENT frequencies
+   ============================================================ */
+M({
+group:'Waves', title:'Adding two collinear SHMs of different frequencies',
+objective:'Add two oscillations along the same line whose frequencies are not equal, and see why the resultant is no longer simple harmonic.',
+note:'Top two rows are the separate motions. The bottom row is their sum.',
+formula:{eq:['y = y₁ + y₂ = a₁ sin ω₁t + a₂ sin ω₂t',
+             'If a₁ = a₂ = a :   y = 2a cos[(ω₁ − ω₂)t / 2] · sin[(ω₁ + ω₂)t / 2]'],
+ where:'The resultant is NOT simple harmonic — its amplitude keeps changing with time · it repeats only when ω₁ : ω₂ is a ratio of whole numbers · when ω₁ and ω₂ are very close, the slow cosine term becomes the beat envelope of the next topic'},
+deriv:{title:'Analytical method — step by step',
+ steps:['Let both motions be along the same line: y₁ = a sin ω₁t and y₂ = a sin ω₂t (equal amplitudes are taken first, to keep the algebra simple).',
+        'By the principle of superposition the resultant displacement is y = y₁ + y₂ = a (sin ω₁t + sin ω₂t).',
+        'Use the identity sin C + sin D = 2 sin[(C + D)/2] · cos[(C − D)/2].',
+        'This gives  y = 2a cos[(ω₁ − ω₂)t / 2] · sin[(ω₁ + ω₂)t / 2].',
+        'Compare with y = R sin ωt. The particle vibrates at the average frequency (ω₁ + ω₂)/2, but its amplitude R = 2a cos[(ω₁ − ω₂)t / 2] is itself a function of time. Since R is not constant, the resultant motion is periodic but not simple harmonic.',
+        'R swings between 2a and 0, so the motion grows loud and faint in turn. When ω₁ and ω₂ are nearly equal this happens slowly and we hear it as beats, of frequency f₁ − f₂.',
+        'If the amplitudes are unequal the same superposition holds, y = a₁ sin ω₁t + a₂ sin ω₂t, but now R never falls to zero — the faint stage is only a partial cancellation.']},
+real:'Two motors of slightly different speeds on the same floor make it shudder in a slow rhythm. Two engines of an aeroplane running at different speeds produce the familiar throbbing note in the cabin.',
+teacher:'Last time both oscillations had the same frequency, so their phase difference stayed fixed and the sum was again a neat sine curve. Now make the frequencies different and watch the bottom trace. The two motions drift in and out of step, so the resultant keeps changing its size — sometimes tall, sometimes almost flat. That is the key exam point: the resultant is periodic, but it is not simple harmonic, because the amplitude is no longer a constant. Analytically we add the two sines and use the sum formula, which gives a fast vibration at the average frequency multiplied by a slowly changing amplitude. When the two frequencies are nearly equal, that slow factor is exactly what we hear as beats.',
+exam:'Discuss analytically the composition of two collinear simple harmonic motions of different frequencies. Show that the resultant motion is periodic but not simple harmonic, and deduce from it the condition for the production of beats.',
+num:{q:'Two collinear SHMs are given by y₁ = 3 sin 4πt cm and y₂ = 3 sin 6πt cm. Find the frequency of the resultant vibration, the frequency with which its amplitude rises and falls, and the time after which the whole motion repeats.',
+ work:['Comparing with y = a sin 2πft:  f₁ = 2 Hz, f₂ = 3 Hz',
+       'y = 2 × 3 cos[(6π − 4π)t/2] sin[(6π + 4π)t/2] = 6 cos(πt) sin(5πt)',
+       'Vibration frequency = (f₁ + f₂)/2 = 2.5 Hz',
+       'Amplitude term cos πt has frequency 0.5 Hz, so the amplitude rises and falls 1 time per second (f₁ − f₂ = 1)',
+       'The motion repeats after the LCM of the two periods, 0.5 s and 0.333 s'],
+ ans:'Vibration 2.5 Hz · amplitude changes once a second · motion repeats every 1 s'},
+init:function(ctx,g){
+  const F1=g.ui.slider('Frequency f₁',0.5,3,0.5,1,v=>v.toFixed(1)+' Hz');
+  const F2=g.ui.slider('Frequency f₂',0.5,3,0.5,1.5,v=>v.toFixed(1)+' Hz');
+  const A1=g.ui.slider('Amplitude a₁',1,4,0.5,2.5,v=>v.toFixed(1)+' cm');
+  const A2=g.ui.slider('Amplitude a₂',1,4,0.5,2.5,v=>v.toFixed(1)+' cm');
+  const rR=g.ui.readout('Frequency ratio f₁ : f₂ ='), rP=g.ui.readout('Resultant repeats every'),
+        rS=g.ui.readout('Is the resultant SHM?');
+  const gcd=(p,q)=>q<0.001?p:gcd(q,p%q);
+  return function(t){
+    const W=g.W(), H=g.H();
+    const f1=F1.value, f2=F2.value, a1=A1.value, a2=A2.value;
+    const n1=Math.round(f1*2), n2=Math.round(f2*2), gg=gcd(Math.max(n1,n2),Math.min(n1,n2));
+    const period=1/(gg/2);
+    rR.set((n1/gg)+' : '+(n2/gg));
+    rP.set(period.toFixed(2)+' s');
+    rS.set(Math.abs(f1-f2)<0.01?'yes — equal frequencies, this is the previous case':'no — the amplitude keeps changing');
+
+    const span=Math.min(4.2,Math.max(2*period,2)), x0=56, wv=W-x0-40;
+    const b1={x:x0,y:0,w:wv,h:62,cy:62}, b2={x:x0,y:0,w:wv,h:62,cy:152}, b3={x:x0,y:0,w:wv,h:150,cy:H-140};
+    axisBox(ctx,b1,'y₁ = a₁ sin ω₁t');
+    trace(ctx,b1,tt=>a1*Math.sin(TAU*f1*tt),t-span,t,4,C.blue,2.6);
+    axisBox(ctx,b2,'y₂ = a₂ sin ω₂t');
+    trace(ctx,b2,tt=>a2*Math.sin(TAU*f2*tt),t-span,t,4,C.red,2.6);
+    axisBox(ctx,b3,'resultant y = y₁ + y₂');
+    const M=a1+a2;
+    if(Math.abs(a1-a2)<0.01){
+      trace(ctx,b3,tt=>M*Math.cos(Math.PI*(f1-f2)*tt),t-span,t,M,C.teal,1.8);
+      trace(ctx,b3,tt=>-M*Math.cos(Math.PI*(f1-f2)*tt),t-span,t,M,C.teal,1.8);
+      txt(ctx,'amplitude 2a cos[(ω₁−ω₂)t/2]',b3.x+8,b3.cy-b3.h/2+14,{size:12.5,color:C.teal});
+    }
+    trace(ctx,b3,tt=>a1*Math.sin(TAU*f1*tt)+a2*Math.sin(TAU*f2*tt),t-span,t,M,C.violet,3);
+    /* repeat marker */
+    const px=b3.w/span*period, x2=b3.x+b3.w, x1=Math.max(b3.x,x2-px), yb=b3.cy+b3.h/2+22;
+    arrow(ctx,x1,yb,x2,yb,C.sub,1.6,7); arrow(ctx,x2,yb,x1,yb,C.sub,1.6,7);
+    txt(ctx,'the whole pattern repeats after '+period.toFixed(2)+' s',(x1+x2)/2,yb+17,{size:12.5,color:C.sub,align:'center'});
+    txt(ctx,'the height of this curve keeps changing → not SHM',b3.x+8,b3.cy+b3.h/2-6,{size:13,color:C.violet});
+  };
+}});
+
+/* ============================================================
+   5. Beats
+   ============================================================ */
+M({
+group:'Waves', title:'Beats — two slightly different frequencies',
+objective:'See and hear why two notes of nearly equal frequency produce a slow rise and fall of loudness.',
+note:'Press “Hear the beats” to listen to the two tuning forks together.',
+formula:{eq:['y = 2a cos(2π · (f₁−f₂)/2 · t) · sin(2π · (f₁+f₂)/2 · t)','Beat frequency  n = f₁ − f₂   (beats per second)'],
+ where:'The slow cosine term is the envelope — it swells and dies away · the ear hears the fast sine term as the note of average frequency'},
+real:'Tuning a guitar or a tabla against a tuning fork: you tighten the string until the beats slow down and stop. Piano tuners do exactly this.',
+teacher:'Here are two tuning forks whose frequencies differ by just a few hertz. At this instant both crests arrive together, so the waves add and the sound is loud. A moment later the slower one has fallen behind by half a wave, crest meets trough, and the sound almost dies away. That waxing and waning is a beat, and the dashed envelope shows it. One loud–soft–loud cycle is one beat, and the number of beats per second is simply the difference of the two frequencies. Two fifty six and two sixty give four beats every second. Press the listen button and count them. Musicians use this to tune: when the beats disappear, the frequencies are equal.',
+exam:'What are beats? Show analytically that the number of beats produced per second is equal to the difference in frequencies of the two interfering sound waves. Mention one practical use of beats.',
+num:{q:'A tuning fork of frequency 256 Hz produces 4 beats per second with a sonometer wire. What are the possible frequencies of the wire? On loading the wire with a little wax the beats become 6 per second — what was its actual frequency?',
+ work:['Beat frequency n = |f₁ − f₂| = 4, so the wire is 252 Hz or 260 Hz','Wax lowers the frequency of the wire','If it were 260 Hz it would fall towards 256 and beats would decrease; beats increased to 6, so it must have been 252 Hz falling to 250 Hz'],
+ ans:'Actual frequency = 252 Hz'},
+init:function(ctx,g){
+  const F1=g.ui.slider('Fork 1 frequency f₁',248,264,1,256,v=>v+' Hz');
+  const F2=g.ui.slider('Fork 2 frequency f₂',248,264,1,260,v=>v+' Hz');
+  g.ui.buttons([{label:'Hear the beats',fn:()=>playTones([F1.value,F2.value],3.5)},
+                {label:'Stop sound',fn:stopTones}]);
+  const rN=g.ui.readout('Beat frequency ='), rP=g.ui.readout('One beat every:');
+  return function(t){
+    const W=g.W(), H=g.H();
+    const f1=F1.value, f2=F2.value, df=Math.abs(f1-f2);
+    rN.set(df.toFixed(0)+' beats per second'); rP.set(df?(1/df).toFixed(3)+' s':'no beats — frequencies equal');
+    /* the real forks vibrate ~256 times a second, far too fast to draw:
+       we keep the true beat frequency but slow the carrier down so it is visible */
+    const win = df? 2/df : 0.4;
+    const fdAvg = 10*Math.max(df,0.5);
+    const fd1 = fdAvg + (f1-f2)/2, fd2 = fdAvg - (f1-f2)/2;
+    const t0 = t*win/9, t1 = t0+win;
+
+    /* forks */
+    const fx=[64,64+90];
+    [[f1,C.blue],[f2,C.red]].forEach(function(pair,i){
+      const x=fx[i], base=H-70, amp=3*Math.sin(TAU*(i?7:6.3)*t);
+      seg(ctx,x,base,x,base-30,C.soft,6);
+      seg(ctx,x-14+amp,base-30,x-14+amp*1.8,base-108,pair[1],5);
+      seg(ctx,x+14-amp,base-30,x+14-amp*1.8,base-108,pair[1],5);
+      txt(ctx,(i?'f₂ = ':'f₁ = ')+pair[0]+' Hz',x,base+20,{size:13,color:pair[1],align:'center'});
+    });
+    txt(ctx,'two tuning forks sounded together',64,H-26,{size:12.5,color:C.sub});
+
+    const gx=210, gw=Math.max(160,W-gx-26);
+    const b1={x:gx,y:0,w:gw,h:62,cy:56}, b2={x:gx,y:0,w:gw,h:62,cy:136}, b3={x:gx,y:0,w:gw,h:150,cy:H-120};
+    axisBox(ctx,b1,'wave from fork 1');
+    trace(ctx,b1,tt=>Math.sin(TAU*fd1*tt),t0,t1,1,C.blue,2);
+    axisBox(ctx,b2,'wave from fork 2');
+    trace(ctx,b2,tt=>Math.sin(TAU*fd2*tt),t0,t1,1,C.red,2);
+    axisBox(ctx,b3,'both together — the loudness swells and fades (vibrations drawn slowed down)');
+    const env=tt=>2*Math.cos(Math.PI*(f1-f2)*tt);
+    trace(ctx,b3,env,t0,t1,2,C.teal,1.8);
+    trace(ctx,b3,tt=>-env(tt),t0,t1,2,C.teal,1.8);
+    trace(ctx,b3,tt=>Math.sin(TAU*fd1*tt)+Math.sin(TAU*fd2*tt),t0,t1,2,C.violet,2.2);
+    txt(ctx,'envelope',b3.x+6,b3.cy-b3.h/2+12,{size:12.5,color:C.teal});
+    /* loud / soft markers */
+    if(df){
+      const Tb=1/df;
+      for(let k=Math.ceil(t0/Tb)-1;k<=Math.floor(t1/Tb)+1;k++){
+        const tc=k*Tb; if(tc<t0||tc>t1) continue;
+        const x=b3.x+(tc-t0)/win*b3.w;
+        seg(ctx,x,b3.cy-b3.h/2,x,b3.cy+b3.h/2,C.amber,1.4,[4,4]);
+        txt(ctx,'loud',x,b3.cy+b3.h/2+16,{size:12.5,color:C.amber,align:'center'});
+        const xs=x+b3.w*(Tb/2)/win;
+        if(xs<b3.x+b3.w){ txt(ctx,'soft',xs,b3.cy+b3.h/2+16,{size:12.5,color:C.sub,align:'center'}); }
+      }
+    }
+  };
+}});
+
+/* ============================================================
+   6. Two perpendicular SHMs of equal frequency
+   ============================================================ */
+M({
+group:'Waves', title:'Two perpendicular SHMs of equal frequency',
+objective:'Make a particle oscillate left–right and up–down at the same time, and watch the phase difference turn a straight line into an ellipse and then a circle.',
+note:'Blue dot below = the x-motion. Red dot on the left = the y-motion. Violet = the actual path.',
+formula:{eq:['x = a sin(ωt + δ),   y = b sin ωt','x²/a² + y²/b² − (2xy cos δ)/(ab) = sin²δ'],
+ where:'δ = 0 or 180° → straight line · δ = 90° → ellipse with axes along x and y · δ = 90° with a = b → circle'},
+real:'The tip of a swinging pendulum given a small sideways push traces an ellipse. The electron beam of an oscilloscope is steered in exactly this way.',
+teacher:'The blue dot at the bottom oscillates horizontally, the red dot at the left oscillates vertically, and the violet dot must obey both at once — follow the dashed lines to see how its position is fixed. With zero phase difference both reach their extremes together, so the particle simply runs along a straight line. Now increase delta. The particle starts to lag in one direction and the line opens out into an ellipse. At ninety degrees, with equal amplitudes, it becomes a perfect circle — and remember, that is exactly the reference circle we started the unit with. Past ninety the ellipse closes again and tilts the other way.',
+exam:'Obtain the equation of the resultant path of a particle subjected to two perpendicular simple harmonic motions of the same frequency. Discuss the special cases δ = 0, δ = π/2 and δ = π.',
+num:{q:'A particle has x = 4 sin(ωt + 90°) cm and y = 4 sin ωt cm. Identify the path.',
+ work:['Here a = b = 4 cm and δ = 90°, so sin²δ = 1 and cos δ = 0','x²/16 + y²/16 = 1, i.e. x² + y² = 16'],
+ ans:'A circle of radius 4 cm'},
+init:function(ctx,g){
+  const A=g.ui.slider('Amplitude a (along x)',1,4,0.5,3,v=>v.toFixed(1)+' cm');
+  const B=g.ui.slider('Amplitude b (along y)',1,4,0.5,3,v=>v.toFixed(1)+' cm');
+  const D=g.ui.slider('Phase difference δ',0,360,5,0,v=>v+'°');
+  g.ui.toggleFree(['δ = 0°','δ = 45°','δ = 90°','δ = 180°'],[0,45,90,180],v=>D.set(v));
+  const rS=g.ui.readout('Path:');
+  return function(t){
+    const W=g.W(), H=g.H(), w=TAU*0.25, S=Math.min(34,(H-150)/8);
+    const a=A.value, b=B.value, d=D.value*Math.PI/180;
+    const dd=((D.value%180)+180)%180;
+    rS.set(dd<3||dd>177 ? 'straight line' : (Math.abs(dd-90)<3 ? (Math.abs(a-b)<0.01?'circle':'ellipse with axes along x and y') : 'slanting (oblique) ellipse'));
+
+    const cx=W*0.34, cy=H*0.44, R=4*S;
+    panel(ctx,cx-R-46,cy-R-30,2*R+92,2*R+120,'resultant path');
+    seg(ctx,cx-R-16,cy,cx+R+16,cy,C.rule,1.2,[4,4]);
+    seg(ctx,cx,cy-R-16,cx,cy+R+16,C.rule,1.2,[4,4]);
+    /* full path */
+    ctx.save(); ctx.beginPath(); ctx.strokeStyle='#d9cfe9'; ctx.lineWidth=2.5;
+    for(let i=0;i<=240;i++){
+      const th=TAU*i/240, X=cx+a*S*Math.sin(th+d), Y=cy-b*S*Math.sin(th);
+      if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+    }
+    ctx.stroke(); ctx.restore();
+    /* recent trail */
+    ctx.save(); ctx.beginPath(); ctx.strokeStyle=C.violet; ctx.lineWidth=3.4; ctx.lineCap='round';
+    for(let i=0;i<=60;i++){
+      const th=w*(t-1.2+1.2*i/60), X=cx+a*S*Math.sin(th+d), Y=cy-b*S*Math.sin(th);
+      if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+    }
+    ctx.stroke(); ctx.restore();
+    const th=w*t, X=cx+a*S*Math.sin(th+d), Y=cy-b*S*Math.sin(th);
+    /* component oscillators */
+    const bx=cy+R+54, ly=cx-R-30;
+    seg(ctx,cx-4*S,bx,cx+4*S,bx,C.rule,2);
+    dot(ctx,X,bx,7,C.blue,'#fff');
+    txt(ctx,'x = a sin(ωt + δ)',cx,bx+22,{size:13,color:C.blue,align:'center',serif:true,italic:true});
+    seg(ctx,ly,cy-4*S,ly,cy+4*S,C.rule,2);
+    dot(ctx,ly,Y,7,C.red,'#fff');
+    ctx.save(); ctx.translate(ly-16,cy); ctx.rotate(-Math.PI/2);
+    txt(ctx,'y = b sin ωt',0,0,{size:13,color:C.red,align:'center',serif:true,italic:true}); ctx.restore();
+    seg(ctx,X,bx,X,Y,C.blue,1.3,[4,4]);
+    seg(ctx,ly,Y,X,Y,C.red,1.3,[4,4]);
+    dot(ctx,X,Y,8,C.violet,'#fff');
+
+    /* case notes */
+    const nx=W-240;
+    if(nx>cx+R+60){
+      panel(ctx,nx,40,220,190,'Special cases');
+      const rows=[['δ = 0°','straight line'],['δ = 90°, a = b','circle'],['δ = 90°, a ≠ b','ellipse'],['δ = 180°','straight line, other way']];
+      rows.forEach(function(r,i){
+        const yy=76+i*36;
+        txt(ctx,r[0],nx+14,yy,{size:14,serif:true,italic:true,color:C.ink});
+        txt(ctx,r[1],nx+206,yy,{size:13,color:C.sub,align:'right'});
+      });
+    }
+  };
+}});
+
+/* ============================================================
+   7. Perpendicular SHMs of DIFFERENT frequencies (analytical)
+   ============================================================ */
+M({
+group:'Waves', title:'Perpendicular SHMs of different frequencies',
+objective:'Work out the path when the two perpendicular motions have frequencies in a simple ratio such as 1:2 or 1:3 — the step that leads directly to Lissajous figures.',
+note:'Choose a frequency ratio and watch the path close on itself. 1:2 gives the figure of eight.',
+formula:{eq:['x = a sin(n₁ωt + δ),   y = b sin(n₂ωt)',
+             'For n₁ : n₂ = 1 : 2 and δ = 0 :   b⁴x² = 4a²y²(b² − y²)'],
+ where:'n₁ and n₂ are small whole numbers · the path closes and stands still only when n₁ : n₂ is a ratio of whole numbers · if the ratio is not a simple fraction the curve never closes and the pattern drifts'},
+deriv:{title:'Analytical method for the ratio 1 : 2 (the standard exam derivation)',
+ steps:['Let the two perpendicular motions be x = a sin 2ωt (along X) and y = b sin ωt (along Y), taking the phase difference δ = 0.',
+        'From the second equation, sin ωt = y / b, and therefore cos ωt = √(1 − y²/b²).',
+        'Expand the first equation: x = a sin 2ωt = 2a sin ωt · cos ωt.',
+        'Substitute:  x = 2a (y/b) √(1 − y²/b²).',
+        'Square both sides:  x² = 4a² (y²/b²) (1 − y²/b²).',
+        'Multiply throughout by b⁴:  b⁴x² = 4a² y² (b² − y²). This is the equation of a figure of eight, which is the path traced by the particle.',
+        'Repeating the same method with x = a sin 3ωt gives a curve with three loops, and in general the ratio n₁ : n₂ decides the number of loops. These closed curves are called Lissajous figures, taken up in the next topic.']},
+real:'The electron beam of a cathode ray oscilloscope is pulled sideways by one signal and up and down by another; when their frequencies are in a simple ratio a steady looped pattern appears on the screen.',
+teacher:'So far both perpendicular motions had the same frequency and we always got a line, an ellipse or a circle. Now let the vertical motion be twice as fast as the horizontal one. Follow the two dots: for every one complete trip of the blue dot, the red dot goes up and down twice, and the path closes into a figure of eight. The algebra is short. Write sin omega t as y over b, expand sin two omega t as two sin omega t cos omega t, substitute and square, and you get b to the fourth x squared equals four a squared y squared into b squared minus y squared. For one is to three you get three loops. The pattern stays steady only when the ratio is a simple fraction — and these standing patterns are the Lissajous figures we take up next.',
+exam:'Discuss analytically the resultant motion of a particle acted upon simultaneously by two perpendicular simple harmonic motions whose frequencies are in the ratio 1 : 2. Show that the path is a figure of eight, and state what happens for the ratio 1 : 3.',
+num:{q:'Two perpendicular SHMs acting on a particle have time periods 0.02 s and 0.01 s, with equal amplitudes and zero phase difference. Find the ratio of their frequencies and name the path traced.',
+ work:['f = 1/T, so f₁ = 1/0.02 = 50 Hz and f₂ = 1/0.01 = 100 Hz','Ratio f₁ : f₂ = 50 : 100 = 1 : 2'],
+ ans:'Ratio 1 : 2 — the particle traces a figure of eight'},
+init:function(ctx,g){
+  let n1=1, n2=2;
+  g.ui.toggleFree(['1 : 1','1 : 2','1 : 3','2 : 3'],[0,1,2,3],function(i){
+    const p=[[1,1],[1,2],[1,3],[2,3]][i]; n1=p[0]; n2=p[1];
+  },1);
+  const D=g.ui.slider('Phase difference δ',0,180,5,0,v=>v+'°');
+  const A=g.ui.slider('Amplitude a (along x)',1,4,0.5,3,v=>v.toFixed(1)+' cm');
+  const B=g.ui.slider('Amplitude b (along y)',1,4,0.5,3,v=>v.toFixed(1)+' cm');
+  const rR=g.ui.readout('Frequency ratio ='), rS=g.ui.readout('Path:');
+  return function(t){
+    const W=g.W(), H=g.H(), d=D.value*Math.PI/180, w=TAU*0.22;
+    const a=A.value, b=B.value, S=Math.min(32,(H-160)/8), R=4*S;
+    const cx=W*0.30, cy=H*0.44;
+    rR.set(n1+' : '+n2);
+    rS.set(n1===n2 ? (D.value<3?'straight line':(Math.abs(D.value-90)<3?(Math.abs(a-b)<0.01?'circle':'ellipse'):'ellipse'))
+      : (n1===1&&n2===2 ? 'figure of eight' : (n1===1&&n2===3 ? 'a curve with three loops' : 'a closed looped curve')));
+
+    panel(ctx,cx-R-46,cy-R-34,2*R+92,2*R+124,'path of the particle');
+    seg(ctx,cx-R-14,cy,cx+R+14,cy,C.rule,1.2,[4,4]);
+    seg(ctx,cx,cy-R-14,cx,cy+R+14,C.rule,1.2,[4,4]);
+    const P=TAU, pt=th=>[cx+a*S*Math.sin(n1*th+d), cy-b*S*Math.sin(n2*th)];
+    ctx.save(); ctx.beginPath(); ctx.strokeStyle='#ddd7ea'; ctx.lineWidth=2.5;
+    for(let i=0;i<=400;i++){ const q=pt(P*i/400); if(i===0)ctx.moveTo(q[0],q[1]); else ctx.lineTo(q[0],q[1]); }
+    ctx.stroke(); ctx.restore();
+    ctx.save(); ctx.beginPath(); ctx.strokeStyle=C.violet; ctx.lineWidth=3.4; ctx.lineCap='round';
+    for(let i=0;i<=70;i++){ const q=pt(w*(t-1.5+1.5*i/70)); if(i===0)ctx.moveTo(q[0],q[1]); else ctx.lineTo(q[0],q[1]); }
+    ctx.stroke(); ctx.restore();
+    const now=pt(w*t);
+    /* component oscillators */
+    const bx=cy+R+58, ly=cx-R-30;
+    seg(ctx,cx-4*S,bx,cx+4*S,bx,C.rule,2);
+    dot(ctx,now[0],bx,7,C.blue,'#fff');
+    txt(ctx,'x = a sin(n₁ωt + δ)',cx,bx+24,{size:13,color:C.blue,align:'center',serif:true,italic:true});
+    seg(ctx,ly,cy-4*S,ly,cy+4*S,C.rule,2);
+    dot(ctx,ly,now[1],7,C.red,'#fff');
+    ctx.save(); ctx.translate(ly-16,cy); ctx.rotate(-Math.PI/2);
+    txt(ctx,'y = b sin(n₂ωt)',0,0,{size:13,color:C.red,align:'center',serif:true,italic:true}); ctx.restore();
+    seg(ctx,now[0],bx,now[0],now[1],C.blue,1.3,[4,4]);
+    seg(ctx,ly,now[1],now[0],now[1],C.red,1.3,[4,4]);
+    dot(ctx,now[0],now[1],8,C.violet,'#fff');
+
+    /* side notes */
+    const px=cx+R+120;
+    if(px<W-240){
+      panel(ctx,px,46,Math.min(300,W-px-24),208,'What the ratio does');
+      const rows=[['1 : 1','line, ellipse or circle'],['1 : 2','figure of eight'],['1 : 3','three loops'],['2 : 3','a closed pattern with more loops']];
+      rows.forEach(function(r,i){
+        const yy=88+i*38, on=(r[0]===n1+' : '+n2);
+        txt(ctx,r[0],px+16,yy,{size:16,serif:true,italic:true,color:on?C.violet:C.ink});
+        txt(ctx,r[1],px+74,yy,{size:13,color:on?C.violet:C.sub,weight:on?700:500});
+      });
+      txt(ctx,'for 1 : 2 →  b⁴x² = 4a²y²(b² − y²)',px+16,246,{size:13.5,color:C.ink,serif:true,italic:true});
+    }
+  };
+}});
+
+/* ============================================================
+   8. Lissajous figures
+   ============================================================ */
+M({
+group:'Waves', title:'Lissajous figures — unequal frequencies',
+objective:'Combine perpendicular oscillations whose frequencies are in a simple ratio, and learn to read that ratio straight off the figure.',
+note:'Red dots = touches on a vertical side. Blue dots = touches on the top side.',
+formula:{eq:['x = A sin(n₁ωt + δ),   y = B sin(n₂ωt)','frequency along x : frequency along y  =  touches on a vertical side : touches on the top side'],
+ where:'n₁ and n₂ are small whole numbers · the figure stands still only when the two frequencies are in a simple ratio · changing δ changes the shape but never the counts'},
+real:'Comparing an unknown frequency with a standard one on a CRO: you feed one signal to the X-plates and the other to the Y-plates and read the ratio off the pattern.',
+teacher:'When the two perpendicular oscillations have different frequencies the path no longer closes into a simple ellipse — it loops back on itself and draws these standing patterns, called Lissajous figures. The pattern stays steady only when the two frequencies are in a simple whole-number ratio. Here is the useful trick for the laboratory. Count the red dots where the curve touches a vertical side, and the blue dots where it touches the top. Their ratio gives the ratio of the horizontal frequency to the vertical frequency. So if the curve touches the side twice and the top three times, the frequencies are in the ratio two to three. Change delta and the figure changes shape, but those counts never change.',
+exam:'What are Lissajous figures? Explain how they are obtained, and describe how they are used to compare two frequencies. Draw the figures for frequency ratios 1:1 and 1:2.',
+num:{q:'On a CRO the X-plates carry an unknown frequency and the Y-plates a standard 500 Hz signal. The pattern touches a vertical side 3 times and the top 2 times. Find the unknown frequency.',
+ work:['frequency ratio = touches on a vertical side : touches on the top = 3 : 2','f = (3/2) × 500'],
+ ans:'Unknown frequency = 750 Hz'},
+init:function(ctx,g){
+  let nx=1, ny=2;
+  g.ui.toggleFree(['1 : 1','1 : 2','2 : 3','3 : 2','3 : 4'],[0,1,2,3,4],function(i){
+    const p=[[1,1],[1,2],[2,3],[3,2],[3,4]][i]; nx=p[0]; ny=p[1];
+  },1);
+  const D=g.ui.slider('Phase difference δ',0,180,5,90,v=>v+'°');
+  const rR=g.ui.readout('Frequency ratio (horizontal : vertical) ='), rC=g.ui.readout('Touches (side : top) =');
+  return function(t){
+    const W=g.W(), H=g.H(), d=D.value*Math.PI/180;
+    const R=Math.min(150,(H-110)/2), cx=W*0.32, cy=H*0.50;
+    rR.set(nx+' : '+ny); rC.set(nx+' : '+ny);
+    panel(ctx,cx-R-34,cy-R-34,2*R+68,2*R+68,'');
+    /* box */
+    ctx.save(); ctx.strokeStyle=C.rule; ctx.lineWidth=1.5; ctx.setLineDash([5,5]);
+    ctx.strokeRect(cx-R,cy-R,2*R,2*R); ctx.restore();
+    const P=TAU, prog=(t%5)/5;
+    const pt=th=>[cx+R*Math.sin(nx*th+d), cy-R*Math.sin(ny*th)];
+    /* faint full curve */
+    ctx.save(); ctx.beginPath(); ctx.strokeStyle='#ddd7ea'; ctx.lineWidth=2.5;
+    for(let i=0;i<=500;i++){ const q=pt(P*i/500); if(i===0)ctx.moveTo(q[0],q[1]); else ctx.lineTo(q[0],q[1]); }
+    ctx.stroke(); ctx.restore();
+    /* growing trace */
+    ctx.save(); ctx.beginPath(); ctx.strokeStyle=C.violet; ctx.lineWidth=3.2; ctx.lineCap='round';
+    const n=Math.max(2,Math.floor(500*prog));
+    for(let i=0;i<=n;i++){ const q=pt(P*i/500); if(i===0)ctx.moveTo(q[0],q[1]); else ctx.lineTo(q[0],q[1]); }
+    ctx.stroke(); ctx.restore();
+    const now=pt(P*prog); dot(ctx,now[0],now[1],7,C.violet,'#fff');
+    /* touch markers */
+    for(let k=0;k<nx;k++){
+      const th=(Math.PI/2-d+TAU*k)/nx, q=pt(th);
+      dot(ctx,cx+R,q[1],6,C.red,'#fff');
+    }
+    for(let k=0;k<ny;k++){
+      const th=(Math.PI/2+TAU*k)/ny, q=pt(th);
+      dot(ctx,q[0],cy-R,6,C.blue,'#fff');
+    }
+    txt(ctx,nx+' touch'+(nx>1?'es':'')+' on this side',cx+R+14,cy,{size:13,color:C.red});
+    txt(ctx,ny+' touch'+(ny>1?'es':'')+' on the top',cx,cy-R-48,{size:13,color:C.blue,align:'center'});
+
+    /* side panel */
+    const px=cx+R+150;
+    if(px<W-210){
+      panel(ctx,px,50,Math.min(230,W-px-20),180,'How to read it');
+      txt(ctx,'side : top',px+14,96,{size:17,serif:true,italic:true,color:C.ink});
+      txt(ctx,'= '+nx+' : '+ny,px+14,126,{size:17,serif:true,italic:true,color:C.violet});
+      txt(ctx,'Change δ and the shape',px+14,158,{size:12.5,color:C.sub});
+      txt(ctx,'changes, but the counts',px+14,176,{size:12.5,color:C.sub});
+      txt(ctx,'do not.',px+14,194,{size:12.5,color:C.sub});
+    }
+  };
+}});
+/* ============================================================
+   9. Forced vibration and resonance
+   ============================================================ */
+M({
+group:'Sound', title:'Forced vibration and resonance',
+objective:'Drive an oscillator at different frequencies and find the one frequency at which it responds violently — resonance.',
+note:'Move the driving-frequency slider slowly through the natural frequency and watch the mass.',
+formula:{eq:['A = (F₀/m) / √[(ω₀² − ω²)² + 4b²ω²]','Resonance when ω ≈ ω₀, i.e. driving frequency = natural frequency'],
+ where:'ω₀ = natural frequency of the body · ω = frequency of the driving force · b = damping · at resonance the amplitude is limited only by damping'},
+deriv:{title:'Analytical treatment — step by step',
+ steps:['Three forces act on the body: the restoring force −ky, the damping (frictional) force −r (dy/dt), and the external periodic force F₀ sin ωt.',
+        'Newton’s second law gives  m d²y/dt² = −k y − r dy/dt + F₀ sin ωt.',
+        'Divide by m and rearrange:  d²y/dt² + 2b dy/dt + ω₀² y = (F₀/m) sin ωt, where 2b = r/m (damping) and ω₀² = k/m (natural frequency).',
+        'At the start the body has a short transient wobble of its own, but friction kills it. In the steady state the body vibrates with the frequency of the driving force, so we try the solution y = A sin(ωt − θ).',
+        'Substituting this solution and comparing the coefficients of sin ωt and cos ωt gives A(ω₀² − ω²) = (F₀/m) cos θ  and  2bωA = (F₀/m) sin θ.',
+        'Squaring and adding:  A = (F₀/m) / √[(ω₀² − ω²)² + 4b²ω²].  Dividing the two:  tan θ = 2bω / (ω₀² − ω²).',
+        'A is greatest when the quantity under the root is least, that is when ω² = ω₀² − 2b². For small damping this is simply ω = ω₀ — the condition for resonance.',
+        'At resonance A = (F₀/m) / (2bω₀): the amplitude is then limited only by the damping. Small damping gives a tall sharp peak, large damping a low flat one.']},
+terms:[['Natural frequency ω₀ = √(k/m)','the frequency at which the body vibrates on its own after one disturbance, with no outside force.'],
+       ['Driving frequency ω','the frequency of the external periodic force. In the steady state the body always vibrates at this frequency, never at its own.'],
+       ['Damping b','friction that drains energy from the motion. It decides the height and the sharpness of the resonance peak.'],
+       ['Resonance','the driving frequency is (nearly) equal to the natural frequency. Every push then arrives in step with the motion, energy keeps building up and the amplitude becomes maximum.'],
+       ['Sharpness of resonance','how quickly the amplitude falls off on either side of the peak. Light damping → sharp resonance; heavy damping → flat resonance.']],
+real:'Pushing a swing in time with its own rhythm; a singer shattering a glass; tuning a radio; soldiers breaking step on a bridge; the Tacoma Narrows bridge collapse of 1940.',
+teacher:'The motor at the top shakes the support at whatever frequency I choose — that is a forced vibration, and notice the mass always vibrates at the driving frequency, not at its own. But look at the size of the response. Far from the natural frequency the mass barely moves. As I bring the driving frequency close to one hertz, the natural frequency, the amplitude shoots up and the curve on the right rises to a sharp peak. That is resonance: each push arrives exactly in step with the motion, so energy keeps accumulating. Now increase the damping. The peak flattens and broadens, because the energy fed in is being eaten up by friction.',
+exam:'Give the analytical treatment of forced vibrations and obtain the expression for the amplitude of the driven oscillator. Show that the amplitude is a maximum at resonance and discuss the effect of damping on the sharpness of resonance.',
+num:{q:'A body has a natural frequency of 5 Hz. At what driving frequency will it resonate, and what is the corresponding time period of the driving force?',
+ work:['Resonance occurs when the driving frequency equals the natural frequency, f = f₀ = 5 Hz','T = 1/f = 1/5'],
+ ans:'f = 5 Hz, T = 0.2 s'},
+init:function(ctx,g){
+  const F=g.ui.slider('Driving frequency f',0.1,2,0.02,0.4,v=>v.toFixed(2)+' Hz');
+  const Bd=g.ui.slider('Damping b',0.15,3,0.05,0.6,v=>v.toFixed(2));
+  const rF0=g.ui.readout('Natural frequency f₀ ='), rA=g.ui.readout('Amplitude ='), rState=g.ui.readout('State:');
+  const w0=TAU*1.0, Aref=0.60;
+  const amp=(w,b)=>1/Math.sqrt(Math.pow(w0*w0-w*w,2)+4*b*b*w*w);
+  return function(t){
+    const W=g.W(), H=g.H();
+    const f=F.value, w=TAU*f, b=Bd.value;
+    const A=amp(w,b), disp=Math.min(96,A/Aref*110);
+    const lag=Math.atan2(2*b*w, w0*w0-w*w);
+    rF0.set('1.00 Hz'); rA.set((A/Aref*100).toFixed(0)+' % of the strongest possible');
+    rState.set(Math.abs(f-1)<0.08?'RESONANCE — very large amplitude':(f<1?'driven slowly, small response':'driven too fast, small response'));
+
+    /* driver + oscillator */
+    const cx=W*0.20, topY=52, drive=14*Math.sin(w*t);
+    dot(ctx,cx,topY,26,'#eef2f6',C.rule);
+    seg(ctx,cx,topY,cx+20*Math.cos(w*t),topY-20*Math.sin(w*t),C.amber,3);
+    txt(ctx,'motor: shakes the support',cx,topY-40,{size:12.5,color:C.sub,align:'center'});
+    const sup=topY+46+drive;
+    seg(ctx,cx-46,sup,cx+46,sup,C.ink,5);
+    const y=disp*Math.sin(w*t-lag), my=H*0.66+y;
+    springV(ctx,cx,sup,my-22,10,13);
+    ctx.fillStyle=C.violet; roundRect(ctx,cx-28,my-22,56,44,6); ctx.fill();
+    seg(ctx,cx-70,H*0.66,cx+70,H*0.66,C.soft,1.3,[5,5]);
+    arrow(ctx,cx+48,H*0.66,cx+48,my,C.violet,2.4,9);
+    txt(ctx,'amplitude',cx+58,(H*0.66+my)/2,{size:12.5,color:C.violet});
+
+    /* resonance curve */
+    const gx=W*0.42, box={x:gx,y:60,w:Math.max(160,W-gx-40),h:250};
+    panel(ctx,gx-14,44,box.w+30,box.h+56,'amplitude against driving frequency');
+    const baseY=box.y+box.h;
+    seg(ctx,box.x,baseY,box.x+box.w,baseY,C.sub,1.8);
+    seg(ctx,box.x,baseY,box.x,box.y,C.sub,1.8);
+    const fmax=2, fx=v=>box.x+v/fmax*box.w, fy=v=>baseY-Math.min(1.02,v/Aref)*box.h;
+    [0.15,0.6,1.5].forEach(function(bb){
+      ctx.save(); ctx.beginPath(); ctx.strokeStyle=(Math.abs(bb-b)<0.03)?C.red:'#dfe6ee';
+      ctx.lineWidth=(Math.abs(bb-b)<0.03)?3:2;
+      for(let i=0;i<=200;i++){ const v=0.02+fmax*i/200, X=fx(v), Y=fy(amp(TAU*v,bb));
+        if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y); }
+      ctx.stroke(); ctx.restore();
+    });
+    ctx.save(); ctx.beginPath(); ctx.strokeStyle=C.red; ctx.lineWidth=3.4;
+    for(let i=0;i<=240;i++){ const v=0.02+fmax*i/240, X=fx(v), Y=fy(amp(TAU*v,b));
+      if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y); }
+    ctx.stroke(); ctx.restore();
+    seg(ctx,fx(1),baseY,fx(1),box.y+6,C.teal,1.6,[5,5]);
+    txt(ctx,'natural frequency f₀',fx(1)+8,box.y+16,{size:12.5,color:C.teal});
+    dot(ctx,fx(f),fy(A),8,C.blue,'#fff');
+    txt(ctx,'you are here',fx(f),fy(A)-20,{size:12.5,color:C.blue,align:'center'});
+    txt(ctx,'driving frequency  →',box.x+box.w,baseY+22,{size:12.5,color:C.sub,align:'right'});
+    txt(ctx,'light damping: tall sharp peak    ·    heavy damping: low flat peak',box.x,baseY+40,{size:12.5,color:C.sub});
+  };
+}});
+
+/* ============================================================
+   10. Helmholtz resonator
+   ============================================================ */
+M({
+group:'Sound', title:'The Helmholtz resonator',
+objective:'Understand the bottle that sings one note: the air in the neck is the mass and the air in the cavity is the spring.',
+note:'Change the bottle and watch the pitch change. Press “Hear this note” to listen to it.',
+formula:{eq:['f = (v / 2π) √( A / (V L) )'],
+ where:'v = speed of sound (340 m/s) · A = area of the neck · L = length of the neck · V = volume of the cavity · a bigger bottle gives a lower note'},
+real:'Blowing across the mouth of a bottle; the sound hole of a guitar or violin; the port of a loudspeaker box; the booming you hear when one car window is open at speed.',
+teacher:'When I blow across the mouth, the plug of air in the narrow neck is pushed down into the bottle. The air trapped in the body gets compressed and pushes it straight back out, exactly like a spring. So the neck air is the mass, the cavity air is the spring, and together they oscillate at one definite frequency, given by v over two pi times root A over V L. Watch what happens when I make the cavity bigger: a bigger volume is a softer spring, so the note drops. A longer neck means more mass, and the note drops again. A wider neck raises it. This resonator responds to just one frequency, which is why Helmholtz used a set of them to analyse musical sounds.',
+exam:'Describe the construction and working of a Helmholtz resonator. Derive the expression for its frequency of resonance and state its uses.',
+num:{q:'A Helmholtz resonator has a cavity of volume 1 litre, a neck of area 2 cm² and length 5 cm. Take v = 340 m/s and find its frequency.',
+ work:['V = 1 × 10⁻³ m³, A = 2 × 10⁻⁴ m², L = 0.05 m','A /(V L) = 2 × 10⁻⁴ / (1 × 10⁻³ × 0.05) = 4 m⁻²','f = (340 / 6.283) × √4 = 54.1 × 2'],
+ ans:'f ≈ 108 Hz'},
+init:function(ctx,g){
+  const V=g.ui.slider('Cavity volume V',0.3,3,0.1,1,v=>v.toFixed(1)+' litre');
+  const Ar=g.ui.slider('Neck area A',1,6,0.5,2,v=>v.toFixed(1)+' cm²');
+  const L=g.ui.slider('Neck length L',2,12,0.5,5,v=>v.toFixed(1)+' cm');
+  const freq=()=>(340/TAU)*Math.sqrt((Ar.value*1e-4)/((V.value*1e-3)*(L.value*0.01)));
+  g.ui.buttons([{label:'Hear this note',fn:()=>playTones([freq()],2)},{label:'Stop sound',fn:stopTones}]);
+  const rF=g.ui.readout('Resonant frequency f ='), rN=g.ui.readout('Pitch:');
+  return function(t){
+    const W=g.W(), H=g.H(), f=freq();
+    rF.set(f.toFixed(0)+' Hz'); rN.set(f<90?'a low boom':(f<200?'a deep note':(f<400?'a medium note':'a high note')));
+    const dispF=Math.max(0.5,Math.min(3,f/80)), ph=Math.sin(TAU*dispF*t);
+
+    /* bottle */
+    const bx=W*0.24, bw=54+V.value*30, bh=70+V.value*42, bodyTop=H-70-bh;
+    const nw=16+Ar.value*5, nh=22+L.value*6, neckTop=bodyTop-nh;
+    ctx.save(); ctx.fillStyle='#eaf1f8'; ctx.strokeStyle=C.blue; ctx.lineWidth=2.5;
+    roundRect(ctx,bx-bw/2,bodyTop,bw,bh,16); ctx.fill(); ctx.stroke();
+    ctx.fillStyle='#f3f7fb'; ctx.fillRect(bx-nw/2,neckTop,nw,nh+8);
+    ctx.strokeRect(bx-nw/2,neckTop,nw,nh+8); ctx.restore();
+
+    /* the air plug (mass) */
+    const plugY=neckTop+nh*0.45+ph*nh*0.22;
+    ctx.fillStyle=C.red; roundRect(ctx,bx-nw/2+3,plugY,nw-6,14,3); ctx.fill();
+    txt(ctx,'plug of air = the mass',bx+nw/2+16,plugY+7,{size:13,color:C.red});
+    arrow(ctx,bx+nw/2+10,plugY+7,bx+nw/2+10,plugY+7+(ph>0?18:-18),C.red,2,8);
+
+    /* the cavity air (spring) */
+    springV(ctx,bx,bodyTop+14,bodyTop+bh-18,7,16,C.teal);
+    txt(ctx,'air in the body',bx,bodyTop+bh+22,{size:13,color:C.teal,align:'center'});
+    txt(ctx,'behaves like a spring',bx,bodyTop+bh+40,{size:13,color:C.teal,align:'center'});
+    txt(ctx,'V',bx-bw/2-16,bodyTop+bh/2,{size:17,color:C.teal,serif:true,italic:true});
+    arrow(ctx,bx-nw/2-14,neckTop,bx-nw/2-14,neckTop+nh,C.sub,1.8,8);
+    txt(ctx,'L',bx-nw/2-28,neckTop+nh/2,{size:16,color:C.sub,serif:true,italic:true});
+    arrow(ctx,bx-nw/2,neckTop-12,bx+nw/2,neckTop-12,C.sub,1.8,8);
+    txt(ctx,'A',bx,neckTop-28,{size:16,color:C.sub,serif:true,italic:true,align:'center'});
+
+    /* blowing + emitted sound */
+    arrow(ctx,bx-120,neckTop-4,bx-nw/2-10,neckTop-4,C.amber,3,11);
+    txt(ctx,'blow across the mouth',bx-124,neckTop-24,{size:13,color:C.amber,align:'right'});
+    for(let k=0;k<3;k++){
+      const r=30+((t*70+k*46)%140);
+      ctx.save(); ctx.globalAlpha=Math.max(0,1-r/170); ctx.strokeStyle=C.violet; ctx.lineWidth=2.5;
+      ctx.beginPath(); ctx.arc(bx,neckTop,r,-Math.PI*0.85,-Math.PI*0.15); ctx.stroke(); ctx.restore();
+    }
+
+    /* explanation panel */
+    const px=W*0.52;
+    if(px<W-250){
+      panel(ctx,px,50,Math.min(340,W-px-24),200,'Why it has just one note');
+      const lines=['Push the neck air in  →  the air inside is',
+                   'compressed  →  it pushes the plug back out.',
+                   '',
+                   'mass  =  air in the neck   (A × L)',
+                   'spring  =  air in the cavity  (V)',
+                   '',
+                   'Bigger V  →  softer spring  →  lower note'];
+      lines.forEach(function(s,i){ txt(ctx,s,px+16,86+i*22,{size:14,color:i>2&&i<5?C.ink:C.sub,weight:i>2&&i<5?700:500}); });
+    }
+    /* frequency bar */
+    txt(ctx,'f = '+f.toFixed(0)+' Hz',W*0.24,H-34,{size:20,color:C.ink,align:'center',serif:true,italic:true});
+  };
+}});
+
+/* ============================================================
+   11. Intensity, loudness and the decibel
+   ============================================================ */
+M({
+group:'Sound', title:'Intensity, loudness and the decibel',
+objective:'Separate what the wave carries (intensity, in W/m²) from what the ear reports (loudness, in decibels), and see why sound fades with distance.',
+note:'Move the listener and watch the intensity fall as the square of the distance.',
+formula:{eq:['I = P / 4πr²','β = 10 log₁₀ (I / I₀)  decibel,   I₀ = 10⁻¹² W/m²'],
+ where:'I = intensity · P = power of the source · r = distance · I₀ = standard reference intensity, the faintest audible sound · doubling the distance cuts the intensity to one quarter, a fall of 6 dB'},
+real:'A loudspeaker sounds weak at the back of a ground; ear protection near a jet engine at 140 dB; the decibel meter in a noise-pollution survey.',
+teacher:'The sound energy from this source spreads over a sphere, and the area of that sphere grows as the square of the radius. So the same energy is spread thinner and thinner: intensity equals power divided by four pi r squared. Watch the meter as I move the listener from one metre to two — the intensity drops to a quarter, but the reading falls only by six decibels. That is because the ear does not respond in proportion to intensity, it responds to its logarithm. So we measure level as ten log of I over I nought, where I nought is the faintest sound we can hear. Every ten decibels means ten times the intensity, and a hundred and twenty decibels is where sound becomes painful.',
+exam:'Define intensity of sound and intensity level. Explain the decibel scale. Show that the intensity of sound from a point source varies inversely as the square of the distance from it.',
+num:{q:'A source radiates 0.1 W uniformly in all directions. Find the intensity and the intensity level at a distance of 5 m.',
+ work:['I = P / 4πr² = 0.1 / (4π × 25) = 0.1 / 314.2 = 3.18 × 10⁻⁴ W/m²','β = 10 log₁₀ (3.18 × 10⁻⁴ / 10⁻¹²) = 10 log₁₀ (3.18 × 10⁸)','β = 10 × 8.50'],
+ ans:'I = 3.2 × 10⁻⁴ W/m², β = 85 dB'},
+init:function(ctx,g){
+  const P=g.ui.slider('Power of the source P',0.01,1,0.01,0.1,v=>v.toFixed(2)+' W');
+  const R=g.ui.slider('Distance of listener r',1,20,0.5,5,v=>v.toFixed(1)+' m');
+  const rI=g.ui.readout('Intensity I ='), rB=g.ui.readout('Intensity level β ='), rC=g.ui.readout('Sounds like:');
+  return function(t){
+    const W=g.W(), H=g.H();
+    const I=P.value/(4*Math.PI*R.value*R.value), B=10*Math.log10(I/1e-12);
+    rI.set(I.toExponential(2)+' W/m²'); rB.set(B.toFixed(1)+' dB');
+    rC.set(B<20?'almost silent':(B<45?'a quiet room':(B<70?'normal conversation':(B<95?'busy traffic':(B<115?'a rock concert':'painfully loud')))));
+
+    const sx=90, sy=H*0.46, scale=(Math.min(W*0.52,520)-90)/20;
+    /* wavefronts */
+    for(let k=0;k<6;k++){
+      const r=((t*55+k*60)%360);
+      ctx.save(); ctx.globalAlpha=Math.max(0,0.75-r/430); ctx.strokeStyle=C.blue; ctx.lineWidth=2.5;
+      ctx.beginPath(); ctx.arc(sx,sy,r,-1.35,1.35); ctx.stroke(); ctx.restore();
+    }
+    ctx.fillStyle=C.ink; roundRect(ctx,sx-26,sy-26,30,52,4); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(sx+4,sy-26); ctx.lineTo(sx+22,sy-40); ctx.lineTo(sx+22,sy+40); ctx.lineTo(sx+4,sy+26); ctx.closePath(); ctx.fill();
+    txt(ctx,'source, P = '+P.value.toFixed(2)+' W',sx-20,sy+64,{size:13,color:C.sub,align:'center'});
+    /* listener */
+    const lx=sx+R.value*scale;
+    dot(ctx,lx,sy-14,12,C.amber,'#fff');
+    ctx.fillStyle=C.amber; roundRect(ctx,lx-11,sy+2,22,30,8); ctx.fill();
+    seg(ctx,sx+26,sy+58,lx,sy+58,C.sub,1.5,[5,4]);
+    arrow(ctx,sx+26,sy+58,lx,sy+58,C.sub,1.5,8);
+    txt(ctx,'r = '+R.value.toFixed(1)+' m',(sx+lx)/2,sy+76,{size:13,color:C.sub,align:'center'});
+    txt(ctx,'the same energy spreads over a bigger sphere',sx-20,H-30,{size:13,color:C.sub});
+
+    /* dB ladder */
+    const mx=W-190, my0=40, mh=H-100;
+    if(mx>lx+40){
+      panel(ctx,mx-30,my0-24,210,mh+54,'sound level, dB');
+      const yOf=v=>my0+mh*(1-v/140);
+      seg(ctx,mx,my0,mx,my0+mh,C.rule,2);
+      [[0,'threshold of hearing'],[30,'whisper'],[60,'conversation'],[80,'busy traffic'],[110,'rock concert'],[130,'pain']].forEach(function(p){
+        const y=yOf(p[0]); seg(ctx,mx-6,y,mx+6,y,C.rule,1.6);
+        txt(ctx,p[0]+' dB',mx-12,y,{size:12,color:C.sub,align:'right'});
+        txt(ctx,p[1],mx+12,y,{size:12,color:C.sub});
+      });
+      const by=yOf(Math.max(0,Math.min(140,B)));
+      ctx.fillStyle=C.red; roundRect(ctx,mx-4,by-3,8,6,3); ctx.fill();
+      arrow(ctx,mx-46,by,mx-10,by,C.red,2.6,10);
+      txt(ctx,B.toFixed(0)+' dB',mx-50,by-16,{size:16,color:C.red,align:'right',serif:true});
+    }
+  };
+}});
+
+/* ============================================================
+   12. Musical note and musical scale
+   ============================================================ */
+M({
+group:'Sound', title:'Musical note, scale and intervals',
+objective:'Hear why some sounds are music and others are noise, and see the simple whole-number ratios hidden in a musical scale.',
+note:'Click any key to hear it. The ratio printed under each key is its frequency compared with the first note.',
+formula:{eq:['Interval = f₂ / f₁','Major tone 9/8 · minor tone 10/9 · semitone 16/15 · octave 2/1'],
+ where:'A musical note is a regular, periodic sound of definite frequency · noise is irregular and has no definite pitch · pleasant intervals are simple whole-number ratios'},
+real:'A harmonium or keyboard tuned to the diatonic scale; the Indian sargam Sa Re Ga Ma Pa Dha Ni Sa; an octave higher on a guitar means exactly double the frequency.',
+teacher:'A musical note is a sound whose waveform repeats regularly, as you can see in the top trace. Noise, underneath it, never repeats — that is the whole difference. Now listen to these eight notes. Their frequencies are not random: taking the first note as two hundred and fifty six hertz, the fifth note is exactly three by two times it, the fourth is four by three, and the last is exactly double, which we call the octave. Simple ratios are what make two notes sound pleasant together. The steps between successive notes come in only three sizes: the major tone nine by eight, the minor tone ten by nine and the semitone sixteen by fifteen. That set of eight notes is a diatonic musical scale.',
+exam:'Distinguish between a musical note and noise. Define musical interval, and explain the diatonic musical scale with the frequencies of its notes, taking the key note as 256 Hz.',
+num:{q:'If the key note of a diatonic scale is 256 Hz, find the frequencies of the third note (E, ratio 5/4) and the fifth note (G, ratio 3/2).',
+ work:['E = 256 × 5/4 = 320 Hz','G = 256 × 3/2 = 384 Hz'],
+ ans:'E = 320 Hz, G = 384 Hz'},
+init:function(ctx,g){
+  const notes=[['Sa / C',1,'1'],['Re / D',9/8,'9/8'],['Ga / E',5/4,'5/4'],['Ma / F',4/3,'4/3'],
+               ['Pa / G',3/2,'3/2'],['Dha / A',5/3,'5/3'],['Ni / B',15/8,'15/8'],['Sa′ / C′',2,'2']];
+  let key=256, sel=-1, hitAt=-9;
+  const Kf=g.ui.slider('Key note frequency',192,320,8,256,v=>v+' Hz');
+  g.ui.buttons([{label:'Play the whole scale',fn:function(){
+      const a=AC(); if(!a) return; if(a.state==='suspended') a.resume();
+      notes.forEach(function(n,i){ setTimeout(function(){ playTones([Kf.value*n[1]],0.45,0.13); sel=i; hitAt=performance.now()/1000; },i*470); });
+    }},{label:'Stop sound',fn:stopTones}]);
+  const rN=g.ui.readout('Last note played:'), rI=g.ui.readout('Step from the note before:');
+  let keyRects=[];
+  g.onClick(function(x,y){
+    for(let i=0;i<keyRects.length;i++){
+      const r=keyRects[i];
+      if(x>=r[0]&&x<=r[0]+r[2]&&y>=r[1]&&y<=r[1]+r[3]){ sel=i; hitAt=performance.now()/1000; playTones([Kf.value*notes[i][1]],1.1); }
+    }
+  });
+  return function(t){
+    const W=g.W(), H=g.H(); key=Kf.value;
+    if(sel>=0){
+      rN.set(notes[sel][0]+'  =  '+(key*notes[sel][1]).toFixed(1)+' Hz   (ratio '+notes[sel][2]+')');
+      if(sel>0){ const r=notes[sel][1]/notes[sel-1][1];
+        rI.set(Math.abs(r-9/8)<0.001?'9/8 major tone':(Math.abs(r-10/9)<0.001?'10/9 minor tone':'16/15 semitone'));
+      } else rI.set('this is the key note');
+    } else { rN.set('click a key'); rI.set('—'); }
+
+    /* note vs noise */
+    const b1={x:40,y:0,w:Math.min(420,W*0.45),h:60,cy:66}, b2={x:40,y:0,w:Math.min(420,W*0.45),h:60,cy:160};
+    axisBox(ctx,b1,'a musical note — the shape repeats');
+    trace(ctx,b1,tt=>Math.sin(TAU*3*tt)+0.35*Math.sin(TAU*6*tt),t,t+1.4,1.4,C.teal,2.6);
+    axisBox(ctx,b2,'noise — never repeats');
+    const noiseF=[2.3,3.7,5.9,8.3,11.7];
+    trace(ctx,b2,function(tt){ let s=0; noiseF.forEach(function(f,k){ s+=Math.sin(TAU*f*tt+k*2.1)/(1+k*0.4); }); return s; },t,t+1.4,2.4,C.sub,2.4);
+
+    /* waveform of the selected note */
+    const age=performance.now()/1000-hitAt;
+    const b3={x:Math.min(500,W*0.52),y:0,w:Math.max(140,W-Math.min(500,W*0.52)-40),h:120,cy:120};
+    if(b3.w>150){
+      axisBox(ctx,b3,'the note you played');
+      if(sel>=0&&age<2.2){
+        const env=Math.max(0,1-age/2.2);
+        trace(ctx,b3,tt=>env*Math.sin(TAU*notes[sel][1]*6*tt),t,t+1,1,C.violet,2.6);
+        txt(ctx,(key*notes[sel][1]).toFixed(1)+' Hz',b3.x+b3.w-4,b3.cy-44,{size:17,color:C.violet,align:'right',serif:true});
+      } else {
+        txt(ctx,'click a key below',b3.x+b3.w/2,b3.cy,{size:14,color:C.sub,align:'center'});
+      }
+    }
+
+    /* keyboard */
+    const kw=Math.min(96,(W-80)/8), kx0=(W-kw*8)/2, ky=H-150, kh=118;
+    keyRects=[];
+    notes.forEach(function(n,i){
+      const x=kx0+i*kw, on=(sel===i&&age<0.5);
+      ctx.save(); ctx.fillStyle=on?'#e6ecfb':'#fff'; ctx.strokeStyle=on?C.blue:C.rule; ctx.lineWidth=on?3:1.6;
+      roundRect(ctx,x+2,ky,kw-4,kh,5); ctx.fill(); ctx.stroke(); ctx.restore();
+      txt(ctx,n[0],x+kw/2,ky+26,{size:13.5,color:C.ink,align:'center'});
+      txt(ctx,(key*n[1]).toFixed(0)+' Hz',x+kw/2,ky+54,{size:13,color:C.blue,align:'center'});
+      txt(ctx,n[2],x+kw/2,ky+88,{size:16,color:C.sub,align:'center',serif:true,italic:true});
+      keyRects.push([x+2,ky,kw-4,kh]);
+    });
+    txt(ctx,'octave: the last note is exactly twice the first',W/2,H-18,{size:13,color:C.sub,align:'center'});
+  };
+}});
+
+/* ============================================================
+   13. Reverberation and Sabine's formula
+   ============================================================ */
+M({
+group:'Sound', title:'Reverberation time and Sabine’s formula',
+objective:'Find out why an empty hall booms and a full hall sounds crisp, and how architects fix the reverberation time of an auditorium.',
+note:'Clap sounds are repeated automatically. Watch how long the level takes to die away.',
+formula:{eq:['T = 0.161 V / (Σ a S)   second','Σ a S = a₁S₁ + a₂S₂ + …   (in metric sabine)'],
+ where:'T = reverberation time, the time for the sound to fall by 60 dB · V = volume of the hall in m³ · S = area of a surface · a = its absorption coefficient (open window = 1, plaster ≈ 0.03, audience ≈ 0.45 per person)'},
+real:'A clap in an empty classroom rings on; the same clap in a full hall dies quickly. Cinemas use carpets, curtains and perforated boards for the same reason.',
+teacher:'When I clap, the sound does not reach you only along the straight path. It also bounces off the walls, floor and ceiling and arrives a little later, again and again, so the sound lingers. That lingering is reverberation, and the time it takes to fall by sixty decibels is the reverberation time. Sabine found it is nought point one six one times the volume divided by the total absorption. Watch the decay curve as I fill the hall with people: the audience absorbs sound, the total absorption goes up, and the tail becomes short. Empty the hall and it booms. For speech we want about one second; longer than about two seconds and words run into each other.',
+exam:'Define reverberation time and absorption coefficient. State and explain Sabine’s formula. Describe how the reverberation time of a hall is measured, and mention the acoustic requirements of a good auditorium.',
+num:{q:'A hall has a volume of 1500 m³ and a total absorption of 150 metric sabine. Find its reverberation time. Is it suitable for speech?',
+ work:['T = 0.161 V / ΣaS = 0.161 × 1500 / 150','T = 241.5 / 150'],
+ ans:'T = 1.61 s — rather long for speech; more absorbing material is needed'},
+init:function(ctx,g){
+  const V=g.ui.slider('Volume of the hall V',200,4000,50,1500,v=>v+' m³');
+  const Ab=g.ui.slider('Total absorption Σ a S',20,800,5,150,v=>v+' sabine');
+  g.ui.buttons([{label:'Empty hall',fn:()=>Ab.set(60)},{label:'With audience',fn:()=>Ab.set(260)},
+                {label:'Carpets and curtains added',fn:()=>Ab.set(450)}]);
+  const rT=g.ui.readout('Reverberation time T ='), rV=g.ui.readout('Verdict:');
+  return function(t){
+    const W=g.W(), H=g.H();
+    const T=0.161*V.value/Ab.value;
+    rT.set(T.toFixed(2)+' s');
+    rV.set(T<0.4?'too dead — sound is lifeless':(T<1.3?'crisp and clear, good for speech':(T<2.2?'lively, suits music':'too long — speech becomes confused')));
+
+    /* hall */
+    const hx=40, hy=54, hw=Math.min(430,W*0.46), hh=H-160;
+    ctx.save(); ctx.fillStyle='#f7fafc'; ctx.strokeStyle=C.ink; ctx.lineWidth=3;
+    ctx.fillRect(hx,hy,hw,hh); ctx.strokeRect(hx,hy,hw,hh); ctx.restore();
+    txt(ctx,'a hall, seen from above',hx,hy-16,{size:13,color:C.sub});
+    const src=[hx+58,hy+hh-60], lis=[hx+hw-70,hy+58];
+    /* paths: direct + two reflected */
+    const paths=[[src,lis],
+                 [src,[hx+hw-30,hy+hh-140],lis],
+                 [src,[hx+140,hy+6],[hx+hw-6,hy+130],lis]];
+    const cols=[C.blue,C.amber,C.red];
+    paths.forEach(function(p,i){
+      ctx.save(); ctx.strokeStyle=cols[i]; ctx.globalAlpha=0.35; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(p[0][0],p[0][1]);
+      for(let k=1;k<p.length;k++) ctx.lineTo(p[k][0],p[k][1]);
+      ctx.stroke(); ctx.restore();
+      /* travelling pulse */
+      let total=0; const segs=[];
+      for(let k=1;k<p.length;k++){ const d=Math.hypot(p[k][0]-p[k-1][0],p[k][1]-p[k-1][1]); segs.push(d); total+=d; }
+      const cycle=2.6, u=((t%cycle)/cycle)*total*1.25;
+      if(u<=total){
+        let acc=0, X=p[0][0], Y=p[0][1];
+        for(let k=0;k<segs.length;k++){
+          if(u<=acc+segs[k]){ const q=(u-acc)/segs[k];
+            X=p[k][0]+(p[k+1][0]-p[k][0])*q; Y=p[k][1]+(p[k+1][1]-p[k][1])*q; break; }
+          acc+=segs[k]; X=p[k+1][0]; Y=p[k+1][1];
+        }
+        dot(ctx,X,Y,6,cols[i]);
+      }
+    });
+    txt(ctx,'direct sound',src[0]+14,src[1]-26,{size:12.5,color:C.blue});
+    txt(ctx,'reflected sound arrives later',hx+12,hy+hh-16,{size:12.5,color:C.amber});
+    ctx.fillStyle=C.ink; roundRect(ctx,src[0]-14,src[1]-14,28,28,4); ctx.fill();
+    txt(ctx,'source',src[0],src[1]+30,{size:12.5,color:C.sub,align:'center'});
+    dot(ctx,lis[0],lis[1],11,C.teal,'#fff');
+    txt(ctx,'listener',lis[0],lis[1]-26,{size:12.5,color:C.teal,align:'center'});
+
+    /* decay graph */
+    const gx=hx+hw+56, gw=Math.max(150,W-(hx+hw+56)-40), gh=180, gy=70;
+    if(gw>160){
+      panel(ctx,gx-16,gy-30,gw+32,gh+96,'sound level after a clap');
+      seg(ctx,gx,gy,gx,gy+gh,C.sub,1.8); seg(ctx,gx,gy+gh,gx+gw,gy+gh,C.sub,1.8);
+      const tmax=Math.max(2.5,T*1.4);
+      const X=s=>gx+s/tmax*gw, Y=l=>gy+(1-l/70)*gh;
+      ctx.save(); ctx.beginPath(); ctx.strokeStyle=C.red; ctx.lineWidth=3.2;
+      for(let i=0;i<=120;i++){ const s=tmax*i/120, l=Math.max(0,60-60*s/T);
+        if(i===0) ctx.moveTo(X(s),Y(60)); else ctx.lineTo(X(s),Y(l)); }
+      ctx.stroke(); ctx.restore();
+      seg(ctx,gx,Y(60),gx+gw,Y(60),C.rule,1.3,[4,4]);
+      seg(ctx,gx,Y(0),gx+gw,Y(0),C.rule,1.3,[4,4]);
+      arrow(ctx,gx+22,Y(60),gx+22,Y(0),C.teal,2,9); arrow(ctx,gx+22,Y(0),gx+22,Y(60),C.teal,2,9);
+      txt(ctx,'a fall of 60 dB',gx+30,Y(30),{size:13,color:C.teal});
+      if(T<tmax){ seg(ctx,X(T),gy,X(T),gy+gh,C.blue,1.8,[5,4]);
+        txt(ctx,'T = '+T.toFixed(2)+' s',X(T)+8,gy+16,{size:15,color:C.blue,serif:true}); }
+      txt(ctx,'time after the clap  →',gx+gw,gy+gh+22,{size:12.5,color:C.sub,align:'right'});
+      /* live level bar */
+      const cyc=Math.max(1.2,T*1.3), el=(t%cyc), lev=Math.max(0,1-el/T);
+      ctx.fillStyle='#eef2f6'; roundRect(ctx,gx,gy+gh+38,gw,18,9); ctx.fill();
+      ctx.fillStyle=C.red; roundRect(ctx,gx,gy+gh+38,Math.max(2,gw*lev),18,9); ctx.fill();
+      txt(ctx,lev>0.02?'still ringing…':'silent',gx,gy+gh+72,{size:13,color:lev>0.02?C.red:C.sub});
+    }
+    /* good-hall notes */
+    txt(ctx,'A good hall: T about 1 s for speech · no echo or dead spots · curved surfaces avoided · outside noise kept out',
+        hx,H-34,{size:13,color:C.sub});
+  };
+}});
+
+/* ============================================================
+   14. Measurement of reverberation time
+   ============================================================ */
+M({
+group:'Sound', title:'Measuring the reverberation time',
+objective:'Learn the practical method used in a hall: produce a steady sound, switch it off, and time the fall of 60 dB.',
+note:'The cycle runs on its own: sound on, sound off, decay, stop the watch.',
+formula:{eq:['T = time taken for the level to fall by 60 dB after the source is cut off',
+             'A fall of 60 dB means I / I₀ = 10⁻⁶,  since 60 = 10 log₁₀ (I₀ / I)'],
+ where:'60 dB is chosen because a sound that has fallen to one millionth of its intensity is practically inaudible in an ordinary hall · the value is also checked against Sabine’s formula T = 0.161 V / Σ a S'},
+deriv:{title:'The experiment, step by step',
+ steps:['Place a steady source of sound in the hall — a loudspeaker fed by an audio oscillator (older method: an organ pipe or a pistol shot).',
+        'Run the source until the sound level in the hall becomes steady, say 85 dB. The energy fed in is then balanced by the energy absorbed.',
+        'Switch the source off suddenly and start a stopwatch at the same instant.',
+        'A microphone placed at the listener’s position picks up the decaying sound. It is fed through an amplifier to a sound level meter (or to a high speed level recorder, or a CRO).',
+        'Note the time in which the reading falls by 60 dB — in this example from 85 dB down to 25 dB. That time is the reverberation time T.',
+        'If the background noise of the hall is too high to follow a full 60 dB fall, measure the time for a 30 dB fall and double it, since the decay is a straight line on the decibel scale.',
+        'Repeat with the microphone at three or four different positions in the hall and take the mean. Measure with the hall empty and with the audience present, because the audience adds a large absorption.',
+        'Cross-check the result with Sabine’s formula, T = 0.161 V / Σ a S, using the measured volume of the hall.']},
+real:'Acoustic engineers still test new auditoriums, cinema halls and recording studios exactly this way, using a calibrated loudspeaker and a sound level meter.',
+teacher:'Here is how the reverberation time is actually measured. A loudspeaker driven by an oscillator fills the hall until the level settles at a steady value, eighty five decibels on the meter. Now I switch it off and start the stopwatch at the same moment. The sound does not stop at once — it keeps bouncing off the walls and dies away, and you can see the needle sliding down the scale. When the reading has fallen by sixty decibels, down to twenty five, I stop the watch. That time is the reverberation time. Sixty decibels means the intensity has dropped to one millionth of its value, which is as good as silence. If the hall is noisy, time a thirty decibel fall and simply double it.',
+exam:'Describe an experimental method for the measurement of the reverberation time of a hall. Why is a fall of 60 dB chosen as the standard? How is the result verified using Sabine’s formula?',
+num:{q:'In a hall the sound level falls steadily from 88 dB to 28 dB in 1.8 s after the source is switched off. Find the reverberation time. If the hall has a volume of 2700 m³, find the total absorption.',
+ work:['Fall = 88 − 28 = 60 dB, and this took 1.8 s, so T = 1.8 s',
+       'Sabine: T = 0.161 V / Σ a S   ⇒   Σ a S = 0.161 V / T',
+       'Σ a S = 0.161 × 2700 / 1.8 = 434.7 / 1.8'],
+ ans:'T = 1.8 s, total absorption ≈ 242 metric sabine'},
+init:function(ctx,g){
+  const T=g.ui.slider('Reverberation time of this hall',0.4,3,0.1,1.8,v=>v.toFixed(1)+' s');
+  const L0=g.ui.slider('Steady level before switching off',70,100,1,88,v=>v+' dB');
+  const rPh=g.ui.readout('Stage:'), rL=g.ui.readout('Meter reading ='), rT=g.ui.readout('Stopwatch =');
+  return function(t){
+    const W=g.W(), H=g.H(), Tv=T.value, L=L0.value;
+    const onDur=2.0, cyc=onDur+Tv+1.8, tt=t%cyc;
+    let level=L, el=0, phase=0;
+    if(tt<onDur){ phase=0; level=L; el=0; }
+    else { const e=tt-onDur; el=Math.min(e,Tv);
+      level=Math.max(L-60,L-60*e/Tv); phase=(e<Tv)?1:2; }
+    rPh.set(phase===0?'source ON — steady sound':(phase===1?'source OFF — sound dying away':'60 dB fall complete — stop the watch'));
+    rL.set(level.toFixed(0)+' dB'); rT.set(el.toFixed(2)+' s');
+
+    /* equipment chain */
+    const y0=64;
+    const box=function(x,w,label,sub,col){
+      ctx.save(); ctx.fillStyle='#fbfcfe'; ctx.strokeStyle=col||C.rule; ctx.lineWidth=2;
+      roundRect(ctx,x,y0,w,58,6); ctx.fill(); ctx.stroke(); ctx.restore();
+      txt(ctx,label,x+w/2,y0+22,{size:13,align:'center'});
+      txt(ctx,sub,x+w/2,y0+42,{size:12,color:C.sub,align:'center'});
+    };
+    box(30,120,'oscillator +','loudspeaker',phase===0?C.red:C.rule);
+    box(186,110,'the hall','sound bounces');
+    box(320,110,'microphone','picks it up');
+    box(454,120,'amplifier','and meter');
+    arrow(ctx,152,y0+30,184,y0+30,C.sub,2,8);
+    arrow(ctx,298,y0+30,318,y0+30,C.sub,2,8);
+    arrow(ctx,432,y0+30,452,y0+30,C.sub,2,8);
+    if(phase===0){
+      for(let k=0;k<3;k++){ const r=14+((t*60+k*26)%70);
+        ctx.save(); ctx.globalAlpha=Math.max(0,0.7-r/90); ctx.strokeStyle=C.red; ctx.lineWidth=2;
+        ctx.beginPath(); ctx.arc(150,y0+30,r,-0.9,0.9); ctx.stroke(); ctx.restore(); }
+    }
+
+    /* level meter dial */
+    const mx=120, my=H-118, mr=62;
+    panel(ctx,mx-96,my-86,196,150,'sound level meter');
+    ctx.save(); ctx.strokeStyle=C.rule; ctx.lineWidth=6; ctx.beginPath();
+    ctx.arc(mx,my+24,mr,Math.PI,TAU); ctx.stroke(); ctx.restore();
+    const frac=Math.max(0,Math.min(1,(level-(L-70))/70)), ang=Math.PI+frac*Math.PI;
+    seg(ctx,mx,my+24,mx+mr*0.86*Math.cos(ang),my+24+mr*0.86*Math.sin(ang),C.red,3.4);
+    dot(ctx,mx,my+24,5,C.ink);
+    txt(ctx,(L-70)+' dB',mx-mr-2,my+38,{size:11.5,color:C.sub,align:'center'});
+    txt(ctx,L+' dB',mx+mr+2,my+38,{size:11.5,color:C.sub,align:'center'});
+    txt(ctx,level.toFixed(0)+' dB',mx,my-10,{size:22,color:C.red,align:'center',serif:true});
+
+    /* stopwatch */
+    const sx=320, sy=H-76;
+    ctx.save(); ctx.strokeStyle=C.ink; ctx.lineWidth=3; ctx.fillStyle='#fff';
+    ctx.beginPath(); ctx.arc(sx,sy,40,0,TAU); ctx.fill(); ctx.stroke(); ctx.restore();
+    seg(ctx,sx,sy-46,sx,sy-54,C.ink,5);
+    const sa=-Math.PI/2+TAU*(el%3)/3;
+    seg(ctx,sx,sy,sx+32*Math.cos(sa),sy+32*Math.sin(sa),phase===1?C.red:C.sub,3);
+    txt(ctx,el.toFixed(2)+' s',sx,sy+62,{size:16,align:'center',serif:true,color:phase?C.red:C.sub});
+    txt(ctx,'stopwatch',sx,sy-58,{size:12.5,color:C.sub,align:'center'});
+
+    /* decay graph */
+    const gx=Math.max(430,W*0.44), gw=Math.max(160,W-gx-46), gy=170, gh=H-260;
+    if(gw>170){
+      panel(ctx,gx-18,gy-34,gw+36,gh+96,'level on the meter after switching off');
+      const X=s=>gx+s/(Tv*1.35)*gw, Y=l=>gy+(1-(l-(L-70))/70)*gh;
+      seg(ctx,gx,gy,gx,gy+gh,C.sub,1.8); seg(ctx,gx,gy+gh,gx+gw,gy+gh,C.sub,1.8);
+      seg(ctx,gx,Y(L),gx+gw,Y(L),C.rule,1.3,[4,4]);
+      seg(ctx,gx,Y(L-60),gx+gw,Y(L-60),C.rule,1.3,[4,4]);
+      txt(ctx,L+' dB',gx-8,Y(L),{size:12.5,color:C.sub,align:'right'});
+      txt(ctx,(L-60)+' dB',gx-8,Y(L-60),{size:12.5,color:C.sub,align:'right'});
+      ctx.save(); ctx.beginPath(); ctx.strokeStyle=C.red; ctx.lineWidth=3.2;
+      ctx.moveTo(X(0),Y(L)); ctx.lineTo(X(Tv),Y(L-60)); ctx.lineTo(X(Tv*1.35),Y(L-60)); ctx.stroke(); ctx.restore();
+      arrow(ctx,X(Tv*0.18),Y(L),X(Tv*0.18),Y(L-60),C.teal,2,9);
+      arrow(ctx,X(Tv*0.18),Y(L-60),X(Tv*0.18),Y(L),C.teal,2,9);
+      txt(ctx,'a fall of 60 dB',X(Tv*0.18)+10,Y(L-30),{size:13.5,color:C.teal});
+      seg(ctx,X(Tv),gy,X(Tv),gy+gh,C.blue,1.8,[5,4]);
+      txt(ctx,'T = '+Tv.toFixed(1)+' s',X(Tv)+8,gy+18,{size:16,color:C.blue,serif:true});
+      if(phase>0){ dot(ctx,X(el),Y(level),7,C.red,'#fff'); }
+      txt(ctx,'time after switching off  →',gx+gw,gy+gh+24,{size:12.5,color:C.sub,align:'right'});
+      txt(ctx,'60 dB fall  =  intensity falls to one millionth',gx,gy+gh+50,{size:13,color:C.ink});
+      txt(ctx,'too noisy for 60 dB? time a 30 dB fall and double it',gx,gy+gh+70,{size:12.5,color:C.sub});
+    }
+  };
+}});
+
+/* ============================================================
+   15. Acoustics of buildings, halls and auditoriums
+   ============================================================ */
+M({
+group:'Sound', title:'Acoustics of halls and auditoriums',
+objective:'Collect the design rules that make a hall sound good, and see where each one is applied in the building.',
+note:'The points are highlighted one by one. Click a button to jump to any point.',
+formula:{eq:['Optimum reverberation time:  about 1 s for speech,  1.5 – 2 s for music',
+             'T = 0.161 V / Σ a S   — the designer adjusts Σ a S until T is right'],
+ where:'Acoustics of a building means the design of the hall so that every listener hears the sound clearly, evenly and without echo or unwanted noise'},
+deriv:{title:'The requirements of a good auditorium — the exam list',
+ steps:['<b>Suitable reverberation time.</b> Neither too long nor too short: about 1 second for speech, 1.5 to 2 seconds for music. Too long and the syllables overlap; too short and the hall sounds dead and lifeless.',
+        '<b>Proper distribution of sound.</b> Every seat must receive nearly the same loudness. This is helped by a sloping floor, a reflecting canopy over the stage, and splayed (slightly angled) side walls near the stage.',
+        '<b>No echo.</b> A reflected sound reaching the ear more than about 1/15 second after the direct sound is heard separately as an echo. Large flat rear walls are therefore covered with absorbing material or broken up into an uneven surface.',
+        '<b>No dead spots or focusing.</b> Curved walls, domes and concave ceilings focus sound at a few points and leave others silent — such surfaces are avoided, or made diffusing with panels and irregular shapes.',
+        '<b>Correct absorption.</b> Carpets on the floor, heavy curtains, upholstered seats, acoustic tiles and perforated boards supply the absorption Σ a S required by Sabine’s formula. Seats should absorb nearly as much as a seated person, so that T hardly changes between an empty and a full hall.',
+        '<b>Outside noise kept out.</b> Thick walls, double doors with a lobby, double glazed windows away from the road, and quiet, vibration-free air conditioning and fans.',
+        '<b>Suitable shape and size.</b> A fan shaped hall with the audience close to the stage, a sloping floor, no parallel facing walls (which cause flutter echo), and a volume of roughly 3 to 5 m³ per listener.',
+        '<b>Acoustic treatment of surfaces.</b> Hard reflecting surfaces near the stage to throw sound forward, absorbing surfaces at the rear and on the back wall, and no resonating loose panels or hollow structures that boom at particular frequencies.']},
+real:'Compare a bare classroom with an examination hall full of students, or a cinema hall with its carpet, heavy curtains and padded seats — the same building rules are at work.',
+teacher:'Now put everything together as a designer would. The first requirement is the right reverberation time, about one second for a lecture hall. Second, the sound must reach every seat equally, which is why the floor slopes and a reflector hangs above the stage. Third, no echo: that big flat back wall is the usual culprit, so it is covered with absorbing panels. Fourth, no dead spots, so we avoid domes and curved walls that focus the sound into one place. Fifth, absorption from carpets, curtains and padded seats. Sixth, outside noise kept out by double doors and thick walls. Seventh, a fan shape with no parallel walls. And last, hard reflecting surfaces near the stage and absorbing ones at the back.',
+exam:'What is meant by the acoustics of a building? Discuss in detail the essential requirements of a good auditorium and the acoustic treatment given to its walls, floor and ceiling.',
+num:{q:'A hall of volume 3000 m³ is to be used for speech, for which the optimum reverberation time is 1.0 s. Find the total absorption required. If the present absorption is 300 sabine, how much more must be added?',
+ work:['T = 0.161 V / Σ a S  ⇒  Σ a S = 0.161 V / T','Σ a S = 0.161 × 3000 / 1.0 = 483 metric sabine','Extra absorption needed = 483 − 300'],
+ ans:'483 sabine required, so about 183 sabine must be added (carpets, curtains, padded seats)'},
+init:function(ctx,g){
+  const items=[
+    ['Reverberation time','about 1 s for speech','1.5–2 s for music'],
+    ['Sound spread evenly','sloping floor, reflector over','the stage, splayed side walls'],
+    ['No echo','rear wall treated so that no','reflection is delayed too long'],
+    ['No dead spots','no domes or curved surfaces','that focus the sound'],
+    ['Absorption','carpet, curtains, padded seats','supply the required Σ a S'],
+    ['Outside noise','double doors, thick walls,','quiet fans and air conditioning'],
+    ['Shape of the hall','fan shape, audience close in,','no parallel facing walls'],
+    ['Surface materials','hard near the stage,','absorbing at the back']
+  ];
+  let sel=0, manual=false;
+  g.ui.toggleFree(items.map(i=>i[0]),[0,1,2,3,4,5,6,7],function(i){ sel=i; manual=true; },0);
+  g.ui.buttons([{label:'Run through all the points',fn:function(){ manual=false; }}]);
+  const rP=g.ui.readout('Point'), rN=g.ui.readout('');
+  return function(t){
+    const W=g.W(), H=g.H();
+    if(!manual) sel=Math.floor(t/4.5)%items.length;
+    rP.set((sel+1)+' of 8 — '+items[sel][0]); rN.set(items[sel][1]+' '+items[sel][2]);
+
+    const hx=44, hy=62, hw=Math.min(600,W*0.56), hh=H-160;
+    const fl=hy+hh, stageX=hx+26, stageW=150;
+    /* shell */
+    ctx.save(); ctx.fillStyle='#f8fafc'; ctx.strokeStyle=C.ink; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.moveTo(hx,hy+16); ctx.lineTo(hx+hw,hy); ctx.lineTo(hx+hw,fl);
+    ctx.lineTo(hx,fl); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore();
+    /* sloping floor with seats */
+    ctx.save(); ctx.strokeStyle=C.sub; ctx.lineWidth=2.5; ctx.beginPath();
+    ctx.moveTo(hx+stageW+40,fl-6); ctx.lineTo(hx+hw,fl-64); ctx.stroke(); ctx.restore();
+    for(let k=0;k<7;k++){
+      const sxp=hx+stageW+56+k*((hw-stageW-80)/7), syp=fl-10-k*8.2;
+      ctx.fillStyle=(sel===4)?C.teal:'#c2cede';
+      roundRect(ctx,sxp,syp-16,20,16,3); ctx.fill();
+    }
+    /* stage + source */
+    ctx.fillStyle='#dde5ee'; roundRect(ctx,stageX,fl-34,stageW,30,4); ctx.fill();
+    txt(ctx,'stage',stageX+stageW/2,fl-18,{size:12.5,color:C.sub,align:'center'});
+    ctx.fillStyle=C.ink; roundRect(ctx,stageX+stageW/2-10,fl-66,20,30,3); ctx.fill();
+    /* ceiling reflector */
+    ctx.save(); ctx.strokeStyle=(sel===1)?C.blue:'#aebbc9'; ctx.lineWidth=(sel===1)?5:3;
+    ctx.beginPath(); ctx.moveTo(hx+50,hy+42); ctx.lineTo(hx+210,hy+66); ctx.stroke(); ctx.restore();
+    if(sel===1){ arrow(ctx,hx+130,hy+56,hx+hw-90,fl-92,C.blue,2,9); }
+    /* rear wall treatment */
+    ctx.save(); ctx.strokeStyle=(sel===2||sel===7)?C.red:'#b9c6d4'; ctx.lineWidth=2;
+    for(let k=0;k<9;k++){ const yy=hy+26+k*((hh-40)/9);
+      ctx.beginPath(); ctx.moveTo(hx+hw-4,yy); ctx.lineTo(hx+hw-20,yy+10); ctx.stroke(); }
+    ctx.restore();
+    /* curtain on the left wall */
+    ctx.save(); ctx.strokeStyle=(sel===4||sel===7)?C.teal:'#b9c6d4'; ctx.lineWidth=2.5;
+    ctx.beginPath();
+    for(let k=0;k<=22;k++){ const yy=hy+30+k*7, xx=hx+10+6*Math.sin(k*1.1);
+      if(k===0) ctx.moveTo(xx,yy); else ctx.lineTo(xx,yy); }
+    ctx.stroke(); ctx.restore();
+    /* door */
+    ctx.save(); ctx.strokeStyle=(sel===5)?C.amber:'#b9c6d4'; ctx.lineWidth=(sel===5)?4:2.5;
+    ctx.strokeRect(hx+hw-56,fl-40,26,40); ctx.strokeRect(hx+hw-96,fl-40,26,40); ctx.restore();
+    txt(ctx,'double door',hx+hw-64,fl+18,{size:12,color:C.sub,align:'center'});
+    /* sound rays for the "spread" and "dead spot" points */
+    if(sel===3){
+      ctx.save(); ctx.strokeStyle=C.red; ctx.lineWidth=2; ctx.setLineDash([5,4]);
+      ctx.beginPath(); ctx.arc(hx+hw*0.62,hy-60,120,0.55,2.6); ctx.stroke(); ctx.restore();
+      txt(ctx,'a curved ceiling focuses sound here',hx+hw*0.62,hy+96,{size:12.5,color:C.red,align:'center'});
+    }
+    if(sel===6){
+      ctx.save(); ctx.strokeStyle=C.violet; ctx.lineWidth=2; ctx.setLineDash([6,5]);
+      ctx.beginPath(); ctx.moveTo(stageX+stageW/2,fl-50); ctx.lineTo(hx+hw-20,hy+40);
+      ctx.moveTo(stageX+stageW/2,fl-50); ctx.lineTo(hx+hw-20,fl-20); ctx.stroke(); ctx.restore();
+      txt(ctx,'fan shape: the audience sits close to the stage',hx+60,hy+hh+24,{size:12.5,color:C.violet});
+    }
+    if(sel===0){
+      for(let k=0;k<3;k++){ const r=20+((t*60+k*44)%150);
+        ctx.save(); ctx.globalAlpha=Math.max(0,0.7-r/190); ctx.strokeStyle=C.violet; ctx.lineWidth=2.4;
+        ctx.beginPath(); ctx.arc(stageX+stageW/2,fl-50,r,-1.2,1.2); ctx.stroke(); ctx.restore(); }
+    }
+    /* numbered markers */
+    const mk=[[hx+hw*0.46,hy+70],[hx+130,hy+56],[hx+hw-14,hy+120],[hx+hw*0.62,hy+18],
+              [hx+hw*0.62,fl-30],[hx+hw-84,fl-46],[hx+hw*0.34,fl-14],[hx+14,hy+70]];
+    mk.forEach(function(p,i){
+      const on=(i===sel);
+      dot(ctx,p[0],p[1],on?15:10,on?C.amber:'#c9d4e0','#fff');
+      txt(ctx,String(i+1),p[0],p[1],{size:on?14:12,color:on?'#fff':C.sub,align:'center'});
+    });
+    /* callout */
+    const px=hx+hw+34, pw=Math.min(310,W-px-24);
+    if(pw>200){
+      panel(ctx,px,hy+10,pw,176,'point '+(sel+1)+' of 8');
+      txt(ctx,items[sel][0],px+16,hy+62,{size:19,color:C.ink,serif:true});
+      txt(ctx,items[sel][1],px+16,hy+98,{size:13.5,color:C.sub});
+      txt(ctx,items[sel][2],px+16,hy+120,{size:13.5,color:C.sub});
+      txt(ctx,'full list in the notes below',px+16,hy+156,{size:12.5,color:C.blue});
+    }
+    txt(ctx,'a lecture hall in section',hx,hy-18,{size:13,color:C.sub});
+  };
+}});
+
+/* ============================================================
+   16. Loudspeaker and microphone
+   ============================================================ */
+M({
+group:'Sound', title:'Loudspeaker and microphone',
+objective:'See the same simple machine run both ways: current makes a coil move and produce sound, and sound makes a coil move and produce current.',
+note:'Switch between the two modes with the buttons.',
+formula:{eq:['Loudspeaker:  F = B I L','Microphone:  e = B L v'],
+ where:'B = magnetic field of the permanent magnet · I = current in the voice coil · L = length of wire in the field · v = speed of the diaphragm · one is the exact reverse of the other'},
+real:'Earphones and mobile speakers, the microphone on a classroom podium, a public-address system in a hall, a headphone worn backwards actually works as a poor microphone.',
+teacher:'Inside both of these sits the same thing: a coil of wire hanging in the gap of a permanent magnet. In the loudspeaker I send the audio current through that coil. A current-carrying wire in a magnetic field feels a force, B I L, and since the current reverses thousands of times a second, the coil is pushed in and out. It is glued to a paper cone, so the cone pushes the air and we hear sound. Now switch to the microphone. Here sound falls on the diaphragm and moves the coil. A coil moving in a magnetic field generates an e m f, B L v, which copies the shape of the sound wave. Electrical energy to sound, and sound back to electrical energy.',
+exam:'With a labelled diagram, explain the construction and working principle of a moving-coil loudspeaker. How is a moving-coil microphone essentially the reverse of it?',
+num:{q:'A voice coil of a loudspeaker has 0.8 m of wire in a radial field of 0.5 T and carries a current of 0.2 A. Find the force acting on the coil.',
+ work:['F = B I L = 0.5 × 0.2 × 0.8'],
+ ans:'F = 0.08 N'},
+init:function(ctx,g){
+  let mode=0;
+  g.ui.toggleFree(['Loudspeaker: current in, sound out','Microphone: sound in, current out'],[0,1],v=>{mode=v;},0);
+  const Fq=g.ui.slider('Signal frequency',0.4,3,0.1,1,v=>v.toFixed(1)+' Hz (slowed down)');
+  const rM=g.ui.readout('Energy change:'), rP=g.ui.readout('Principle:');
+  return function(t){
+    const W=g.W(), H=g.H(), w=TAU*Fq.value, s=Math.sin(w*t), cy=H*0.46;
+    rM.set(mode?'sound energy → electrical energy':'electrical energy → sound energy');
+    rP.set(mode?'a coil moving in a field induces an emf, e = B L v':'a current in a field feels a force, F = B I L');
+
+    const cx=W*0.36;
+    /* magnet */
+    ctx.save(); ctx.fillStyle='#dfe6ee'; ctx.strokeStyle=C.sub; ctx.lineWidth=2;
+    roundRect(ctx,cx-60,cy-78,66,156,6); ctx.fill(); ctx.stroke(); ctx.restore();
+    ctx.fillStyle=C.red; ctx.fillRect(cx-60,cy-78,66,34);
+    ctx.fillStyle=C.blue; ctx.fillRect(cx-60,cy+44,66,34);
+    txt(ctx,'N',cx-27,cy-61,{size:16,color:'#fff',align:'center'});
+    txt(ctx,'S',cx-27,cy+61,{size:16,color:'#fff',align:'center'});
+    txt(ctx,'permanent magnet',cx-27,cy+96,{size:12.5,color:C.sub,align:'center'});
+    for(let k=-1;k<2;k++) arrow(ctx,cx+8,cy-30+k*30,cx+54,cy-30+k*30,'#9fb0c2',1.6,7);
+    txt(ctx,'magnetic field B',cx+58,cy-62,{size:12.5,color:C.sub});
+
+    /* coil + cone */
+    const move=s*16;
+    ctx.save(); ctx.fillStyle=mode?C.teal:C.amber;
+    roundRect(ctx,cx+10+move,cy-26,22,52,4); ctx.fill(); ctx.restore();
+    txt(ctx,'voice coil',cx+21+move,cy+46,{size:12.5,color:C.sub,align:'center'});
+    ctx.save(); ctx.strokeStyle=C.ink; ctx.lineWidth=3; ctx.beginPath();
+    ctx.moveTo(cx+32+move,cy-26); ctx.lineTo(cx+110+move,cy-(mode?52:76));
+    ctx.moveTo(cx+32+move,cy+26); ctx.lineTo(cx+110+move,cy+(mode?52:76));
+    ctx.stroke(); ctx.restore();
+    txt(ctx,mode?'diaphragm':'paper cone',cx+110+move,cy+(mode?74:98),{size:12.5,color:C.sub,align:'center'});
+
+    /* motion arrow */
+    const vdir=Math.cos(w*t);
+    arrow(ctx,cx+21+move,cy-44,cx+21+move+Math.sign(vdir)*34,cy-44,C.violet,2.6,10);
+    txt(ctx,'coil moves',cx+21+move,cy-62,{size:12.5,color:C.violet,align:'center'});
+
+    /* air waves */
+    for(let k=0;k<4;k++){
+      const r=30+((t*60+k*40)%160);
+      ctx.save(); ctx.globalAlpha=Math.max(0,0.8-r/200); ctx.strokeStyle=C.violet; ctx.lineWidth=2.4;
+      ctx.beginPath();
+      if(mode) ctx.arc(cx+130,cy,r,Math.PI*0.75,Math.PI*1.25);
+      else ctx.arc(cx+120,cy,r,-Math.PI*0.32,Math.PI*0.32);
+      ctx.stroke(); ctx.restore();
+    }
+    txt(ctx,mode?'sound waves arrive':'sound waves leave',cx+150,mode?cy-96:cy+108,{size:13,color:C.violet});
+
+    /* signal boxes */
+    const bx=40, b={x:bx,y:0,w:190,h:72,cy:H-90};
+    axisBox(ctx,b,mode?'electrical signal produced':'audio current fed in');
+    trace(ctx,b,tt=>Math.sin(w*tt),t-3,t,1,mode?C.teal:C.amber,2.6);
+    if(!mode){
+      arrow(ctx,bx+200,H-90,cx+4,cy+70,C.amber,2.4,10);
+      txt(ctx,'I',bx+236,H-108,{size:17,color:C.amber,serif:true,italic:true});
+      arrow(ctx,cx+21+move,cy+30,cx+21+move+Math.sign(vdir)*30,cy+30,C.red,3,11);
+      txt(ctx,'F = B I L',cx+72,cy+30,{size:16,color:C.red,serif:true,italic:true});
+    } else {
+      arrow(ctx,cx+4,cy+70,bx+200,H-90,C.teal,2.4,10);
+      txt(ctx,'e = B L v',cx-34,cy+118,{size:16,color:C.teal,serif:true,italic:true,align:'center'});
+    }
+  };
+}});
+
+
+/* ============================================================
+   Simple-language concept line and the starred exam point
+   for every topic (kept together so they are easy to edit)
+   ============================================================ */
+const EXTRA={
+'Simple harmonic motion':{
+ c:'Simple harmonic motion is to-and-fro motion in which the restoring force is proportional to the displacement and always points back towards the mean position. Its displacement–time graph is a sine curve.',
+ p:'Write y = A sin(ωt + φ), define A, ω, φ and T, and state that SHM is the projection of uniform circular motion on a diameter.'},
+'The differential equation of SHM':{
+ c:'Applying Newton’s law to a body held by a spring gives an equation whose solution is a sine function. The acceleration is always opposite to the displacement, so the body keeps overshooting the mean position and oscillating.',
+ p:'d²y/dt² + ω²y = 0 with ω = √(k/m) and T = 2π√(m/k). The minus sign in F = −ky is the reason the motion repeats.'},
+'Adding two SHMs of the same frequency':{
+ c:'Two SHMs of the same frequency acting along the same line simply add like two arrows. The phase difference between them decides whether they strengthen or cancel each other.',
+ p:'R = √(a₁² + a₂² + 2a₁a₂ cos δ) and tan θ = a₂ sin δ /(a₁ + a₂ cos δ). R is maximum at δ = 0 and minimum at δ = 180°.'},
+'Adding two collinear SHMs of different frequencies':{
+ c:'When the two frequencies differ, the phase difference no longer stays fixed — it keeps changing. The two motions drift in and out of step, so their sum keeps growing and shrinking.',
+ p:'y = 2a cos[(ω₁ − ω₂)t/2] · sin[(ω₁ + ω₂)t/2]. The resultant is periodic but NOT simple harmonic, because its amplitude changes with time.'},
+'Beats — two slightly different frequencies':{
+ c:'Two notes of nearly equal frequency drift in and out of step slowly, so the sound becomes alternately loud and faint. One loud-and-faint cycle is one beat.',
+ p:'Beat frequency n = f₁ − f₂. In wax or filing problems, remember that loading lowers the frequency of a wire or fork and filing raises it.'},
+'Two perpendicular SHMs of equal frequency':{
+ c:'A particle pulled by one SHM along x and another along y at the same frequency traces a fixed closed path. The phase difference decides the shape of that path.',
+ p:'x²/a² + y²/b² − 2xy cos δ/(ab) = sin²δ. δ = 0 or 180° → straight line; δ = 90° → ellipse; δ = 90° with a = b → circle.'},
+'Perpendicular SHMs of different frequencies':{
+ c:'If the vertical motion is two or three times faster than the horizontal one, the path folds back on itself and forms loops. The frequency ratio decides how many loops appear.',
+ p:'For the ratio 1 : 2 with δ = 0, b⁴x² = 4a²y²(b² − y²) — a figure of eight. The figure stands still only when the ratio is a simple whole-number ratio.'},
+'Lissajous figures — unequal frequencies':{
+ c:'The steady looped patterns produced by two perpendicular SHMs are called Lissajous figures. They are used in the laboratory to compare an unknown frequency with a known one.',
+ p:'Frequency ratio = touches on a vertical side : touches on the top side. The syllabus treats this qualitatively — describe and draw, no derivation needed.'},
+'Forced vibration and resonance':{
+ c:'When an outside periodic force keeps a body vibrating, the body settles down to vibrate at the frequency of that force, not at its own. If the two frequencies happen to be equal the amplitude becomes very large.',
+ p:'A = (F₀/m)/√[(ω₀² − ω²)² + 4b²ω²] and tan θ = 2bω/(ω₀² − ω²). Resonance at ω ≈ ω₀, where the amplitude is limited only by damping.'},
+'The Helmholtz resonator':{
+ c:'A bottle of air sings at one definite frequency: the air in the narrow neck moves to and fro like a mass, and the air trapped in the body acts like a spring.',
+ p:'f = (v/2π)√(A/VL). Neck air = mass, cavity air = spring; it responds to one frequency only, which is why Helmholtz used a set of them to analyse sounds.'},
+'Intensity, loudness and the decibel':{
+ c:'Intensity is the sound energy crossing unit area per second, measured in W/m². Loudness is what the ear feels, and since the ear responds to the logarithm of intensity we measure level in decibels.',
+ p:'β = 10 log₁₀(I/I₀) with I₀ = 10⁻¹² W/m², and I = P/4πr². Doubling the distance divides I by 4, a fall of 6 dB.'},
+'Musical note, scale and intervals':{
+ c:'A musical note has a regularly repeating waveform, while noise does not. Two notes sound pleasant together when their frequencies are in a simple whole-number ratio.',
+ p:'Diatonic scale on a key note of 256 Hz: 256, 288, 320, 341.3, 384, 426.7, 480, 512 Hz. Intervals: major tone 9/8, minor tone 10/9, semitone 16/15, octave 2/1.'},
+'Reverberation time and Sabine’s formula':{
+ c:'Sound in a hall does not stop the moment the source stops — it keeps reflecting from the walls, floor and ceiling and dies away gradually. The time taken for this decay is the reverberation time.',
+ p:'T = 0.161 V/Σ a S, where T is the time for a 60 dB fall. Absorption coefficient of a surface = its absorption compared with an equal area of an open window.'},
+'Measuring the reverberation time':{
+ c:'The reverberation time is measured by filling the hall with a steady sound, switching it off suddenly, and timing how long the level takes to fall by 60 dB.',
+ p:'A 60 dB fall means the intensity drops to one millionth of its value. If the background noise is high, time a 30 dB fall and double it.'},
+'Acoustics of halls and auditoriums':{
+ c:'Acoustics of a building means designing the hall so that every listener hears the sound clearly and evenly, without echo, dead spots or outside noise.',
+ p:'Be ready to write all eight requirements: reverberation time, even distribution, no echo, no dead spots, absorption, outside-noise control, shape of the hall, and treatment of surfaces.'},
+'Loudspeaker and microphone':{
+ c:'A loudspeaker and a moving-coil microphone contain the same parts — a coil in a magnetic field fixed to a diaphragm. One turns current into sound, the other turns sound into current.',
+ p:'Loudspeaker: F = B I L, electrical energy → sound energy. Microphone: e = B L v, sound energy → electrical energy.'}
+};
+MODULES.forEach(function(m){
+  const e=EXTRA[m.title];
+  if(e){ m.concept=e.c; m.point=e.p; }
+});
+
+/* ============================================================
+   app shell
+   ============================================================ */
+const cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+const controlsEl=document.getElementById('controls'), readoutsEl=document.getElementById('readouts');
+let idx=0, playing=true, simT=0, drawFn=null, clickFn=null, lastTs=0, zoom=1;
+
+function UI(){
+  return {
+    slider:function(label,min,max,step,val,fmt){
+      const d=document.createElement('div'); d.className='ctl';
+      const l=document.createElement('label'); const s=document.createElement('span');
+      s.textContent=label; const bEl=document.createElement('b');
+      l.appendChild(s); l.appendChild(bEl);
+      const r=document.createElement('input'); r.type='range';
+      r.min=min; r.max=max; r.step=step; r.value=val;
+      d.appendChild(l); d.appendChild(r); controlsEl.appendChild(d);
+      const o={value:parseFloat(val),
+        set:function(v){ r.value=v; o.value=parseFloat(r.value); bEl.textContent=fmt?fmt(o.value):o.value; }};
+      r.addEventListener('input',function(){ o.value=parseFloat(r.value); bEl.textContent=fmt?fmt(o.value):o.value; });
+      bEl.textContent=fmt?fmt(o.value):o.value;
+      return o;
+    },
+    buttons:function(list){
+      const d=document.createElement('div'); d.className='ctl buttons';
+      list.forEach(function(it){
+        const b=document.createElement('button'); b.className='btn'; b.textContent=it.label;
+        b.addEventListener('click',it.fn); d.appendChild(b);
+      });
+      controlsEl.appendChild(d); return d;
+    },
+    /* a row of choice buttons; fn receives values[i] */
+    toggleFree:function(labels,values,fn,startIdx){
+      const d=document.createElement('div'); d.className='ctl buttons'; const bs=[];
+      labels.forEach(function(lb,i){
+        const b=document.createElement('button'); b.className='btn'+(startIdx===i?' on':'');
+        b.textContent=lb;
+        b.addEventListener('click',function(){ bs.forEach(x=>x.classList.remove('on')); b.classList.add('on'); fn(values[i]); });
+        d.appendChild(b); bs.push(b);
+      });
+      controlsEl.appendChild(d); return d;
+    },
+    readout:function(label){
+      const d=document.createElement('div'); d.className='ro';
+      const s=document.createElement('span'); s.textContent=label+' ';
+      const b=document.createElement('b'); d.appendChild(s); d.appendChild(b);
+      readoutsEl.appendChild(d);
+      return {set:function(v){ if(b.textContent!==String(v)) b.textContent=v; }};
+    }
+  };
+}
+
+/* The drawings are laid out for a wide board. On a narrow phone we shrink the
+   whole picture so it still fits without side-scrolling; in classroom mode we
+   magnify it so the back row can read it. */
+function zoomFactor(){
+  const w=cv.clientWidth||900;
+  const normal=Math.min(1,Math.max(0.5,w/620));
+  if(document.body.classList.contains('classroom')) return Math.min(1.45,Math.max(normal,w/840));
+  return normal;
+}
+function sizeCanvas(){
+  const dpr=window.devicePixelRatio||1;
+  zoom=zoomFactor();
+  cv.width=Math.round(cv.clientWidth*dpr);
+  cv.height=Math.round(cv.clientHeight*dpr);
+  ctx.setTransform(dpr*zoom,0,0,dpr*zoom,0,0);
+}
+window.addEventListener('resize',sizeCanvas);
+window.addEventListener('orientationchange',sizeCanvas);
+document.addEventListener('fullscreenchange',sizeCanvas);
+
+function buildTOC(){
+  const list=document.getElementById('tocList'); let grp='';
+  MODULES.forEach(function(m,i){
+    if(m.group!==grp){ grp=m.group;
+      const h=document.createElement('p'); h.className='grp';
+      h.textContent=grp==='Waves'?'Part 1 · Waves':'Part 2 · Sound';
+      list.appendChild(h);
+    }
+    const b=document.createElement('button');
+    b.innerHTML='<span class="n">'+(i+1)+'</span><span>'+m.title+'</span>';
+    b.addEventListener('click',function(){ show(i); document.body.classList.remove('menu'); });
+    list.appendChild(b);
+  });
+}
+function markTOC(){
+  const bs=document.querySelectorAll('#tocList button');
+  bs.forEach(function(b,i){ b.classList.toggle('on',i===idx); });
+}
+
+function show(i){
+  idx=(i+MODULES.length)%MODULES.length;
+  const m=MODULES[idx];
+  simT=0; drawFn=null; clickFn=null;
+  controlsEl.innerHTML=''; readoutsEl.innerHTML='';
+  document.getElementById('kicker').textContent='Topic '+(idx+1)+' of '+MODULES.length+'  ·  '+m.group;
+  document.getElementById('title').textContent=m.title;
+  document.getElementById('objective').textContent=m.objective;
+  document.getElementById('concept').textContent=m.concept||m.objective;
+  document.getElementById('pointText').textContent=m.point||'';
+  document.getElementById('counter').textContent=(idx+1)+' / '+MODULES.length;
+  document.body.classList.remove('menu');
+  document.getElementById('stageNote').textContent=m.note||'';
+  document.getElementById('formula').innerHTML=
+    m.formula.eq.map(function(e){ return '<p class="eq">'+e+'</p>'; }).join('')+
+    '<p class="where">'+m.formula.where+'</p>';
+  let cards='<div class="card script"><h3>What the teacher says while it runs (about 45 seconds)</h3><p>'+m.teacher+'</p></div>';
+  if(m.deriv){
+    cards+='<div class="card deriv"><h3>'+m.deriv.title+'</h3><ol>'+
+      m.deriv.steps.map(function(s){ return '<li>'+s+'</li>'; }).join('')+'</ol></div>';
+  }
+  if(m.terms){
+    cards+='<div class="card terms"><h3>Words you must be able to define in the exam</h3>'+
+      m.terms.map(function(p){ return '<p><b>'+p[0]+'</b> — '+p[1]+'</p>'; }).join('')+'</div>';
+  }
+  cards+='<div class="card"><h3>Real-life example</h3><p>'+m.real+'</p></div>';
+  cards+='<div class="card exam"><h3>Exam question</h3><p>'+m.exam+'</p></div>';
+  if(m.num){
+    cards+='<div class="card num"><h3>Worked numerical</h3><p>'+m.num.q+'</p><div class="work">'+
+      m.num.work.map(function(s){ return s; }).join('<br>')+'</div><p class="ans">'+m.num.ans+'</p></div>';
+  }
+  document.getElementById('cards').innerHTML=cards;
+  const g={W:function(){return cv.clientWidth/zoom;}, H:function(){return cv.clientHeight/zoom;},
+           ui:UI(), onClick:function(f){ clickFn=f; }};
+  drawFn=m.init(ctx,g);
+  sizeCanvas(); markTOC(); setPlay(true); stopTones();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function setPlay(p){ playing=p; document.getElementById('playBtn').textContent=p?'Pause':'Play'; }
+
+cv.addEventListener('click',function(e){
+  if(!clickFn) return;
+  const r=cv.getBoundingClientRect();
+  clickFn((e.clientX-r.left)/zoom, (e.clientY-r.top)/zoom);
+});
+
+document.getElementById('playBtn').addEventListener('click',function(){ setPlay(!playing); });
+document.getElementById('resetBtn').addEventListener('click',function(){ simT=0; });
+document.getElementById('nextBtn').addEventListener('click',function(){ show(idx+1); });
+document.getElementById('prevBtn').addEventListener('click',function(){ show(idx-1); });
+document.addEventListener('keydown',function(e){
+  if(e.target&&(e.target.tagName==='INPUT'||e.target.tagName==='BUTTON')&&e.key===' ') return;
+  if(e.key==='ArrowRight'){ show(idx+1); }
+  else if(e.key==='ArrowLeft'){ show(idx-1); }
+  else if(e.key==='Home'){ e.preventDefault(); show(0); }
+  else if(e.key==='End'){ e.preventDefault(); show(MODULES.length-1); }
+  else if(e.key===' '){ e.preventDefault(); setPlay(!playing); }
+});
+
+function frame(ts){
+  const dt=lastTs?Math.min(0.05,(ts-lastTs)/1000):0; lastTs=ts;
+  if(playing) simT+=dt;
+  if(drawFn){
+    ctx.clearRect(0,0,cv.clientWidth/zoom,cv.clientHeight/zoom);
+    try{ drawFn(simT,dt); }catch(err){ console.error(err); }
+  }
+  requestAnimationFrame(frame);
+}
+/* ---- top bar: topics menu, prev/next, classroom mode, full screen, stop sound ---- */
+function byId(id){ return document.getElementById(id); }
+byId('prevTop').addEventListener('click',function(){ show(idx-1); });
+byId('nextTop').addEventListener('click',function(){ show(idx+1); });
+byId('stopBtn').addEventListener('click',stopTones);
+byId('menuBtn').addEventListener('click',function(){ document.body.classList.toggle('menu'); });
+
+const classBtn=byId('classBtn');
+classBtn.addEventListener('click',function(){
+  const on=document.body.classList.toggle('classroom');
+  classBtn.classList.toggle('on',on);
+  classBtn.textContent=on?'Classroom mode: on':'Classroom mode';
+  setTimeout(sizeCanvas,60);
+});
+
+const fsBtn=byId('fsBtn');
+const root=document.documentElement;
+const canFS=!!(root.requestFullscreen||root.webkitRequestFullscreen);
+if(!canFS){ fsBtn.style.display='none'; }
+fsBtn.addEventListener('click',function(){
+  const d=document;
+  const inFS=d.fullscreenElement||d.webkitFullscreenElement;
+  try{
+    if(!inFS){ const r=root.requestFullscreen||root.webkitRequestFullscreen; if(r) r.call(root); }
+    else { const x=d.exitFullscreen||d.webkitExitFullscreen; if(x) x.call(d); }
+  }catch(err){}
+  setTimeout(sizeCanvas,120);
+});
+
+/* the browser blocks sound until the user touches the page once */
+function soundReady(){
+  const h=byId('soundhint'); if(h) h.style.display='none';
+  const a=AC(); if(a&&a.state==='suspended') a.resume();
+  document.removeEventListener('pointerdown',soundReady);
+  document.removeEventListener('keydown',soundReady);
+}
+document.addEventListener('pointerdown',soundReady);
+document.addEventListener('keydown',soundReady);
+
+buildTOC(); show(0); requestAnimationFrame(frame);
+</script>
+</body>
+</html>
