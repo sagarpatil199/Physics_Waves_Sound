@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Waves &amp; Sound — Unit IV classroom animations</title>
+<script>try{if(localStorage.getItem('wsTheme')==='dark')document.documentElement.classList.add('dark');}catch(e){}</script>
 <style>
 :root{
   --paper:#eef2f6;
@@ -195,12 +196,14 @@ body.classroom .ctl{flex:1 1 300px;max-width:420px}
 body.classroom .ctl label{font-size:17px}
 body.classroom input[type=range]{height:34px}
 body.classroom .ro{font-size:18px;padding:8px 15px;border-width:2px}
-body.classroom .formula{padding:24px 28px}
-body.classroom .formula .eq{font-size:clamp(26px,3.1vw,42px)}
-body.classroom .formula .where{font-size:17px;color:#c3d4e8}
-body.classroom .exampoint{border-width:2px;border-left-width:10px;padding:22px 24px}
-body.classroom .exampoint p{font-size:27px}
-body.classroom .exampoint h3{font-size:16px}
+body.classroom .formula{padding:26px 30px}
+body.classroom .formula .eq{font-size:clamp(26px,3.1vw,42px);line-height:1.45}
+body.classroom .formula .eq small{font-size:19px;color:#bed2ea}
+body.classroom .formula .where{font-size:19px;line-height:1.75;color:#d5e4f5}
+body.classroom .exampoint{background:#fff3d2;border-color:#d8b661;border-width:2px;border-left-width:10px;padding:22px 26px}
+body.classroom .exampoint p{font-size:27px;line-height:1.55;color:#33260a}
+body.classroom .exampoint h3{font-size:16px;color:#7a5406}
+body.classroom .exampoint .star{font-size:30px}
 body.classroom .cards{grid-template-columns:1fr}
 body.classroom .card{border-width:2px;padding:20px 24px}
 body.classroom .card h3{font-size:16px}
@@ -209,6 +212,58 @@ body.classroom .card .work{font-size:20px}
 body.classroom .card.deriv li{margin-bottom:12px}
 body.classroom .credit{font-size:16px}
 body.classroom .soundhint{font-size:17px}
+
+/* ================= dark board (night mode) =================
+   Only colours change here — every size, spacing and layout
+   rule of the light classroom design is left untouched.       */
+html.dark{background:#0a1120;color-scheme:dark}
+button.btn.theme{border-width:2px;border-color:#9fb0c3;font-weight:600}
+.dark{
+  --paper:#0a1120;
+  --card:#131f33;
+  --ink:#e9eff8;
+  --sub:#9db0c6;
+  --rule:#2f3f57;
+  --blue:#7aa6ff;
+  --red:#ff8a70;
+  --teal:#45cdb6;
+  --amber:#f2c254;
+  --violet:#c3a2ff;
+}
+.dark .toc{background:#070d18;color:#c2d2e6}
+.dark .toc button:hover{background:#111e33}
+.dark .toc button.on{background:#17263f}
+.dark header.lesson p{color:#c3d2e4}
+.dark .stage{box-shadow:none}
+.dark .stage .bar{background:#16233a}
+.dark .stage canvas{
+  background-image:linear-gradient(#1a2740 1px,transparent 1px),linear-gradient(90deg,#1a2740 1px,transparent 1px);
+  background-color:#0e1a2c}
+.dark button.btn{background:#17243b;border-color:#40536d;color:var(--ink)}
+.dark button.btn:hover{border-color:var(--blue);color:var(--blue)}
+.dark button.btn.primary{background:var(--blue);border-color:var(--blue);color:#08111f}
+.dark button.btn.primary:hover{background:#a3c0ff}
+.dark button.btn.on{background:var(--blue);border-color:var(--blue);color:#08111f}
+.dark .controls,.dark .readouts{background:#101b2c}
+.dark .ro{background:#17243b}
+.dark .formula{background:#16243d;border:1px solid #33465f}
+.dark .formula .where{color:#b9cce4}
+.dark .concept{background:var(--card)}
+.dark .card.script{background:#152034}
+.dark .card.num .work{background:#14262b;color:#dbeae7}
+.dark .exampoint{background:#3a2e11;border-color:#7d6427}
+.dark .exampoint h3{color:#e3bd63}
+.dark .exampoint p{color:#f6e6bb}
+.dark .soundhint{background:#322810;border-color:#6d5820;color:#edd79a}
+.dark .credit b{color:var(--ink)}
+.dark .topbar{background:var(--paper)}
+.dark button.btn.theme{border-color:#6f849e}
+.dark body.classroom{color:var(--ink)}
+.dark body.classroom .exampoint{background:#463713;border-color:#8d7130}
+.dark body.classroom .exampoint p{color:#f8ecc8}
+.dark body.classroom .exampoint h3{color:#e9c877}
+.dark body.classroom .formula .where{color:#cfe0f5}
+
 @media print{.toc,.topbar,.soundhint{display:none}.stage .bar,.controls{display:none}.deckhead{margin-bottom:16px}}
 </style>
 </head>
@@ -241,6 +296,7 @@ body.classroom .soundhint{font-size:17px}
       <button class="btn" id="stopBtn">Stop sound</button>
       <button class="btn" id="classBtn">Classroom mode</button>
       <button class="btn" id="fsBtn">Full screen</button>
+      <button class="btn theme" id="themeBtn">&#127769; Dark Mode</button>
     </div>
     <p class="soundhint" id="soundhint">Click once anywhere on the page to enable sound.</p>
 
@@ -284,11 +340,27 @@ body.classroom .soundhint{font-size:17px}
    Unit IV — Waves & Sound : classroom animation deck
    Self-contained. No network needed.
    ============================================================ */
-const C = {
-  ink:'#13233b', sub:'#5a6a7d', rule:'#cfdae4',
-  blue:'#1f4fd8', red:'#c9402c', teal:'#0f766e',
-  amber:'#a8730a', violet:'#6b3fa0', green:'#2f7a35', soft:'#8fa3b8'
+/* ---------- colour palette: light board / dark board ---------- */
+const C_LIGHT={ink:'#13233b',sub:'#5a6a7d',rule:'#cfdae4',
+  blue:'#1f4fd8',red:'#c9402c',teal:'#0f766e',
+  amber:'#a8730a',violet:'#6b3fa0',green:'#2f7a35',soft:'#8fa3b8'};
+const C_DARK ={ink:'#e9eff8',sub:'#9db0c6',rule:'#3c4c63',
+  blue:'#7aa6ff',red:'#ff8a70',teal:'#45cdb6',
+  amber:'#f2c254',violet:'#c3a2ff',green:'#84d68f',soft:'#8195ab'};
+const C = Object.assign({},C_LIGHT);
+
+/* every fixed colour inside a drawing has a dark-board twin */
+let DARK=false;
+const TONE={
+  '#fff':'#0f1a2c',      '#ffffff':'#0f1a2c',
+  '#fbfcfe':'#18253c',   '#f7fafc':'#162236',   '#f8fafc':'#162236',
+  '#f3f7fb':'#1c2b44',   '#eaf1f8':'#1c2b44',   '#eef2f6':'#1d2c47',
+  '#e6ecfb':'#2a3c64',   '#dde5ee':'#2b3d55',   '#dfe6ee':'#2e405a',
+  '#ddd7ea':'#463869',   '#d9cfe9':'#463869',   '#c2cede':'#4c5d76',
+  '#c9d4e0':'#47586f',   '#b9c6d4':'#596c84',   '#aebbc9':'#61758c',
+  '#9fb0c2':'#71879f'
 };
+function TC(c){ return DARK ? (TONE[c]||c) : c; }
 const TAU = Math.PI * 2;
 
 /* ---------- drawing helpers ---------- */
@@ -327,7 +399,7 @@ function roundRect(ctx,x,y,w,h,r){
   ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
 }
 function panel(ctx,x,y,w,h,label,fill){
-  ctx.save(); ctx.fillStyle=fill||'#fbfcfe'; ctx.strokeStyle=C.rule; ctx.lineWidth=1;
+  ctx.save(); ctx.fillStyle=fill||TC('#fbfcfe'); ctx.strokeStyle=C.rule; ctx.lineWidth=1;
   roundRect(ctx,x,y,w,h,8); ctx.fill(); ctx.stroke(); ctx.restore();
   if(label) txt(ctx,label,x+12,y+15,{size:12.5,color:C.sub,weight:700});
 }
@@ -430,9 +502,9 @@ init:function(ctx,g){
     ctx.save(); ctx.strokeStyle=C.amber; ctx.lineWidth=2.2; ctx.beginPath();
     ctx.arc(cx,cy,30,0,-((th%TAU)+TAU)%TAU,true); ctx.stroke(); ctx.restore();
     txt(ctx,'ωt + φ',cx+38,cy-14,{size:15,color:C.amber,italic:true,serif:true});
-    dot(ctx,px,pyc,7,C.blue,'#fff');
+    dot(ctx,px,pyc,7,C.blue,TC('#fff'));
     seg(ctx,px,pyc,cx,py,C.blue,1.4,[4,4]);
-    dot(ctx,cx,py,6,C.violet,'#fff');
+    dot(ctx,cx,py,6,C.violet,TC('#fff'));
     txt(ctx,'the dot moves at constant speed',cx,cy+R+34,{size:12.5,color:C.sub,align:'center'});
     txt(ctx,'its shadow does SHM',cx,cy+R+52,{size:12.5,color:C.violet,align:'center',weight:700});
     /* amplitude marker */
@@ -457,13 +529,13 @@ init:function(ctx,g){
     seg(ctx,box.x,cy-a*S,box.x+box.w,cy-a*S,C.rule,1,[4,4]);
     seg(ctx,box.x,cy+a*S,box.x+box.w,cy+a*S,C.rule,1,[4,4]);
     trace(ctx,box,tt=>a*Math.sin(w*tt+ph),t-span,t,5,C.green,3);
-    dot(ctx,box.x+box.w,py,6,C.green,'#fff');
+    dot(ctx,box.x+box.w,py,6,C.green,TC('#fff'));
     seg(ctx,mx+26,py,box.x+box.w,py,C.green,1.2,[3,4]);
     /* one period marker */
     const per=box.w/span/f;
     const x2=box.x+box.w, x1=x2-per, yb=box.y+box.h+26;
     arrow(ctx,x1,yb,x2,yb,C.sub,1.6,7); arrow(ctx,x2,yb,x1,yb,C.sub,1.6,7);
-    txt(ctx,'one time period T = '+(1/f).toFixed(2)+' s',(x1+x2)/2,yb+16,{size:12.5,color:C.sub,align:'center'});
+    txt(ctx,'one time period T = '+(1/f).toFixed(2)+' s',x2,yb+16,{size:12.5,color:C.sub,align:'right'});
   };
 }});
 
@@ -499,14 +571,14 @@ init:function(ctx,g){
     for(let i=-50;i<52;i+=12) seg(ctx,30,cyr+i,20,cyr+i+10,C.soft,1.6);
     springH(ctx,30,mx-30,cyr,10,14);
     ctx.fillStyle=C.violet; roundRect(ctx,mx-30,cyr-26,60,52,6); ctx.fill();
-    txt(ctx,'m',mx,cyr,{size:17,color:'#fff',align:'center',serif:true,italic:true});
+    txt(ctx,'m',mx,cyr,{size:17,color:TC('#fff'),align:'center',serif:true,italic:true});
     seg(ctx,60,cyr+46,W*0.30+5*S+50,cyr+46,C.rule,1.5);
     seg(ctx,x0,cyr-70,x0,cyr+60,C.soft,1.4,[5,5]);
     txt(ctx,'mean position',x0,cyr+74,{size:12.5,color:C.sub,align:'center'});
 
     if(Math.abs(y)>0.1){
-      arrow(ctx,x0,cyr-46,mx,cyr-46,C.blue,2.4,9);
-      txt(ctx,'displacement y',(x0+mx)/2,cyr-62,{size:13,color:C.blue,align:'center'});
+      arrow(ctx,x0,cyr-78,mx,cyr-78,C.blue,2.4,9);
+      txt(ctx,'displacement y',(x0+mx)/2,cyr-94,{size:13,color:C.blue,align:'center'});
       arrow(ctx,mx,cyr,mx-Math.sign(y)*Math.min(150,Math.abs(acc)*S/(w*w)*1.6+18),cyr,C.red,4,13);
       txt(ctx,'restoring force F = −ky',mx-Math.sign(y)*90,cyr+22,{size:13,color:C.red,align:'center'});
     }
@@ -529,7 +601,7 @@ init:function(ctx,g){
     trace(ctx,box,tt=>a*Math.sin(w*tt),t-span,t,a,C.blue,2.6);
     trace(ctx,box,tt=>Math.cos(w*tt),t-span,t,1,C.teal,2.2);
     trace(ctx,box,tt=>-Math.sin(w*tt),t-span,t,1,C.red,2.2);
-    txt(ctx,'a is largest where y is largest — and always opposite in sign',gx,box.cy+box.h/2+16,{size:12.5,color:C.sub});
+    txt(ctx,'a is biggest where y is biggest, opposite in sign',gx,box.cy+box.h/2+16,{size:12,color:C.sub});
   };
 }});
 
@@ -555,8 +627,9 @@ init:function(ctx,g){
   g.ui.toggleFree(['δ = 0° in phase','δ = 90°','δ = 180° opposite'],[0,90,180],v=>D.set(v));
   const rR=g.ui.readout('Resultant amplitude R ='), rTh=g.ui.readout('Phase of resultant θ ='), rNote=g.ui.readout('Result:');
   return function(t){
-    const W=g.W(), H=g.H(), S=26, w=TAU*0.28;
+    const W=g.W(), H=g.H(), w=TAU*0.28;
     const a1=A1.value, a2=A2.value, d=D.value*Math.PI/180;
+    const S=Math.min(26,106/(a1+a2));
     const R=Math.sqrt(a1*a1+a2*a2+2*a1*a2*Math.cos(d));
     const th=Math.atan2(a2*Math.sin(d), a1+a2*Math.cos(d));
     rR.set(R.toFixed(2)+' cm'); rTh.set((th*180/Math.PI).toFixed(1)+'°');
@@ -573,9 +646,25 @@ init:function(ctx,g){
     arrow(ctx,ox,oy,x1,y1,C.blue,3,10);
     arrow(ctx,x1,y1,x2,y2,C.red,3,10);
     arrow(ctx,ox,oy,x2,y2,C.violet,4,13);
-    txt(ctx,'a₁',(ox+x1)/2-12,(oy+y1)/2-10,{size:15,color:C.blue,serif:true,italic:true});
-    txt(ctx,'a₂',(x1+x2)/2+8,(y1+y2)/2-10,{size:15,color:C.red,serif:true,italic:true});
-    txt(ctx,'R',(ox+x2)/2+10,(oy+y2)/2+14,{size:17,color:C.violet,serif:true,italic:true});
+    /* labels sit beside their own arrow, then are nudged apart so that they
+       can never print on top of one another at any setting of the sliders */
+    const L1=Math.hypot(x1-ox,y1-oy)||1, ux=-(y1-oy)/L1, uy=(x1-ox)/L1;
+    const labels=[[(ox+x1)/2+ux*-18,(oy+y1)/2+uy*-18,'a₁',C.blue,15],
+                  [(x1+x2)/2+ux*18,(y1+y2)/2+uy*18,'a₂',C.red,15]];
+    if(R*S>18) labels.push([ox+(x2-ox)*0.8+ux*26,oy+(y2-oy)*0.8+uy*26,'R',C.violet,17]);
+    for(let it=0;it<6;it++){
+      for(let i=0;i<labels.length;i++) for(let j=i+1;j<labels.length;j++){
+        let dx=labels[j][0]-labels[i][0], dy=labels[j][1]-labels[i][1];
+        let L=Math.hypot(dx,dy);
+        if(L<32){ if(L<0.01){ dx=0; dy=1; L=1; }
+          const push=(32-L)/2;
+          labels[i][0]-=dx/L*push; labels[i][1]-=dy/L*push;
+          labels[j][0]+=dx/L*push; labels[j][1]+=dy/L*push; }
+      }
+    }
+    labels.forEach(function(q){
+      txt(ctx,q[2],q[0],q[1],{size:q[4],color:q[3],serif:true,italic:true,align:'center'});
+    });
     txt(ctx,'angle between them = δ = '+D.value+'°',ox,H-36,{size:12.5,color:C.sub,align:'center'});
 
     /* waves */
@@ -638,7 +727,9 @@ init:function(ctx,g){
     rS.set(Math.abs(f1-f2)<0.01?'yes — equal frequencies, this is the previous case':'no — the amplitude keeps changing');
 
     const span=Math.min(4.2,Math.max(2*period,2)), x0=56, wv=W-x0-40;
-    const b1={x:x0,y:0,w:wv,h:62,cy:62}, b2={x:x0,y:0,w:wv,h:62,cy:152}, b3={x:x0,y:0,w:wv,h:150,cy:H-140};
+    const h3=Math.min(150,H*0.34);
+    const b1={x:x0,y:0,w:wv,h:62,cy:Math.max(56,H*0.16)}, b2={x:x0,y:0,w:wv,h:62,cy:Math.max(146,H*0.40)},
+          b3={x:x0,y:0,w:wv,h:h3,cy:H*0.72};
     axisBox(ctx,b1,'y₁ = a₁ sin ω₁t');
     trace(ctx,b1,tt=>a1*Math.sin(TAU*f1*tt),t-span,t,4,C.blue,2.6);
     axisBox(ctx,b2,'y₂ = a₂ sin ω₂t');
@@ -654,7 +745,7 @@ init:function(ctx,g){
     /* repeat marker */
     const px=b3.w/span*period, x2=b3.x+b3.w, x1=Math.max(b3.x,x2-px), yb=b3.cy+b3.h/2+22;
     arrow(ctx,x1,yb,x2,yb,C.sub,1.6,7); arrow(ctx,x2,yb,x1,yb,C.sub,1.6,7);
-    txt(ctx,'the whole pattern repeats after '+period.toFixed(2)+' s',(x1+x2)/2,yb+17,{size:12.5,color:C.sub,align:'center'});
+    txt(ctx,'the whole pattern repeats after '+period.toFixed(2)+' s',x2,yb+17,{size:12.5,color:C.sub,align:'right'});
     txt(ctx,'the height of this curve keeps changing → not SHM',b3.x+8,b3.cy+b3.h/2-6,{size:13,color:C.violet});
   };
 }});
@@ -665,7 +756,7 @@ init:function(ctx,g){
 M({
 group:'Waves', title:'Beats — two slightly different frequencies',
 objective:'See and hear why two notes of nearly equal frequency produce a slow rise and fall of loudness.',
-note:'Press “Hear the beats” to listen to the two tuning forks together.',
+note:'Press “Hear the beats” to listen. The fast vibrations are drawn slowed down so that you can see them.',
 formula:{eq:['y = 2a cos(2π · (f₁−f₂)/2 · t) · sin(2π · (f₁+f₂)/2 · t)','Beat frequency  n = f₁ − f₂   (beats per second)'],
  where:'The slow cosine term is the envelope — it swells and dies away · the ear hears the fast sine term as the note of average frequency'},
 real:'Tuning a guitar or a tabla against a tuning fork: you tighten the string until the beats slow down and stop. Piano tuners do exactly this.',
@@ -700,7 +791,7 @@ init:function(ctx,g){
       seg(ctx,x+14-amp,base-30,x+14-amp*1.8,base-108,pair[1],5);
       txt(ctx,(i?'f₂ = ':'f₁ = ')+pair[0]+' Hz',x,base+20,{size:13,color:pair[1],align:'center'});
     });
-    txt(ctx,'two tuning forks sounded together',64,H-26,{size:12.5,color:C.sub});
+    txt(ctx,'two tuning forks',64,H-26,{size:12.5,color:C.sub});
 
     const gx=210, gw=Math.max(160,W-gx-26);
     const b1={x:gx,y:0,w:gw,h:62,cy:56}, b2={x:gx,y:0,w:gw,h:62,cy:136}, b3={x:gx,y:0,w:gw,h:150,cy:H-120};
@@ -708,12 +799,13 @@ init:function(ctx,g){
     trace(ctx,b1,tt=>Math.sin(TAU*fd1*tt),t0,t1,1,C.blue,2);
     axisBox(ctx,b2,'wave from fork 2');
     trace(ctx,b2,tt=>Math.sin(TAU*fd2*tt),t0,t1,1,C.red,2);
-    axisBox(ctx,b3,'both together — the loudness swells and fades (vibrations drawn slowed down)');
+    axisBox(ctx,b3,'both together — loud and faint by turns');
     const env=tt=>2*Math.cos(Math.PI*(f1-f2)*tt);
     trace(ctx,b3,env,t0,t1,2,C.teal,1.8);
     trace(ctx,b3,tt=>-env(tt),t0,t1,2,C.teal,1.8);
     trace(ctx,b3,tt=>Math.sin(TAU*fd1*tt)+Math.sin(TAU*fd2*tt),t0,t1,2,C.violet,2.2);
     txt(ctx,'envelope',b3.x+6,b3.cy-b3.h/2+12,{size:12.5,color:C.teal});
+
     /* loud / soft markers */
     if(df){
       const Tb=1/df;
@@ -761,7 +853,7 @@ init:function(ctx,g){
     seg(ctx,cx-R-16,cy,cx+R+16,cy,C.rule,1.2,[4,4]);
     seg(ctx,cx,cy-R-16,cx,cy+R+16,C.rule,1.2,[4,4]);
     /* full path */
-    ctx.save(); ctx.beginPath(); ctx.strokeStyle='#d9cfe9'; ctx.lineWidth=2.5;
+    ctx.save(); ctx.beginPath(); ctx.strokeStyle=TC('#d9cfe9'); ctx.lineWidth=2.5;
     for(let i=0;i<=240;i++){
       const th=TAU*i/240, X=cx+a*S*Math.sin(th+d), Y=cy-b*S*Math.sin(th);
       if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
@@ -778,25 +870,25 @@ init:function(ctx,g){
     /* component oscillators */
     const bx=cy+R+54, ly=cx-R-30;
     seg(ctx,cx-4*S,bx,cx+4*S,bx,C.rule,2);
-    dot(ctx,X,bx,7,C.blue,'#fff');
+    dot(ctx,X,bx,7,C.blue,TC('#fff'));
     txt(ctx,'x = a sin(ωt + δ)',cx,bx+22,{size:13,color:C.blue,align:'center',serif:true,italic:true});
     seg(ctx,ly,cy-4*S,ly,cy+4*S,C.rule,2);
-    dot(ctx,ly,Y,7,C.red,'#fff');
+    dot(ctx,ly,Y,7,C.red,TC('#fff'));
     ctx.save(); ctx.translate(ly-16,cy); ctx.rotate(-Math.PI/2);
     txt(ctx,'y = b sin ωt',0,0,{size:13,color:C.red,align:'center',serif:true,italic:true}); ctx.restore();
     seg(ctx,X,bx,X,Y,C.blue,1.3,[4,4]);
     seg(ctx,ly,Y,X,Y,C.red,1.3,[4,4]);
-    dot(ctx,X,Y,8,C.violet,'#fff');
+    dot(ctx,X,Y,8,C.violet,TC('#fff'));
 
     /* case notes */
     const nx=W-240;
     if(nx>cx+R+60){
-      panel(ctx,nx,40,220,190,'Special cases');
-      const rows=[['δ = 0°','straight line'],['δ = 90°, a = b','circle'],['δ = 90°, a ≠ b','ellipse'],['δ = 180°','straight line, other way']];
+      panel(ctx,nx,40,224,190,'Special cases');
+      const rows=[['δ = 0°','straight line'],['δ = 90°, a = b','circle'],['δ = 90°, a ≠ b','ellipse'],['δ = 180°','straight line']];
       rows.forEach(function(r,i){
         const yy=76+i*36;
         txt(ctx,r[0],nx+14,yy,{size:14,serif:true,italic:true,color:C.ink});
-        txt(ctx,r[1],nx+206,yy,{size:13,color:C.sub,align:'right'});
+        txt(ctx,r[1],nx+212,yy,{size:13,color:C.sub,align:'right'});
       });
     }
   };
@@ -847,7 +939,7 @@ init:function(ctx,g){
     seg(ctx,cx-R-14,cy,cx+R+14,cy,C.rule,1.2,[4,4]);
     seg(ctx,cx,cy-R-14,cx,cy+R+14,C.rule,1.2,[4,4]);
     const P=TAU, pt=th=>[cx+a*S*Math.sin(n1*th+d), cy-b*S*Math.sin(n2*th)];
-    ctx.save(); ctx.beginPath(); ctx.strokeStyle='#ddd7ea'; ctx.lineWidth=2.5;
+    ctx.save(); ctx.beginPath(); ctx.strokeStyle=TC('#ddd7ea'); ctx.lineWidth=2.5;
     for(let i=0;i<=400;i++){ const q=pt(P*i/400); if(i===0)ctx.moveTo(q[0],q[1]); else ctx.lineTo(q[0],q[1]); }
     ctx.stroke(); ctx.restore();
     ctx.save(); ctx.beginPath(); ctx.strokeStyle=C.violet; ctx.lineWidth=3.4; ctx.lineCap='round';
@@ -857,15 +949,15 @@ init:function(ctx,g){
     /* component oscillators */
     const bx=cy+R+58, ly=cx-R-30;
     seg(ctx,cx-4*S,bx,cx+4*S,bx,C.rule,2);
-    dot(ctx,now[0],bx,7,C.blue,'#fff');
+    dot(ctx,now[0],bx,7,C.blue,TC('#fff'));
     txt(ctx,'x = a sin(n₁ωt + δ)',cx,bx+24,{size:13,color:C.blue,align:'center',serif:true,italic:true});
     seg(ctx,ly,cy-4*S,ly,cy+4*S,C.rule,2);
-    dot(ctx,ly,now[1],7,C.red,'#fff');
+    dot(ctx,ly,now[1],7,C.red,TC('#fff'));
     ctx.save(); ctx.translate(ly-16,cy); ctx.rotate(-Math.PI/2);
     txt(ctx,'y = b sin(n₂ωt)',0,0,{size:13,color:C.red,align:'center',serif:true,italic:true}); ctx.restore();
     seg(ctx,now[0],bx,now[0],now[1],C.blue,1.3,[4,4]);
     seg(ctx,ly,now[1],now[0],now[1],C.red,1.3,[4,4]);
-    dot(ctx,now[0],now[1],8,C.violet,'#fff');
+    dot(ctx,now[0],now[1],8,C.violet,TC('#fff'));
 
     /* side notes */
     const px=cx+R+120;
@@ -915,7 +1007,7 @@ init:function(ctx,g){
     const P=TAU, prog=(t%5)/5;
     const pt=th=>[cx+R*Math.sin(nx*th+d), cy-R*Math.sin(ny*th)];
     /* faint full curve */
-    ctx.save(); ctx.beginPath(); ctx.strokeStyle='#ddd7ea'; ctx.lineWidth=2.5;
+    ctx.save(); ctx.beginPath(); ctx.strokeStyle=TC('#ddd7ea'); ctx.lineWidth=2.5;
     for(let i=0;i<=500;i++){ const q=pt(P*i/500); if(i===0)ctx.moveTo(q[0],q[1]); else ctx.lineTo(q[0],q[1]); }
     ctx.stroke(); ctx.restore();
     /* growing trace */
@@ -923,15 +1015,15 @@ init:function(ctx,g){
     const n=Math.max(2,Math.floor(500*prog));
     for(let i=0;i<=n;i++){ const q=pt(P*i/500); if(i===0)ctx.moveTo(q[0],q[1]); else ctx.lineTo(q[0],q[1]); }
     ctx.stroke(); ctx.restore();
-    const now=pt(P*prog); dot(ctx,now[0],now[1],7,C.violet,'#fff');
+    const now=pt(P*prog); dot(ctx,now[0],now[1],7,C.violet,TC('#fff'));
     /* touch markers */
     for(let k=0;k<nx;k++){
       const th=(Math.PI/2-d+TAU*k)/nx, q=pt(th);
-      dot(ctx,cx+R,q[1],6,C.red,'#fff');
+      dot(ctx,cx+R,q[1],6,C.red,TC('#fff'));
     }
     for(let k=0;k<ny;k++){
       const th=(Math.PI/2+TAU*k)/ny, q=pt(th);
-      dot(ctx,q[0],cy-R,6,C.blue,'#fff');
+      dot(ctx,q[0],cy-R,6,C.blue,TC('#fff'));
     }
     txt(ctx,nx+' touch'+(nx>1?'es':'')+' on this side',cx+R+14,cy,{size:13,color:C.red});
     txt(ctx,ny+' touch'+(ny>1?'es':'')+' on the top',cx,cy-R-48,{size:13,color:C.blue,align:'center'});
@@ -993,7 +1085,7 @@ init:function(ctx,g){
 
     /* driver + oscillator */
     const cx=W*0.20, topY=52, drive=14*Math.sin(w*t);
-    dot(ctx,cx,topY,26,'#eef2f6',C.rule);
+    dot(ctx,cx,topY,26,TC('#eef2f6'),C.rule);
     seg(ctx,cx,topY,cx+20*Math.cos(w*t),topY-20*Math.sin(w*t),C.amber,3);
     txt(ctx,'motor: shakes the support',cx,topY-40,{size:12.5,color:C.sub,align:'center'});
     const sup=topY+46+drive;
@@ -1013,7 +1105,7 @@ init:function(ctx,g){
     seg(ctx,box.x,baseY,box.x,box.y,C.sub,1.8);
     const fmax=2, fx=v=>box.x+v/fmax*box.w, fy=v=>baseY-Math.min(1.02,v/Aref)*box.h;
     [0.15,0.6,1.5].forEach(function(bb){
-      ctx.save(); ctx.beginPath(); ctx.strokeStyle=(Math.abs(bb-b)<0.03)?C.red:'#dfe6ee';
+      ctx.save(); ctx.beginPath(); ctx.strokeStyle=(Math.abs(bb-b)<0.03)?C.red:TC('#dfe6ee');
       ctx.lineWidth=(Math.abs(bb-b)<0.03)?3:2;
       for(let i=0;i<=200;i++){ const v=0.02+fmax*i/200, X=fx(v), Y=fy(amp(TAU*v,bb));
         if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y); }
@@ -1025,10 +1117,11 @@ init:function(ctx,g){
     ctx.stroke(); ctx.restore();
     seg(ctx,fx(1),baseY,fx(1),box.y+6,C.teal,1.6,[5,5]);
     txt(ctx,'natural frequency f₀',fx(1)+8,box.y+16,{size:12.5,color:C.teal});
-    dot(ctx,fx(f),fy(A),8,C.blue,'#fff');
+    dot(ctx,fx(f),fy(A),8,C.blue,TC('#fff'));
     txt(ctx,'you are here',fx(f),fy(A)-20,{size:12.5,color:C.blue,align:'center'});
     txt(ctx,'driving frequency  →',box.x+box.w,baseY+22,{size:12.5,color:C.sub,align:'right'});
-    txt(ctx,'light damping: tall sharp peak    ·    heavy damping: low flat peak',box.x,baseY+40,{size:12.5,color:C.sub});
+    txt(ctx,'less damping → taller, sharper peak',box.x,baseY+40,{size:12.5,color:C.sub});
+    txt(ctx,'more damping → lower, flatter peak',box.x,baseY+58,{size:12.5,color:C.sub});
   };
 }});
 
@@ -1060,11 +1153,14 @@ init:function(ctx,g){
     const dispF=Math.max(0.5,Math.min(3,f/80)), ph=Math.sin(TAU*dispF*t);
 
     /* bottle */
-    const bx=W*0.24, bw=54+V.value*30, bh=70+V.value*42, bodyTop=H-70-bh;
-    const nw=16+Ar.value*5, nh=22+L.value*6, neckTop=bodyTop-nh;
-    ctx.save(); ctx.fillStyle='#eaf1f8'; ctx.strokeStyle=C.blue; ctx.lineWidth=2.5;
+    const bx=W*0.24;
+    let bw=54+V.value*30, bh=70+V.value*42, nw=16+Ar.value*5, nh=22+L.value*6;
+    const k=Math.min(1,(H-120)/(bh+nh));   /* shrink the bottle on a short screen */
+    bh*=k; nh*=k; bw*=Math.max(0.82,k); nw*=Math.max(0.82,k);
+    const bodyTop=H-70-bh, neckTop=bodyTop-nh;
+    ctx.save(); ctx.fillStyle=TC('#eaf1f8'); ctx.strokeStyle=C.blue; ctx.lineWidth=2.5;
     roundRect(ctx,bx-bw/2,bodyTop,bw,bh,16); ctx.fill(); ctx.stroke();
-    ctx.fillStyle='#f3f7fb'; ctx.fillRect(bx-nw/2,neckTop,nw,nh+8);
+    ctx.fillStyle=TC('#f3f7fb'); ctx.fillRect(bx-nw/2,neckTop,nw,nh+8);
     ctx.strokeRect(bx-nw/2,neckTop,nw,nh+8); ctx.restore();
 
     /* the air plug (mass) */
@@ -1075,17 +1171,17 @@ init:function(ctx,g){
 
     /* the cavity air (spring) */
     springV(ctx,bx,bodyTop+14,bodyTop+bh-18,7,16,C.teal);
-    txt(ctx,'air in the body',bx,bodyTop+bh+22,{size:13,color:C.teal,align:'center'});
-    txt(ctx,'behaves like a spring',bx,bodyTop+bh+40,{size:13,color:C.teal,align:'center'});
+    txt(ctx,'air in the body',bx+bw/2+14,bodyTop+bh-28,{size:13,color:C.teal});
+    txt(ctx,'behaves like a spring',bx+bw/2+14,bodyTop+bh-10,{size:13,color:C.teal});
     txt(ctx,'V',bx-bw/2-16,bodyTop+bh/2,{size:17,color:C.teal,serif:true,italic:true});
     arrow(ctx,bx-nw/2-14,neckTop,bx-nw/2-14,neckTop+nh,C.sub,1.8,8);
     txt(ctx,'L',bx-nw/2-28,neckTop+nh/2,{size:16,color:C.sub,serif:true,italic:true});
     arrow(ctx,bx-nw/2,neckTop-12,bx+nw/2,neckTop-12,C.sub,1.8,8);
-    txt(ctx,'A',bx,neckTop-28,{size:16,color:C.sub,serif:true,italic:true,align:'center'});
+    txt(ctx,'A',bx+nw/2+10,neckTop-14,{size:16,color:C.sub,serif:true,italic:true});
 
     /* blowing + emitted sound */
     arrow(ctx,bx-120,neckTop-4,bx-nw/2-10,neckTop-4,C.amber,3,11);
-    txt(ctx,'blow across the mouth',bx-124,neckTop-24,{size:13,color:C.amber,align:'right'});
+    txt(ctx,'blow across the mouth',Math.max(90,bx-70),neckTop-26,{size:13,color:C.amber,align:'center'});
     for(let k=0;k<3;k++){
       const r=30+((t*70+k*46)%140);
       ctx.save(); ctx.globalAlpha=Math.max(0,1-r/170); ctx.strokeStyle=C.violet; ctx.lineWidth=2.5;
@@ -1094,12 +1190,12 @@ init:function(ctx,g){
 
     /* explanation panel */
     const px=W*0.52;
-    if(px<W-250){
+    if(px<W-330){
       panel(ctx,px,50,Math.min(340,W-px-24),200,'Why it has just one note');
-      const lines=['Push the neck air in  →  the air inside is',
-                   'compressed  →  it pushes the plug back out.',
+      const lines=['Push the neck air in and the air',
+                   'inside is squeezed — it pushes back.',
                    '',
-                   'mass  =  air in the neck   (A × L)',
+                   'mass  =  air in the neck  (A × L)',
                    'spring  =  air in the cavity  (V)',
                    '',
                    'Bigger V  →  softer spring  →  lower note'];
@@ -1147,7 +1243,7 @@ init:function(ctx,g){
     txt(ctx,'source, P = '+P.value.toFixed(2)+' W',sx-20,sy+64,{size:13,color:C.sub,align:'center'});
     /* listener */
     const lx=sx+R.value*scale;
-    dot(ctx,lx,sy-14,12,C.amber,'#fff');
+    dot(ctx,lx,sy-14,12,C.amber,TC('#fff'));
     ctx.fillStyle=C.amber; roundRect(ctx,lx-11,sy+2,22,30,8); ctx.fill();
     seg(ctx,sx+26,sy+58,lx,sy+58,C.sub,1.5,[5,4]);
     arrow(ctx,sx+26,sy+58,lx,sy+58,C.sub,1.5,8);
@@ -1241,7 +1337,7 @@ init:function(ctx,g){
     keyRects=[];
     notes.forEach(function(n,i){
       const x=kx0+i*kw, on=(sel===i&&age<0.5);
-      ctx.save(); ctx.fillStyle=on?'#e6ecfb':'#fff'; ctx.strokeStyle=on?C.blue:C.rule; ctx.lineWidth=on?3:1.6;
+      ctx.save(); ctx.fillStyle=on?TC('#e6ecfb'):TC('#fff'); ctx.strokeStyle=on?C.blue:C.rule; ctx.lineWidth=on?3:1.6;
       roundRect(ctx,x+2,ky,kw-4,kh,5); ctx.fill(); ctx.stroke(); ctx.restore();
       txt(ctx,n[0],x+kw/2,ky+26,{size:13.5,color:C.ink,align:'center'});
       txt(ctx,(key*n[1]).toFixed(0)+' Hz',x+kw/2,ky+54,{size:13,color:C.blue,align:'center'});
@@ -1281,7 +1377,7 @@ init:function(ctx,g){
 
     /* hall */
     const hx=40, hy=54, hw=Math.min(430,W*0.46), hh=H-160;
-    ctx.save(); ctx.fillStyle='#f7fafc'; ctx.strokeStyle=C.ink; ctx.lineWidth=3;
+    ctx.save(); ctx.fillStyle=TC('#f7fafc'); ctx.strokeStyle=C.ink; ctx.lineWidth=3;
     ctx.fillRect(hx,hy,hw,hh); ctx.strokeRect(hx,hy,hw,hh); ctx.restore();
     txt(ctx,'a hall, seen from above',hx,hy-16,{size:13,color:C.sub});
     const src=[hx+58,hy+hh-60], lis=[hx+hw-70,hy+58];
@@ -1313,7 +1409,7 @@ init:function(ctx,g){
     txt(ctx,'reflected sound arrives later',hx+12,hy+hh-16,{size:12.5,color:C.amber});
     ctx.fillStyle=C.ink; roundRect(ctx,src[0]-14,src[1]-14,28,28,4); ctx.fill();
     txt(ctx,'source',src[0],src[1]+30,{size:12.5,color:C.sub,align:'center'});
-    dot(ctx,lis[0],lis[1],11,C.teal,'#fff');
+    dot(ctx,lis[0],lis[1],11,C.teal,TC('#fff'));
     txt(ctx,'listener',lis[0],lis[1]-26,{size:12.5,color:C.teal,align:'center'});
 
     /* decay graph */
@@ -1336,13 +1432,13 @@ init:function(ctx,g){
       txt(ctx,'time after the clap  →',gx+gw,gy+gh+22,{size:12.5,color:C.sub,align:'right'});
       /* live level bar */
       const cyc=Math.max(1.2,T*1.3), el=(t%cyc), lev=Math.max(0,1-el/T);
-      ctx.fillStyle='#eef2f6'; roundRect(ctx,gx,gy+gh+38,gw,18,9); ctx.fill();
+      ctx.fillStyle=TC('#eef2f6'); roundRect(ctx,gx,gy+gh+38,gw,18,9); ctx.fill();
       ctx.fillStyle=C.red; roundRect(ctx,gx,gy+gh+38,Math.max(2,gw*lev),18,9); ctx.fill();
       txt(ctx,lev>0.02?'still ringing…':'silent',gx,gy+gh+72,{size:13,color:lev>0.02?C.red:C.sub});
     }
     /* good-hall notes */
-    txt(ctx,'A good hall: T about 1 s for speech · no echo or dead spots · curved surfaces avoided · outside noise kept out',
-        hx,H-34,{size:13,color:C.sub});
+    txt(ctx,'A good hall: T about 1 s for speech, 1.5–2 s for music',hx,H-50,{size:13,color:C.sub});
+    txt(ctx,'no echo, no dead spots, no curved focusing surfaces',hx,H-30,{size:13,color:C.sub});
   };
 }});
 
@@ -1390,7 +1486,7 @@ init:function(ctx,g){
     /* equipment chain */
     const y0=64;
     const box=function(x,w,label,sub,col){
-      ctx.save(); ctx.fillStyle='#fbfcfe'; ctx.strokeStyle=col||C.rule; ctx.lineWidth=2;
+      ctx.save(); ctx.fillStyle=TC('#fbfcfe'); ctx.strokeStyle=col||C.rule; ctx.lineWidth=2;
       roundRect(ctx,x,y0,w,58,6); ctx.fill(); ctx.stroke(); ctx.restore();
       txt(ctx,label,x+w/2,y0+22,{size:13,align:'center'});
       txt(ctx,sub,x+w/2,y0+42,{size:12,color:C.sub,align:'center'});
@@ -1422,7 +1518,7 @@ init:function(ctx,g){
 
     /* stopwatch */
     const sx=320, sy=H-76;
-    ctx.save(); ctx.strokeStyle=C.ink; ctx.lineWidth=3; ctx.fillStyle='#fff';
+    ctx.save(); ctx.strokeStyle=C.ink; ctx.lineWidth=3; ctx.fillStyle=TC('#fff');
     ctx.beginPath(); ctx.arc(sx,sy,40,0,TAU); ctx.fill(); ctx.stroke(); ctx.restore();
     seg(ctx,sx,sy-46,sx,sy-54,C.ink,5);
     const sa=-Math.PI/2+TAU*(el%3)/3;
@@ -1447,7 +1543,7 @@ init:function(ctx,g){
       txt(ctx,'a fall of 60 dB',X(Tv*0.18)+10,Y(L-30),{size:13.5,color:C.teal});
       seg(ctx,X(Tv),gy,X(Tv),gy+gh,C.blue,1.8,[5,4]);
       txt(ctx,'T = '+Tv.toFixed(1)+' s',X(Tv)+8,gy+18,{size:16,color:C.blue,serif:true});
-      if(phase>0){ dot(ctx,X(el),Y(level),7,C.red,'#fff'); }
+      if(phase>0){ dot(ctx,X(el),Y(level),7,C.red,TC('#fff')); }
       txt(ctx,'time after switching off  →',gx+gw,gy+gh+24,{size:12.5,color:C.sub,align:'right'});
       txt(ctx,'60 dB fall  =  intensity falls to one millionth',gx,gy+gh+50,{size:13,color:C.ink});
       txt(ctx,'too noisy for 60 dB? time a 30 dB fall and double it',gx,gy+gh+70,{size:12.5,color:C.sub});
@@ -1503,7 +1599,7 @@ init:function(ctx,g){
     const hx=44, hy=62, hw=Math.min(600,W*0.56), hh=H-160;
     const fl=hy+hh, stageX=hx+26, stageW=150;
     /* shell */
-    ctx.save(); ctx.fillStyle='#f8fafc'; ctx.strokeStyle=C.ink; ctx.lineWidth=3;
+    ctx.save(); ctx.fillStyle=TC('#f8fafc'); ctx.strokeStyle=C.ink; ctx.lineWidth=3;
     ctx.beginPath(); ctx.moveTo(hx,hy+16); ctx.lineTo(hx+hw,hy); ctx.lineTo(hx+hw,fl);
     ctx.lineTo(hx,fl); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore();
     /* sloping floor with seats */
@@ -1511,30 +1607,30 @@ init:function(ctx,g){
     ctx.moveTo(hx+stageW+40,fl-6); ctx.lineTo(hx+hw,fl-64); ctx.stroke(); ctx.restore();
     for(let k=0;k<7;k++){
       const sxp=hx+stageW+56+k*((hw-stageW-80)/7), syp=fl-10-k*8.2;
-      ctx.fillStyle=(sel===4)?C.teal:'#c2cede';
+      ctx.fillStyle=(sel===4)?C.teal:TC('#c2cede');
       roundRect(ctx,sxp,syp-16,20,16,3); ctx.fill();
     }
     /* stage + source */
-    ctx.fillStyle='#dde5ee'; roundRect(ctx,stageX,fl-34,stageW,30,4); ctx.fill();
+    ctx.fillStyle=TC('#dde5ee'); roundRect(ctx,stageX,fl-34,stageW,30,4); ctx.fill();
     txt(ctx,'stage',stageX+stageW/2,fl-18,{size:12.5,color:C.sub,align:'center'});
     ctx.fillStyle=C.ink; roundRect(ctx,stageX+stageW/2-10,fl-66,20,30,3); ctx.fill();
     /* ceiling reflector */
-    ctx.save(); ctx.strokeStyle=(sel===1)?C.blue:'#aebbc9'; ctx.lineWidth=(sel===1)?5:3;
+    ctx.save(); ctx.strokeStyle=(sel===1)?C.blue:TC('#aebbc9'); ctx.lineWidth=(sel===1)?5:3;
     ctx.beginPath(); ctx.moveTo(hx+50,hy+42); ctx.lineTo(hx+210,hy+66); ctx.stroke(); ctx.restore();
     if(sel===1){ arrow(ctx,hx+130,hy+56,hx+hw-90,fl-92,C.blue,2,9); }
     /* rear wall treatment */
-    ctx.save(); ctx.strokeStyle=(sel===2||sel===7)?C.red:'#b9c6d4'; ctx.lineWidth=2;
+    ctx.save(); ctx.strokeStyle=(sel===2||sel===7)?C.red:TC('#b9c6d4'); ctx.lineWidth=2;
     for(let k=0;k<9;k++){ const yy=hy+26+k*((hh-40)/9);
       ctx.beginPath(); ctx.moveTo(hx+hw-4,yy); ctx.lineTo(hx+hw-20,yy+10); ctx.stroke(); }
     ctx.restore();
     /* curtain on the left wall */
-    ctx.save(); ctx.strokeStyle=(sel===4||sel===7)?C.teal:'#b9c6d4'; ctx.lineWidth=2.5;
+    ctx.save(); ctx.strokeStyle=(sel===4||sel===7)?C.teal:TC('#b9c6d4'); ctx.lineWidth=2.5;
     ctx.beginPath();
     for(let k=0;k<=22;k++){ const yy=hy+30+k*7, xx=hx+10+6*Math.sin(k*1.1);
       if(k===0) ctx.moveTo(xx,yy); else ctx.lineTo(xx,yy); }
     ctx.stroke(); ctx.restore();
     /* door */
-    ctx.save(); ctx.strokeStyle=(sel===5)?C.amber:'#b9c6d4'; ctx.lineWidth=(sel===5)?4:2.5;
+    ctx.save(); ctx.strokeStyle=(sel===5)?C.amber:TC('#b9c6d4'); ctx.lineWidth=(sel===5)?4:2.5;
     ctx.strokeRect(hx+hw-56,fl-40,26,40); ctx.strokeRect(hx+hw-96,fl-40,26,40); ctx.restore();
     txt(ctx,'double door',hx+hw-64,fl+18,{size:12,color:C.sub,align:'center'});
     /* sound rays for the "spread" and "dead spot" points */
@@ -1547,7 +1643,7 @@ init:function(ctx,g){
       ctx.save(); ctx.strokeStyle=C.violet; ctx.lineWidth=2; ctx.setLineDash([6,5]);
       ctx.beginPath(); ctx.moveTo(stageX+stageW/2,fl-50); ctx.lineTo(hx+hw-20,hy+40);
       ctx.moveTo(stageX+stageW/2,fl-50); ctx.lineTo(hx+hw-20,fl-20); ctx.stroke(); ctx.restore();
-      txt(ctx,'fan shape: the audience sits close to the stage',hx+60,hy+hh+24,{size:12.5,color:C.violet});
+      txt(ctx,'fan shape: the audience sits close to the stage',hx+60,hy+hh+42,{size:12.5,color:C.violet});
     }
     if(sel===0){
       for(let k=0;k<3;k++){ const r=20+((t*60+k*44)%150);
@@ -1559,8 +1655,8 @@ init:function(ctx,g){
               [hx+hw*0.62,fl-30],[hx+hw-84,fl-46],[hx+hw*0.34,fl-14],[hx+14,hy+70]];
     mk.forEach(function(p,i){
       const on=(i===sel);
-      dot(ctx,p[0],p[1],on?15:10,on?C.amber:'#c9d4e0','#fff');
-      txt(ctx,String(i+1),p[0],p[1],{size:on?14:12,color:on?'#fff':C.sub,align:'center'});
+      dot(ctx,p[0],p[1],on?15:10,on?C.amber:TC('#c9d4e0'),TC('#fff'));
+      txt(ctx,String(i+1),p[0],p[1],{size:on?14:12,color:on?TC('#fff'):C.sub,align:'center'});
     });
     /* callout */
     const px=hx+hw+34, pw=Math.min(310,W-px-24);
@@ -1602,14 +1698,14 @@ init:function(ctx,g){
 
     const cx=W*0.36;
     /* magnet */
-    ctx.save(); ctx.fillStyle='#dfe6ee'; ctx.strokeStyle=C.sub; ctx.lineWidth=2;
+    ctx.save(); ctx.fillStyle=TC('#dfe6ee'); ctx.strokeStyle=C.sub; ctx.lineWidth=2;
     roundRect(ctx,cx-60,cy-78,66,156,6); ctx.fill(); ctx.stroke(); ctx.restore();
     ctx.fillStyle=C.red; ctx.fillRect(cx-60,cy-78,66,34);
     ctx.fillStyle=C.blue; ctx.fillRect(cx-60,cy+44,66,34);
-    txt(ctx,'N',cx-27,cy-61,{size:16,color:'#fff',align:'center'});
-    txt(ctx,'S',cx-27,cy+61,{size:16,color:'#fff',align:'center'});
+    txt(ctx,'N',cx-27,cy-61,{size:16,color:TC('#fff'),align:'center'});
+    txt(ctx,'S',cx-27,cy+61,{size:16,color:TC('#fff'),align:'center'});
     txt(ctx,'permanent magnet',cx-27,cy+96,{size:12.5,color:C.sub,align:'center'});
-    for(let k=-1;k<2;k++) arrow(ctx,cx+8,cy-30+k*30,cx+54,cy-30+k*30,'#9fb0c2',1.6,7);
+    for(let k=-1;k<2;k++) arrow(ctx,cx+8,cy-30+k*30,cx+54,cy-30+k*30,TC('#9fb0c2'),1.6,7);
     txt(ctx,'magnetic field B',cx+58,cy-62,{size:12.5,color:C.sub});
 
     /* coil + cone */
@@ -1626,7 +1722,7 @@ init:function(ctx,g){
     /* motion arrow */
     const vdir=Math.cos(w*t);
     arrow(ctx,cx+21+move,cy-44,cx+21+move+Math.sign(vdir)*34,cy-44,C.violet,2.6,10);
-    txt(ctx,'coil moves',cx+21+move,cy-62,{size:12.5,color:C.violet,align:'center'});
+    txt(ctx,'coil moves',cx+62,cy-78,{size:12.5,color:C.violet});
 
     /* air waves */
     for(let k=0;k<4;k++){
@@ -1645,7 +1741,6 @@ init:function(ctx,g){
     trace(ctx,b,tt=>Math.sin(w*tt),t-3,t,1,mode?C.teal:C.amber,2.6);
     if(!mode){
       arrow(ctx,bx+200,H-90,cx+4,cy+70,C.amber,2.4,10);
-      txt(ctx,'I',bx+236,H-108,{size:17,color:C.amber,serif:true,italic:true});
       arrow(ctx,cx+21+move,cy+30,cx+21+move+Math.sign(vdir)*30,cy+30,C.red,3,11);
       txt(ctx,'F = B I L',cx+72,cy+30,{size:16,color:C.red,serif:true,italic:true});
     } else {
@@ -1771,10 +1866,12 @@ function UI(){
    whole picture so it still fits without side-scrolling; in classroom mode we
    magnify it so the back row can read it. */
 function zoomFactor(){
-  const w=cv.clientWidth||900;
+  const w=cv.clientWidth||900, h=cv.clientHeight||420;
   const normal=Math.min(1,Math.max(0.5,w/620));
-  if(document.body.classList.contains('classroom')) return Math.min(1.45,Math.max(normal,w/840));
-  return normal;
+  let z=normal;
+  if(document.body.classList.contains('classroom')) z=Math.min(1.45,Math.max(normal,w/840));
+  /* the drawings need about 380 units of height; never magnify past that */
+  return Math.max(0.5,Math.min(z,h/380));
 }
 function sizeCanvas(){
   const dpr=window.devicePixelRatio||1;
@@ -1875,6 +1972,16 @@ function frame(ts){
   }
   requestAnimationFrame(frame);
 }
+/* ---- light board / dark board ---- */
+function applyTheme(dark){
+  DARK=dark;
+  Object.assign(C, dark?C_DARK:C_LIGHT);
+  document.documentElement.classList.toggle('dark',dark);
+  const b=document.getElementById('themeBtn');
+  if(b) b.textContent = dark ? '\u2600\uFE0F Light Mode' : '\uD83C\uDF19 Dark Mode';
+  try{ localStorage.setItem('wsTheme', dark?'dark':'light'); }catch(e){}
+}
+
 /* ---- top bar: topics menu, prev/next, classroom mode, full screen, stop sound ---- */
 function byId(id){ return document.getElementById(id); }
 byId('prevTop').addEventListener('click',function(){ show(idx-1); });
@@ -1913,6 +2020,11 @@ function soundReady(){
 }
 document.addEventListener('pointerdown',soundReady);
 document.addEventListener('keydown',soundReady);
+
+byId('themeBtn').addEventListener('click',function(){
+  applyTheme(!document.documentElement.classList.contains('dark'));
+});
+applyTheme(document.documentElement.classList.contains('dark'));
 
 buildTOC(); show(0); requestAnimationFrame(frame);
 </script>
